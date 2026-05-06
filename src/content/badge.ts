@@ -60,6 +60,11 @@ export async function injectBadge(owner: string, repo: string): Promise<void> {
     return;
   }
 
+  if (response.insufficientData) {
+    badge.replaceWith(renderBadge('insufficient-data', { result: response }));
+    return;
+  }
+
   badge.replaceWith(renderBadge('result', { result: response }));
 }
 
@@ -103,7 +108,7 @@ function findAnchor(): HTMLElement | null {
 }
 
 function renderBadge(
-  state: 'loading' | 'unauthenticated' | 'error' | 'result',
+  state: 'loading' | 'unauthenticated' | 'error' | 'insufficient-data' | 'result',
   payload?: { message?: string; result?: AnalysisResult },
 ): HTMLElement {
   const el = document.createElement('span');
@@ -126,6 +131,15 @@ function renderBadge(
   if (state === 'error') {
     el.textContent = '⚠ analysis failed';
     el.title = `real-stars: ${payload?.message ?? 'unknown error'}`;
+    return el;
+  }
+
+  if (state === 'insufficient-data') {
+    const r = payload!.result!;
+    el.textContent = '— not enough data';
+    el.style.color = '#656d76';
+    el.style.borderColor = '#d0d7de';
+    el.title = r.warning ?? 'real-stars needs at least 1,000 stars to give a confident verdict.';
     return el;
   }
 
