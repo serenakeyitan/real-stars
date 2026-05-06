@@ -4,14 +4,14 @@
 import { injectBadge } from './badge';
 import { parseRepoFromUrl } from './route';
 
-let lastKey = '';
-
 async function run() {
   const repo = parseRepoFromUrl(location.href);
   if (!repo) return;
-  const key = `${repo.owner}/${repo.name}`;
-  if (key === lastKey) return;
-  lastKey = key;
+  // injectBadge handles its own dedup (removes any existing badge first), so
+  // it's safe to call on every navigation event. We deliberately don't gate
+  // on "same repo as last time" — Turbo replaces the DOM on every navigation
+  // including same-repo sub-pages back to the home, which would orphan the
+  // badge if we skipped re-injection.
   await injectBadge(repo.owner, repo.name);
 }
 
