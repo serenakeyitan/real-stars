@@ -11,6 +11,7 @@ import {
   CACHE_TTL_MS,
   STORAGE_KEY_CACHE_PREFIX,
   DEFAULT_STARGAZER_LIMIT,
+  MIN_STARS_FOR_VERDICT,
   RISK_HIGH_THRESHOLD,
   RISK_MEDIUM_THRESHOLD,
 } from '@/shared/constants';
@@ -65,6 +66,31 @@ export async function handleAnalyzeRepo(payload: {
     // Fetch repo metadata first so we have the *true* total star count for
     // the badge — fetchStargazers() caps at DEFAULT_STARGAZER_LIMIT.
     const meta = await fetchRepoMetadata(owner, repo, token);
+
+    // Confidence gate: under MIN_STARS_FOR_VERDICT the algorithm's
+    // false-positive rate is too high to make a public claim (see
+    // CALIBRATION.md). Skip analysis entirely and tell the badge to show
+    // an "insufficient data" state.
+    if (meta.stargazers_count < MIN_STARS_FOR_VERDICT) {
+      const result: AnalysisResult = {
+        owner,
+        repo,
+        totalStars: meta.stargazers_count,
+        analyzedStars: 0,
+        bursts: [],
+        validatedBursts: [],
+        suspiciousStars: 0,
+        realStars: meta.stargazers_count,
+        fakePercent: 0,
+        riskLevel: 'low',
+        insufficientData: true,
+        analyzedAt: Date.now(),
+        warning: `real-stars only issues verdicts for repos with at least ${MIN_STARS_FOR_VERDICT.toLocaleString()} stars (calibration showed insufficient accuracy below this threshold).`,
+      };
+      await writeCache(result);
+      return result;
+    }
+
     const stargazers = await fetchStargazers(owner, repo, token, DEFAULT_STARGAZER_LIMIT);
 
     if (stargazers.length === 0) {
