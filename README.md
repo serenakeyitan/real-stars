@@ -28,7 +28,7 @@ Early development. v1 features:
 - [x] MAD burst detection (ported from StarGuard)
 - [x] Fork ratio cross-validation
 - [x] Traffic referrer cross-validation
-- [x] GitHub Device Flow auth (no backend, no PAT setup)
+- [x] One-click GitHub sign-in (OAuth Web Flow via Cloudflare Worker)
 - [x] In-page badge injection
 - [ ] Chrome Web Store listing
 

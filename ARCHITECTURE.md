@@ -181,13 +181,23 @@ process).
 via a backend lookup service. Hits the dataset for popular repos, falls
 back to MAD for the long tail.
 
-### Backend service
+### Backend service for the analysis pipeline
 
-Pure client-side: no backend, no costs, no operational burden. Device Flow
-authentication makes this possible (it's the only OAuth variant that
-doesn't need a `client_secret`). The cost is a slightly worse user
-experience: 4 steps (look at code, open GitHub page, paste code, authorize)
-instead of standard OAuth's 3 steps.
+The detection runs entirely client-side: the user's browser fetches their
+own stargazer data using their own GitHub token. We deliberately don't
+proxy GitHub API calls through a backend — that would consume a shared
+quota and make per-user limits much tighter.
+
+**However**, OAuth Web Flow does need a tiny backend (~50 lines) to hold
+the GitHub `client_secret` and exchange auth codes for tokens. This lives
+in [`worker/`](worker/) and runs on Cloudflare Workers' free tier (100k
+requests/day; we use ~1 request per user per session). It's the only
+piece of server-side infrastructure in the project.
+
+We considered Device Flow (which doesn't need `client_secret`, hence no
+backend) but the user-visible flow is 4 steps (look at code, open GitHub
+page, paste code, authorize) instead of OAuth Web Flow's 1 step (just
+"Authorize"). Worth the worker.
 
 ---
 
@@ -203,19 +213,24 @@ src/
 │
 ├── background/     MV3 service worker. Owns auth, network, cache.
 │   ├── index.ts      Message router
-│   ├── auth.ts       GitHub Device Flow
+│   ├── auth.ts       GitHub OAuth Web Flow via chrome.identity
 │   ├── github.ts     API client (stargazers, forks, traffic)
 │   └── analyze.ts    Orchestrates the pipeline + caching
 │
 ├── content/        Content script. Runs on every github.com page.
 │   ├── index.ts      Entry + Turbo navigation handler
 │   ├── route.ts      Parse owner/repo from URL
-│   └── badge.ts      DOM injection + state rendering
+│   └── badge.ts      DOM injection + state rendering + clickable sign-in
 │
-└── popup/          Browser action popup.
-    ├── index.html
-    ├── popup.css     GitHub-native styling, light/dark via @media
-    └── popup.ts      Auth UI state machine
+├── popup/          Browser action popup (alternative sign-in entry).
+│   ├── index.html
+│   ├── popup.css     GitHub-native styling, light/dark via @media
+│   └── popup.ts      Auth UI
+│
+worker/             Cloudflare Worker — only server-side piece.
+├── src/index.ts      OAuth code-to-token exchange endpoint
+├── wrangler.toml
+└── README.md         Deploy instructions
 ```
 
 ### Why this split

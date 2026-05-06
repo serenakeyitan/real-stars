@@ -20,10 +20,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Auth
 
-- **GitHub Device Flow** authentication. No backend, no Personal Access
-  Token setup — users see an 8-character code, jump to github.com/login/device,
-  paste it, authorize. The popup auto-detects authorization via background
-  polling.
+- **GitHub OAuth Web Flow** authentication via `chrome.identity.launchWebAuthFlow`.
+  One-click sign-in: the user clicks "🔒 sign in with GitHub" right on the
+  badge, GitHub's authorize popup appears (they're already logged in), they
+  click "Authorize" — done. No codes to paste, no setup tutorials.
+- A tiny **Cloudflare Worker** (in `worker/`) holds the `client_secret`
+  and exchanges OAuth codes for tokens. Free tier covers thousands of
+  users at $0/month.
 
 ### UI
 
