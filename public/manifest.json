@@ -3,8 +3,12 @@
   "name": "real-stars",
   "version": "0.1.0",
   "description": "Exposes fake stars on GitHub repositories using statistical anomaly detection.",
-  "permissions": ["storage", "alarms"],
-  "host_permissions": ["https://github.com/*", "https://api.github.com/*"],
+  "permissions": ["storage", "identity"],
+  "host_permissions": [
+    "https://github.com/*",
+    "https://api.github.com/*",
+    "https://*.workers.dev/*"
+  ],
   "background": {
     "service_worker": "background.js",
     "type": "module"

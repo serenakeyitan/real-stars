@@ -62,11 +62,10 @@ export interface CachedAnalysis extends AnalysisResult {
 
 export type AuthState =
   | { status: 'unauthenticated' }
-  | { status: 'pending'; userCode: string; verificationUri: string; expiresAt: number }
   | { status: 'authenticated'; token: string; login?: string; scopes?: string[] };
 
 export interface RuntimeMessage {
-  type: 'analyze-repo' | 'get-auth-state' | 'start-device-flow' | 'logout' | 'clear-cache';
+  type: 'analyze-repo' | 'get-auth-state' | 'sign-in' | 'logout' | 'clear-cache';
   payload?: unknown;
 }
 
