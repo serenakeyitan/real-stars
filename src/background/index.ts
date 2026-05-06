@@ -3,20 +3,8 @@
 // same flexibility).
 
 import { handleAnalyzeRepo, handleClearCache } from './analyze';
-import {
-  handleGetAuthState,
-  handleStartDeviceFlow,
-  handleLogout,
-  tickDeviceFlow,
-  DEVICE_FLOW_ALARM_NAME,
-} from './auth';
+import { handleGetAuthState, handleSignIn, handleLogout } from './auth';
 import type { RuntimeMessage } from '@/shared/types';
-
-chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === DEVICE_FLOW_ALARM_NAME) {
-    tickDeviceFlow().catch((err) => console.error('[real-stars] device flow tick failed:', err));
-  }
-});
 
 chrome.runtime.onMessage.addListener((message: RuntimeMessage, _sender, sendResponse) => {
   (async () => {
@@ -32,8 +20,8 @@ chrome.runtime.onMessage.addListener((message: RuntimeMessage, _sender, sendResp
         case 'get-auth-state':
           sendResponse(await handleGetAuthState());
           break;
-        case 'start-device-flow':
-          sendResponse(await handleStartDeviceFlow());
+        case 'sign-in':
+          sendResponse(await handleSignIn());
           break;
         case 'logout':
           await handleLogout();
