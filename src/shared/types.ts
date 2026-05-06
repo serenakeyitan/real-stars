@@ -51,6 +51,12 @@ export interface AnalysisResult {
   realStars: number;
   fakePercent: number;
   riskLevel: 'low' | 'medium' | 'high';
+  /**
+   * When true, the algorithm has too little signal to give a confident
+   * verdict (e.g. repo is below MIN_STARS_FOR_VERDICT). The badge should
+   * show an "insufficient data" state and ignore the burst/risk fields.
+   */
+  insufficientData?: boolean;
   analyzedAt: number;
   warning?: string;
 }

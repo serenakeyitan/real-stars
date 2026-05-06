@@ -25,6 +25,18 @@ export const STARGAZERS_PER_PAGE = 100;
 /** Default cap on stargazers fetched per analysis */
 export const DEFAULT_STARGAZER_LIMIT = 5000;
 
+/**
+ * Minimum total stars before we issue a verdict.
+ *
+ * Calibration (CALIBRATION.md, 2026-05-06) showed 90% accuracy on repos
+ * with ≥1000 stars but only 56% on the 100-1000 range. Below this
+ * threshold the badge displays "needs more data" instead of a verdict.
+ *
+ * The right long-term fix is per-user heuristics on burst stargazers
+ * (planned for v2); for v1 we conservatively gate.
+ */
+export const MIN_STARS_FOR_VERDICT = 1000;
+
 /** Cache TTL */
 export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
