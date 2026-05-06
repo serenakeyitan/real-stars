@@ -15,7 +15,7 @@ export async function injectBadge(owner: string, repo: string): Promise<void> {
   const badge = renderBadge('loading');
   anchor.appendChild(badge);
 
-  let response: AnalysisResult | { error: string };
+  let response: AnalysisResult | { error: string } | undefined;
   try {
     response = await new Promise((resolve, reject) => {
       chrome.runtime.sendMessage({ type: 'analyze-repo', payload: { owner, repo } }, (res) => {
@@ -25,6 +25,11 @@ export async function injectBadge(owner: string, repo: string): Promise<void> {
     });
   } catch (err) {
     badge.replaceWith(renderBadge('error', { message: (err as Error).message }));
+    return;
+  }
+
+  if (!response) {
+    badge.replaceWith(renderBadge('error', { message: 'no response from background' }));
     return;
   }
 
