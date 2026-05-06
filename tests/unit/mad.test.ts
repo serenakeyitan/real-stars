@@ -154,6 +154,34 @@ describe('detectBursts', () => {
     expect(large[0].spikeRatio).toBeGreaterThan(small[0].spikeRatio);
   });
 
+  it('refuses to flag bursts when slice is short AND density is high (viral-truncation guard)', () => {
+    // Simulate what the extension feeds in for a 100k-star viral repo:
+    // 1500 stargazers compressed into ~10 days. Without the guard, MAD
+    // flags virtually every day as anomalous because the rolling window
+    // is itself inside the "burst".
+    const events: StargazerEvent[] = [];
+    const start = Date.parse('2026-04-01T00:00:00Z');
+    for (let day = 0; day < 10; day++) {
+      const date = new Date(start + day * 86400000).toISOString().slice(0, 10);
+      // 150 stars/day, smoothly varying — no actual injection
+      const count = 140 + Math.floor(Math.random() * 20);
+      for (let i = 0; i < count; i++) events.push(event(date, `u${day}-${i}`));
+    }
+    const bursts = detectBursts(events);
+    expect(bursts).toEqual([]);
+  });
+
+  it('still flags low-density tiny-repo spikes (growth-percent fallback works)', () => {
+    // A tiny repo (10 stars over 5 days, then a 50-star spike) should still
+    // hit the growth-percent fallback because density is low.
+    const events = [
+      ...steady('2026-01-01', 5, 2), // 10 stars, days 1-5
+      ...Array.from({ length: 50 }, (_, i) => event('2026-01-06', `bot${i}`)),
+    ];
+    const bursts = detectBursts(events);
+    expect(bursts.length).toBeGreaterThanOrEqual(1);
+  });
+
   it('captures unique users in each burst', () => {
     const baseline = steady('2026-01-01', 60, 2);
     // Spike with duplicate username

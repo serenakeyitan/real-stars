@@ -78,6 +78,26 @@ export function detectBursts(events: StargazerEvent[], opts: DetectOptions = {})
   const buckets = bucketByDay(events);
   if (buckets.length === 0) return [];
 
+  // Minimum-baseline guard for high-density slices.
+  //
+  // A viral repo getting hundreds of stars/day fills our stargazer cap in
+  // a few days, so the analyzed slice spans a tiny window that's all
+  // "spike" by definition. The rolling median/MAD has no historical
+  // baseline to compare against — every day looks anomalous because the
+  // 28-day window is itself part of the burst.
+  //
+  // We refuse to call bursts when the slice covers fewer than 2 * windowSize
+  // days AND has a high average stars/day (indicating viral truncation,
+  // not a genuinely tiny repo). Tiny repos with low density still fall
+  // through to the percent-growth fallback and can flag bursts there.
+  //
+  // See CALIBRATION.md for the empirical motivation.
+  const MIN_BASELINE_DAYS = windowSize * 2;
+  const totalStars = buckets.reduce((s, b) => s + b.count, 0);
+  const avgStarsPerDay = totalStars / buckets.length;
+  const HIGH_DENSITY_THRESHOLD = 10; // stars/day — calibrated against StarScout ground truth (see CALIBRATION.md, 2026-05-06)
+  if (buckets.length < MIN_BASELINE_DAYS && avgStarsPerDay > HIGH_DENSITY_THRESHOLD) return [];
+
   // Cumulative star count up to *before* each day
   const cumulative: number[] = [];
   let runningTotal = 0;
