@@ -8,6 +8,15 @@ import {
   DEVICE_FLOW_POLL_INTERVAL_MS,
 } from '@/shared/constants';
 
+const DEVICE_FLOW_ALARM = 'real-stars:device-flow-poll';
+const DEVICE_FLOW_STATE_KEY = 'real-stars:device-flow-state';
+
+interface DeviceFlowPersistedState {
+  deviceCode: string;
+  intervalMs: number;
+  expiresAt: number;
+}
+
 async function getAuth(): Promise<AuthState> {
   const result = (await chrome.storage.local.get(STORAGE_KEY_AUTH)) as Record<string, AuthState>;
   return result[STORAGE_KEY_AUTH] ?? { status: 'unauthenticated' };
@@ -23,6 +32,7 @@ export async function handleGetAuthState(): Promise<AuthState> {
 
 export async function handleLogout(): Promise<void> {
   await setAuth({ status: 'unauthenticated' });
+  await stopDeviceFlowAlarm();
 }
 
 /**
@@ -64,86 +74,121 @@ export async function handleStartDeviceFlow(): Promise<AuthState> {
   };
   await setAuth(pendingState);
 
-  // Start polling in the background. This continues even if popup closes.
-  pollDeviceFlow(device_code, (interval ?? 5) * 1000, pendingState.expiresAt).catch((err) =>
-    console.error('[real-stars] device flow poll failed:', err),
-  );
+  // Persist polling state and schedule a chrome.alarms-based poll. Using
+  // setTimeout in a service worker is unreliable — SWs are evicted after ~30s
+  // of idleness, which kills setTimeout chains. Alarms wake the SW back up.
+  const intervalMs = Math.max((interval ?? 5) * 1000, DEVICE_FLOW_POLL_INTERVAL_MS);
+  const persisted: DeviceFlowPersistedState = {
+    deviceCode: device_code,
+    intervalMs,
+    expiresAt: pendingState.expiresAt,
+  };
+  await chrome.storage.local.set({ [DEVICE_FLOW_STATE_KEY]: persisted });
+  await startDeviceFlowAlarm(intervalMs);
 
   return pendingState;
 }
 
-async function pollDeviceFlow(
-  deviceCode: string,
-  intervalMs: number,
-  expiresAt: number,
-): Promise<void> {
-  const pollMs = Math.max(intervalMs, DEVICE_FLOW_POLL_INTERVAL_MS);
+async function startDeviceFlowAlarm(intervalMs: number): Promise<void> {
+  // chrome.alarms minimum period is 30s in production, but periodInMinutes
+  // can be sub-1 in unpacked dev mode. Use delayInMinutes for a single tick
+  // and re-arm after each poll to honor the upstream interval.
+  await chrome.alarms.clear(DEVICE_FLOW_ALARM);
+  await chrome.alarms.create(DEVICE_FLOW_ALARM, { delayInMinutes: intervalMs / 60000 });
+}
 
-  while (Date.now() < expiresAt) {
-    await new Promise((r) => setTimeout(r, pollMs));
+async function stopDeviceFlowAlarm(): Promise<void> {
+  await chrome.alarms.clear(DEVICE_FLOW_ALARM);
+  await chrome.storage.local.remove(DEVICE_FLOW_STATE_KEY);
+}
 
-    // Bail out if user manually disconnected during polling
-    const current = await getAuth();
-    if (current.status === 'unauthenticated') return;
+/**
+ * Called by the chrome.alarms listener (registered in background/index.ts).
+ * Polls GitHub for the access token and either resolves the auth, retries,
+ * or gives up.
+ */
+export async function tickDeviceFlow(): Promise<void> {
+  const state = await chrome.storage.local.get(DEVICE_FLOW_STATE_KEY);
+  const persisted: DeviceFlowPersistedState | undefined = state[DEVICE_FLOW_STATE_KEY];
+  if (!persisted) return;
 
+  if (Date.now() >= persisted.expiresAt) {
+    await setAuth({ status: 'unauthenticated' });
+    await stopDeviceFlowAlarm();
+    return;
+  }
+
+  // Bail out if user manually disconnected
+  const current = await getAuth();
+  if (current.status === 'unauthenticated') {
+    await stopDeviceFlowAlarm();
+    return;
+  }
+
+  let nextDelayMs = persisted.intervalMs;
+  try {
     const tokenResp = await fetch(GITHUB_ACCESS_TOKEN_URL, {
       method: 'POST',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify({
         client_id: GITHUB_CLIENT_ID,
-        device_code: deviceCode,
+        device_code: persisted.deviceCode,
         grant_type: 'urn:ietf:params:oauth:grant-type:device_code',
       }),
     });
 
-    if (!tokenResp.ok) {
-      console.warn('[real-stars] token poll http error:', tokenResp.status);
-      continue;
-    }
+    if (tokenResp.ok) {
+      const data = await tokenResp.json();
 
-    const data = await tokenResp.json();
-
-    if (data.error === 'authorization_pending') continue;
-    if (data.error === 'slow_down') {
-      await new Promise((r) => setTimeout(r, 5000));
-      continue;
-    }
-    if (data.error === 'expired_token' || data.error === 'access_denied') {
-      await setAuth({ status: 'unauthenticated' });
-      return;
-    }
-
-    if (data.access_token) {
-      // Fetch login for display purposes
-      let login: string | undefined;
-      try {
-        const userResp = await fetch('https://api.github.com/user', {
-          headers: {
-            Authorization: `Bearer ${data.access_token}`,
-            Accept: 'application/vnd.github+json',
-          },
-        });
-        if (userResp.ok) {
-          const u = await userResp.json();
-          login = u.login;
-        }
-      } catch {
-        // ignore
+      if (data.error === 'slow_down') {
+        nextDelayMs = persisted.intervalMs + 5000;
+      } else if (data.error === 'expired_token' || data.error === 'access_denied') {
+        await setAuth({ status: 'unauthenticated' });
+        await stopDeviceFlowAlarm();
+        return;
+      } else if (data.access_token) {
+        await finalizeAuth(data.access_token, data.scope);
+        await stopDeviceFlowAlarm();
+        return;
       }
-
-      await setAuth({
-        status: 'authenticated',
-        token: data.access_token,
-        login,
-        scopes: typeof data.scope === 'string' ? data.scope.split(',').filter(Boolean) : undefined,
-      });
-      return;
+      // 'authorization_pending' → just keep going
+    } else {
+      console.warn('[real-stars] token poll http error:', tokenResp.status);
     }
+  } catch (err) {
+    console.warn('[real-stars] token poll failed:', err);
   }
 
-  // Expired without authorization
-  await setAuth({ status: 'unauthenticated' });
+  // Re-arm
+  await chrome.alarms.create(DEVICE_FLOW_ALARM, { delayInMinutes: nextDelayMs / 60000 });
 }
+
+async function finalizeAuth(token: string, scopeField?: string): Promise<void> {
+  let login: string | undefined;
+  try {
+    const userResp = await fetch('https://api.github.com/user', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/vnd.github+json',
+      },
+    });
+    if (userResp.ok) {
+      const u = await userResp.json();
+      login = u.login;
+    }
+  } catch {
+    // ignore — login is cosmetic
+  }
+
+  await setAuth({
+    status: 'authenticated',
+    token,
+    login,
+    scopes: typeof scopeField === 'string' ? scopeField.split(',').filter(Boolean) : undefined,
+  });
+}
+
+export const DEVICE_FLOW_ALARM_NAME = DEVICE_FLOW_ALARM;
 
 export async function getAuthToken(): Promise<string | null> {
   const auth = await getAuth();
