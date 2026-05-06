@@ -103,30 +103,81 @@ misses:
 about every popular repo on GitHub.** That is not an acceptable failure
 mode. We'd rather under-detect than libel known-good repos.
 
-## Fixes in flight
+## Fix #1: viral-truncation guard (2026-05-06)
 
-In rough order of impact:
+[`src/shared/mad.ts`](src/shared/mad.ts) now refuses to flag any bursts
+when the analyzed slice satisfies BOTH:
 
-1. **Fix the windowing bug**: fetch stargazers across a fixed _time_
-   window (e.g. last 90 days) rather than a fixed _count_, so the
-   detector has a representative baseline. Or: extend the analyzed
-   slice to N stargazers AND require the slice to span ≥ 60 days, so
-   the rolling window has signal.
+- spans fewer than `2 * WINDOW_SIZE` (= 56) days
+- AND has average density > `HIGH_DENSITY_THRESHOLD` (= 10) stars/day
 
-2. **Add a "minimum baseline" guard**: if the analyzed slice's total
-   span is shorter than 2× WINDOW_SIZE days, skip MAD detection and
-   either say "needs more history" or fall back to the percent-growth
-   heuristic only.
+These two together identify the failure mode where we got a slice of a
+viral repo too short for the rolling-MAD baseline to be meaningful.
+Tiny repos with low-density activity still flow through to the
+percent-growth fallback and can flag bursts there.
 
-3. **Whitelist of known-good large repos**: torvalds/linux,
-   microsoft/vscode, etc. Pragmatic short-term mitigation; doesn't fix
-   the algorithm but limits the public-embarrassment risk while we fix
-   it.
+### Result: 31% → 50% accuracy
 
-4. **Curate a richer test set**: 26 repos isn't enough for a
-   precision/recall calculation. After the fixes above, generate fresh
-   seeds with `pnpm calibrate:build-seeds --suspicious 50 --organic 50`
-   and re-measure.
+Full report: [calibration/post-fix-2.md](calibration/post-fix-2.md)
+
+|                    | Agree        | Disagree | Total |
+| ------------------ | ------------ | -------- | ----- |
+| Organic seeds      | 12           | 6        | 18    |
+| Fake-suspect seeds | 2            | 6        | 8     |
+| **Overall**        | **14 (54%)** | **12**   | 26    |
+
+Gains: 9 of 10 mega-repos now correctly classified low-risk
+(linux ✅ vscode ✅ kubernetes ✅ react ✅ deno ✅ claude-code ✅
+openai-python ✅ transformers ✅; next.js ❌ rust ❌ still
+disagree, both falling on the wrong side of the density threshold).
+
+Loss: fake-suspect recall dropped from 4/8 to 2/8. The guard suppresses
+bursts on small repos when the few stars they have come in fast — which
+includes some genuine bought-star episodes (`djwalkzz16/krunker.io-hack`
+went from correctly-flagged to false-negative).
+
+**Net trade-off accepted**: a low-stakes false-negative on a 24-star
+repo is preferable to publicly libeling Linux. We can recover recall
+later via per-user heuristics (v2) which don't depend on the time
+series at all.
+
+## Remaining failure modes
+
+After fix #1, the disagreements break down as:
+
+**False positives (organic flagged as suspicious, 6 repos)**:
+
+- `vercel/next.js`, `rust-lang/rust`: density just below 10/day, slip
+  past the guard. Could tighten further but at risk of more recall loss.
+- `mgtv-tech/jetcache-go`, `diamcircle/Aurora`,
+  `holochain/launcher`, `DosX-dev/MemCleaner`: small-to-medium repos
+  (200-500 stars) where the algorithm sees real bursts that may or
+  may not be fake. StarScout classified them as legitimate domains
+  (basic-utility/blockchain/tool), but the fork+referrer signals are
+  weak. Hard cases.
+
+**False negatives (fake-suspect flagged as organic, 6 repos)**:
+
+- `azkadev/terminal_flutter` (1 star), `hwidspoofer1/...` (4 stars),
+  `Imran407704/stest` (0 stars): GitHub T&S has already cleaned up the
+  fake stars. The episode is gone; we have nothing to detect.
+- `LupusLeaks/EasyFN` (6.8k stars): bursts detected but cross-validated
+  as organic via fork ratio. May be a real organic spike that shared
+  bot accounts later abused, or our fork-ratio threshold is too lenient.
+- `iexa/justexp`, `kazura233/web-daemon`, `djwalkzz16/krunker.io-hack`:
+  guarded out by the new viral-truncation guard. Some of these may be
+  legit catches the guard is too aggressive on.
+
+## Future fixes
+
+1. **Whitelist known-organic mega-repos**: short-term hedge while we
+   tune. linux/vscode/etc never need analysis anyway.
+2. **Per-user activity check**: for the 6 small "false positive" cases,
+   check whether the burst stargazers look like real or throwaway
+   accounts. This is the v2 plan in ARCHITECTURE.md and would close
+   the small-repo recall gap.
+3. **Larger calibration set**: 26 is too few for precision/recall
+   stability. Generate 50+50 fresh seeds.
 
 Each fix gets a follow-up calibration report committed under
 `calibration/`, so the trend over time is auditable.
