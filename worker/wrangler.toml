@@ -1,0 +1,9 @@
+name = "real-stars-oauth"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+# Set secrets with: wrangler secret put GITHUB_CLIENT_ID
+#                   wrangler secret put GITHUB_CLIENT_SECRET
+# (Optional) Tighten allowlist after first install:
+#                   wrangler secret put ALLOWED_ORIGINS
+#                   value: chrome-extension://your-real-extension-id
