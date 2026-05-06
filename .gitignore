@@ -14,4 +14,6 @@ test-results/
 .real-stars-config.local.ts
 artifacts/
 calibration/report-*.md
+!calibration/baseline.md
+!calibration/baseline-*.md
 scripts/.starscout-labels-cache.csv
