@@ -185,8 +185,8 @@ test('popup HTML loads and renders the unauthenticated state', async () => {
 
   // Wait for popup to render
   await expect(page.locator('h1')).toHaveText('real-stars');
-  await expect(page.locator('#connect')).toBeVisible({ timeout: 5000 });
-  await expect(page.locator('#connect')).toHaveText('Connect GitHub');
+  await expect(page.locator('#signin')).toBeVisible({ timeout: 5000 });
+  await expect(page.locator('#signin')).toHaveText('Sign in with GitHub');
 
   await page.close();
 });
