@@ -1,8 +1,8 @@
 # Architecture
 
-This is the design doc for real-stars v1. Read it to understand *what the
+This is the design doc for real-stars v1. Read it to understand _what the
 extension does, why it does it that way, and what it deliberately doesn't
-do*.
+do_.
 
 ---
 
@@ -26,15 +26,15 @@ GitHub stars are bought. The market is real and well-documented:
 - AI-related repos are the most aggressive buyers (per
   [36kr investigation](https://eu.36kr.com/en/p/3777351039862789)).
 
-There's no API for "is this star real?". You have to *infer* it. The
+There's no API for "is this star real?". You have to _infer_ it. The
 academic and open-source landscape has converged on three orthogonal
 detection strategies:
 
-| Strategy | What it sees | Pros | Cons |
-|---|---|---|---|
-| **Per-user activity profiling** | Each individual stargazer's account history | Catches throwaway accounts | Slow; needs N API calls for N stars |
-| **Burst detection on time series** | The repo's daily star count series | Fast (one timeline call); great UX (visualizable) | Misses gradual buying that mimics organic |
-| **Cross-repo lockstep clustering** | Coordinated behavior across many repos | Catches sophisticated farms | Needs full-GitHub data; can't run client-side |
+| Strategy                           | What it sees                                | Pros                                              | Cons                                          |
+| ---------------------------------- | ------------------------------------------- | ------------------------------------------------- | --------------------------------------------- |
+| **Per-user activity profiling**    | Each individual stargazer's account history | Catches throwaway accounts                        | Slow; needs N API calls for N stars           |
+| **Burst detection on time series** | The repo's daily star count series          | Fast (one timeline call); great UX (visualizable) | Misses gradual buying that mimics organic     |
+| **Cross-repo lockstep clustering** | Coordinated behavior across many repos      | Catches sophisticated farms                       | Needs full-GitHub data; can't run client-side |
 
 real-stars uses **burst detection** as its primary algorithm because it's
 the only one that fits in a Chrome extension's constraints. We add a thin
@@ -90,10 +90,10 @@ than 0.3% probability of arising from natural variance.
 ### Algorithm constants (in [src/shared/constants.ts](src/shared/constants.ts))
 
 ```typescript
-MAD_THRESHOLD          = 3.0 * 1.48  // ≈ 4.44, the 3-sigma equivalent
-WINDOW_SIZE            = 28          // 28-day rolling window
-MIN_STAR_COUNT         = 30          // below this, use percent-growth fallback
-MIN_STARS_GROWTH_PERCENT = 300       // tiny-repo growth threshold
+MAD_THRESHOLD = 3.0 * 1.48; // ≈ 4.44, the 3-sigma equivalent
+WINDOW_SIZE = 28; // 28-day rolling window
+MIN_STAR_COUNT = 30; // below this, use percent-growth fallback
+MIN_STARS_GROWTH_PERCENT = 300; // tiny-repo growth threshold
 ```
 
 These are inherited verbatim from StarGuard. They've been tuned against
@@ -132,8 +132,7 @@ top 10 external referrers of the last 14 days. We check whether any of
 them have ≥ 5 unique visitors during the burst window.
 
 **Important caveat**: the traffic API only goes back 14 days, and it
-requires push access. For repos the user doesn't own, the call returns
-403. We treat that as "no signal" rather than failure — the verdict just
+requires push access. For repos the user doesn't own, the call returns 403. We treat that as "no signal" rather than failure — the verdict just
 falls back to the fork-ratio check.
 
 ### Verdict logic
@@ -173,7 +172,7 @@ fetches user profiles on-demand, only when the user explicitly asks.
 ### Lockstep / DBSCAN clustering
 
 The most accurate detection (StarScout's lockstep heuristic gets 90% of
-its flags later deleted by GitHub) finds groups of accounts that *jointly*
+its flags later deleted by GitHub) finds groups of accounts that _jointly_
 attack many repos. **It's impossible to run client-side** because it needs
 the full GitHub-wide star event graph (40TB on BigQuery, takes a week to
 process).
@@ -263,8 +262,8 @@ Total API calls per analysis: typically 35-37 (33 stargazer pages, 1 fork,
 `chrome.storage.local` keyed by `real-stars:cache:{owner}/{repo}`, 7-day
 TTL. The popup has a "Clear cache" button that wipes all entries.
 
-We don't cache stargazers themselves — the cached entry is the *analysis
-result*, which is small (a few KB even for repos with hundreds of bursts).
+We don't cache stargazers themselves — the cached entry is the _analysis
+result_, which is small (a few KB even for repos with hundreds of bursts).
 
 The 7-day TTL is a guess. Star history doesn't change retroactively, so
 older analysis stays valid for older bursts. New bursts in the last 7 days
@@ -280,6 +279,7 @@ Two layers:
 ### Unit tests (vitest, in `tests/unit/`)
 
 35 tests covering pure logic:
+
 - Median + MAD computation, edge cases
 - Day bucketing with gap-filling
 - Burst detection across scenarios (steady growth, single-day injection,
@@ -292,6 +292,7 @@ Runs in ~500ms; no I/O.
 ### E2E tests (playwright, in `tests/e2e/`)
 
 6 tests against a real Chromium with the unpacked extension loaded:
+
 - Extension loads, manifest is valid
 - Background message router responds correctly
 - Cache pre-seeding round-trips through chrome.storage
