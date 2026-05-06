@@ -13,13 +13,16 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "package": "node scripts/pack.mjs"
+    "package": "node scripts/pack.mjs",
+    "calibrate": "tsx scripts/calibrate.ts",
+    "calibrate:build-seeds": "tsx scripts/build-starscout-seeds.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
     "@types/chrome": "^0.0.287",
     "@types/node": "^22.10.0",
     "prettier": "^3.4.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
     "vitest": "^2.1.8"

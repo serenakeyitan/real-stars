@@ -13,6 +13,8 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
     "skipLibCheck": true,
     "types": ["chrome", "node"],
     "baseUrl": ".",
@@ -20,6 +22,13 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*", "tests/**/*", "vite.config.ts", "playwright.config.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src/**/*",
+    "tests/**/*",
+    "scripts/**/*.ts",
+    "vite.config.ts",
+    "playwright.config.ts",
+    "vitest.config.ts"
+  ],
+  "exclude": ["node_modules", "dist", "worker"]
 }
