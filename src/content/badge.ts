@@ -35,7 +35,25 @@ export async function injectBadge(owner: string, repo: string): Promise<void> {
 
   if ('error' in response) {
     if (response.error === 'unauthenticated') {
-      badge.replaceWith(renderBadge('unauthenticated'));
+      const signInBadge = renderBadge('unauthenticated');
+      signInBadge.addEventListener('click', async () => {
+        signInBadge.textContent = '⏳ opening GitHub…';
+        try {
+          await new Promise<void>((resolve, reject) => {
+            chrome.runtime.sendMessage({ type: 'sign-in' }, (res) => {
+              if (chrome.runtime.lastError)
+                return reject(new Error(chrome.runtime.lastError.message));
+              if (res?.error) return reject(new Error(res.error));
+              resolve();
+            });
+          });
+          // After sign-in, restart analysis
+          injectBadge(owner, repo).catch(() => undefined);
+        } catch (err) {
+          signInBadge.replaceWith(renderBadge('error', { message: (err as Error).message }));
+        }
+      });
+      badge.replaceWith(signInBadge);
     } else {
       badge.replaceWith(renderBadge('error', { message: response.error }));
     }
@@ -99,9 +117,9 @@ function renderBadge(
   }
 
   if (state === 'unauthenticated') {
-    el.textContent = '🔒 connect GitHub';
+    el.textContent = '🔒 sign in with GitHub';
     el.style.cursor = 'pointer';
-    el.title = 'Click the real-stars extension icon to connect your GitHub account';
+    el.title = 'Click to authorize real-stars (one-time, takes 2 seconds)';
     return el;
   }
 
