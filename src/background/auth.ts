@@ -118,7 +118,10 @@ async function pollDeviceFlow(
       let login: string | undefined;
       try {
         const userResp = await fetch('https://api.github.com/user', {
-          headers: { Authorization: `Bearer ${data.access_token}`, Accept: 'application/vnd.github+json' },
+          headers: {
+            Authorization: `Bearer ${data.access_token}`,
+            Accept: 'application/vnd.github+json',
+          },
         });
         if (userResp.ok) {
           const u = await userResp.json();

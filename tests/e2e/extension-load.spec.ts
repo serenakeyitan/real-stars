@@ -258,7 +258,9 @@ test('content script logic injects a badge into a GitHub-shaped DOM', async () =
       document.querySelector<HTMLElement>('form[action*="/star"] button') ||
       document.querySelector<HTMLElement>('[aria-label*="star this repository" i]');
     if (!starButton) return false;
-    const container = starButton.closest('ul, .pagehead-actions, .gh-header-actions, .Box-header, .d-flex');
+    const container = starButton.closest(
+      'ul, .pagehead-actions, .gh-header-actions, .Box-header, .d-flex',
+    );
     return !!container;
   });
   expect(anchorFound).toBe(true);

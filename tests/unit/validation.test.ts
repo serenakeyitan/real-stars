@@ -72,9 +72,7 @@ describe('validateBurst', () => {
       startDate: isoDay(daysAgo(2)),
       endDate: isoDay(daysAgo(1)),
     });
-    const referrers: ReferrerSnapshot[] = [
-      { referrer: 'github.com', count: 1000, uniques: 500 },
-    ];
+    const referrers: ReferrerSnapshot[] = [{ referrer: 'github.com', count: 1000, uniques: 500 }];
     const result = validateBurst(burst, [], referrers);
     expect(result.hasReferrerEvidence).toBe(false);
     expect(result.topReferrers).toEqual([]);

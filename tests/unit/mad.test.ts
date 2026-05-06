@@ -137,8 +137,14 @@ describe('detectBursts', () => {
 
   it('reports spike ratio that scales with severity', () => {
     const baseline = steady('2026-01-01', 60, 2);
-    const smallSpike = [...baseline, ...Array.from({ length: 30 }, (_, i) => event('2026-03-05', `s${i}`))];
-    const largeSpike = [...baseline, ...Array.from({ length: 500 }, (_, i) => event('2026-03-05', `l${i}`))];
+    const smallSpike = [
+      ...baseline,
+      ...Array.from({ length: 30 }, (_, i) => event('2026-03-05', `s${i}`)),
+    ];
+    const largeSpike = [
+      ...baseline,
+      ...Array.from({ length: 500 }, (_, i) => event('2026-03-05', `l${i}`)),
+    ];
 
     const small = detectBursts(smallSpike);
     const large = detectBursts(largeSpike);

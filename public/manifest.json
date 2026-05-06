@@ -4,10 +4,7 @@
   "version": "0.1.0",
   "description": "Exposes fake stars on GitHub repositories using statistical anomaly detection.",
   "permissions": ["storage", "alarms"],
-  "host_permissions": [
-    "https://github.com/*",
-    "https://api.github.com/*"
-  ],
+  "host_permissions": ["https://github.com/*", "https://api.github.com/*"],
   "background": {
     "service_worker": "background.js",
     "type": "module"

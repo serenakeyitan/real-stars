@@ -11,7 +11,11 @@ chrome.runtime.onMessage.addListener((message: RuntimeMessage, _sender, sendResp
     try {
       switch (message.type) {
         case 'analyze-repo':
-          sendResponse(await handleAnalyzeRepo(message.payload as { owner: string; repo: string; forceRefresh?: boolean }));
+          sendResponse(
+            await handleAnalyzeRepo(
+              message.payload as { owner: string; repo: string; forceRefresh?: boolean },
+            ),
+          );
           break;
         case 'get-auth-state':
           sendResponse(await handleGetAuthState());

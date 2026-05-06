@@ -8,7 +8,11 @@ interface RawStargazer {
   user: { login: string };
 }
 
-async function gh(path: string, token: string, headers: Record<string, string> = {}): Promise<Response> {
+async function gh(
+  path: string,
+  token: string,
+  headers: Record<string, string> = {},
+): Promise<Response> {
   return fetch(`${GITHUB_API_BASE}${path}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -117,7 +121,9 @@ export async function fetchForkTimeseries(
     }
     if (items.length < perPage) break;
   }
-  return [...buckets.entries()].map(([date, count]) => ({ date, count })).sort((a, b) => a.date.localeCompare(b.date));
+  return [...buckets.entries()]
+    .map(([date, count]) => ({ date, count }))
+    .sort((a, b) => a.date.localeCompare(b.date));
 }
 
 /**

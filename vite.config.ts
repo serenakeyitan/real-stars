@@ -1,6 +1,14 @@
 import { defineConfig, type Plugin } from 'vite';
 import { resolve } from 'node:path';
-import { copyFileSync, cpSync, mkdirSync, readFileSync, writeFileSync, existsSync, rmSync } from 'node:fs';
+import {
+  copyFileSync,
+  cpSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+  existsSync,
+  rmSync,
+} from 'node:fs';
 
 /**
  * Custom plugin to:

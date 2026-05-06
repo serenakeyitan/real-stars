@@ -18,12 +18,7 @@
  *   5. Group consecutive anomalous days into bursts.
  */
 
-import {
-  MAD_THRESHOLD,
-  WINDOW_SIZE,
-  MIN_STAR_COUNT,
-  MIN_STARS_GROWTH_PERCENT,
-} from './constants';
+import { MAD_THRESHOLD, WINDOW_SIZE, MIN_STAR_COUNT, MIN_STARS_GROWTH_PERCENT } from './constants';
 import type { Burst, DailyBucket, StargazerEvent } from './types';
 
 export function bucketByDay(events: StargazerEvent[]): DailyBucket[] {

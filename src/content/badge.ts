@@ -18,13 +18,10 @@ export async function injectBadge(owner: string, repo: string): Promise<void> {
   let response: AnalysisResult | { error: string };
   try {
     response = await new Promise((resolve, reject) => {
-      chrome.runtime.sendMessage(
-        { type: 'analyze-repo', payload: { owner, repo } },
-        (res) => {
-          if (chrome.runtime.lastError) return reject(new Error(chrome.runtime.lastError.message));
-          resolve(res);
-        },
-      );
+      chrome.runtime.sendMessage({ type: 'analyze-repo', payload: { owner, repo } }, (res) => {
+        if (chrome.runtime.lastError) return reject(new Error(chrome.runtime.lastError.message));
+        resolve(res);
+      });
     });
   } catch (err) {
     badge.replaceWith(renderBadge('error', { message: (err as Error).message }));
@@ -58,7 +55,9 @@ function findAnchor(): HTMLElement | null {
 
   if (starButton) {
     // Walk up to the closest flex container so our badge sits inline
-    const container = starButton.closest('ul, .pagehead-actions, .gh-header-actions, .Box-header, .d-flex');
+    const container = starButton.closest(
+      'ul, .pagehead-actions, .gh-header-actions, .Box-header, .d-flex',
+    );
     if (container instanceof HTMLElement) {
       // Wrap in <li> if container is a <ul>
       if (container.tagName === 'UL') {
