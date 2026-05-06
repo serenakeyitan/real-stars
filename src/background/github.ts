@@ -8,6 +8,22 @@ interface RawStargazer {
   user: { login: string };
 }
 
+/**
+ * Fetch repo metadata. We need stargazers_count for the badge — the
+ * stargazer-list pagination caps at our DEFAULT_STARGAZER_LIMIT, so
+ * stargazers.length is NOT the true total.
+ */
+export async function fetchRepoMetadata(
+  owner: string,
+  repo: string,
+  token: string,
+): Promise<{ stargazers_count: number; forks_count: number }> {
+  const resp = await gh(`/repos/${owner}/${repo}`, token);
+  if (!resp.ok) throw new Error(`repo metadata: ${resp.status} ${resp.statusText}`);
+  const data = (await resp.json()) as { stargazers_count: number; forks_count: number };
+  return { stargazers_count: data.stargazers_count, forks_count: data.forks_count };
+}
+
 async function gh(
   path: string,
   token: string,

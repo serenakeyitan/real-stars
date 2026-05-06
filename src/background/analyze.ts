@@ -1,4 +1,9 @@
-import { fetchStargazers, fetchForkTimeseries, fetchTrafficReferrers } from './github';
+import {
+  fetchRepoMetadata,
+  fetchStargazers,
+  fetchForkTimeseries,
+  fetchTrafficReferrers,
+} from './github';
 import { detectBursts } from '@/shared/mad';
 import { validateBurst } from '@/shared/validation';
 import { getAuthToken } from './auth';
@@ -57,18 +62,21 @@ export async function handleAnalyzeRepo(payload: {
   if (!token) return { error: 'unauthenticated' };
 
   try {
+    // Fetch repo metadata first so we have the *true* total star count for
+    // the badge — fetchStargazers() caps at DEFAULT_STARGAZER_LIMIT.
+    const meta = await fetchRepoMetadata(owner, repo, token);
     const stargazers = await fetchStargazers(owner, repo, token, DEFAULT_STARGAZER_LIMIT);
 
     if (stargazers.length === 0) {
       const empty: AnalysisResult = {
         owner,
         repo,
-        totalStars: 0,
+        totalStars: meta.stargazers_count,
         analyzedStars: 0,
         bursts: [],
         validatedBursts: [],
         suspiciousStars: 0,
-        realStars: 0,
+        realStars: meta.stargazers_count,
         fakePercent: 0,
         riskLevel: 'low',
         analyzedAt: Date.now(),
@@ -106,9 +114,12 @@ export async function handleAnalyzeRepo(payload: {
       .filter((b) => b.validation.verdict !== 'organic')
       .reduce((sum: number, b) => sum + b.stars, 0);
 
-    const totalStars = stargazers.length; // we capped at DEFAULT_STARGAZER_LIMIT — see "warning" below
-    const realStars = Math.max(0, totalStars - suspiciousStars);
-    const fakePercent = totalStars > 0 ? (suspiciousStars / totalStars) * 100 : 0;
+    // The "total" for risk-level math is the analyzed slice (we can only
+    // claim suspicion about stars we actually looked at). The "displayed"
+    // total in the result uses the true repo count for context.
+    const analyzedTotal = stargazers.length;
+    const realStars = Math.max(0, meta.stargazers_count - suspiciousStars);
+    const fakePercent = analyzedTotal > 0 ? (suspiciousStars / analyzedTotal) * 100 : 0;
 
     let riskLevel: 'low' | 'medium' | 'high' = 'low';
     if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
@@ -117,8 +128,8 @@ export async function handleAnalyzeRepo(payload: {
     const result: AnalysisResult = {
       owner,
       repo,
-      totalStars,
-      analyzedStars: stargazers.length,
+      totalStars: meta.stargazers_count,
+      analyzedStars: analyzedTotal,
       bursts,
       validatedBursts,
       suspiciousStars,
@@ -127,8 +138,8 @@ export async function handleAnalyzeRepo(payload: {
       riskLevel,
       analyzedAt: Date.now(),
       warning:
-        stargazers.length === DEFAULT_STARGAZER_LIMIT
-          ? `Analyzed the ${DEFAULT_STARGAZER_LIMIT} most recent stargazers (sufficient for fake-star detection — bought stars cluster near launch).`
+        analyzedTotal === DEFAULT_STARGAZER_LIMIT && meta.stargazers_count > DEFAULT_STARGAZER_LIMIT
+          ? `Analyzed the ${DEFAULT_STARGAZER_LIMIT} most recent stargazers out of ${meta.stargazers_count.toLocaleString()} total. Bought stars cluster near launch, so this is usually sufficient.`
           : undefined,
     };
     await writeCache(result);
