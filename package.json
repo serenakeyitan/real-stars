@@ -12,7 +12,8 @@
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "package": "node scripts/pack.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
