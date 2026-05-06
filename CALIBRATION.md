@@ -254,6 +254,19 @@ of uncertainty**. Options:
 2. Restrict the badge to only repos with ≥1000 stars in v1 and roll
    out the long tail in v2 once per-user heuristics land.
 
+### v1 ships Option A: confidence gate at 1000 stars
+
+[`src/shared/constants.ts`](src/shared/constants.ts) defines
+`MIN_STARS_FOR_VERDICT = 1000`. Below this, the analyze pipeline
+short-circuits and returns `insufficientData: true` without running
+MAD detection. The badge renders a neutral grey "— not enough data"
+state with a tooltip explaining the threshold.
+
+This trades coverage (only ~3% of GitHub repos have ≥1000 stars) for
+precision (no public claim about a repo unless we're confident). The
+v2 plan removes the gate by adding per-user heuristics that work even
+on small repos.
+
 ## Future fixes
 
 1. **Whitelist known-organic mega-repos**: short-term hedge while we
