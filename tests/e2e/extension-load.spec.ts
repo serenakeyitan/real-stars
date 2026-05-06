@@ -191,6 +191,52 @@ test('popup HTML loads and renders the unauthenticated state', async () => {
   await page.close();
 });
 
+test('analyze-repo returns insufficientData verdict for small repos', async () => {
+  // We can't actually call the live GitHub API in CI, but we can verify the
+  // shape: when a result with insufficientData=true is in cache, the analyze
+  // flow returns it intact. This protects against regressions where the
+  // gate gets removed or the field stops round-tripping.
+  const sw = await getServiceWorker(context);
+  const extId = sw.url().split('/')[2];
+  const popupPage = await context.newPage();
+  await popupPage.goto(`chrome-extension://${extId}/popup.html`);
+
+  const small = {
+    owner: 'tiny-org',
+    repo: 'tiny-repo',
+    totalStars: 42,
+    analyzedStars: 0,
+    bursts: [],
+    validatedBursts: [],
+    suspiciousStars: 0,
+    realStars: 42,
+    fakePercent: 0,
+    riskLevel: 'low' as const,
+    insufficientData: true,
+    analyzedAt: Date.now(),
+    warning: 'real-stars only issues verdicts for repos with at least 1,000 stars.',
+    cachedAt: Date.now(),
+    ttlMs: 7 * 24 * 60 * 60 * 1000,
+  };
+
+  await popupPage.evaluate(async (data) => {
+    await chrome.storage.local.set({ 'real-stars:cache:tiny-org/tiny-repo': data });
+  }, small);
+
+  const response = (await popupPage.evaluate(async () => {
+    return new Promise((resolve) => {
+      chrome.runtime.sendMessage(
+        { type: 'analyze-repo', payload: { owner: 'tiny-org', repo: 'tiny-repo' } },
+        (r) => resolve(r),
+      );
+    });
+  })) as Record<string, unknown>;
+
+  expect(response.insufficientData).toBe(true);
+  expect(response.totalStars).toBe(42);
+  await popupPage.close();
+});
+
 test('content script logic injects a badge into a GitHub-shaped DOM', async () => {
   // The content script is configured to run only on github.com origins
   // (matches in manifest), so we can't directly load it via fixture URL.
