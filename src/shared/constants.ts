@@ -47,13 +47,13 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  * https://github.com/settings/applications/new and replace this value.
  * See SETUP.md for step-by-step instructions.
  */
-export const GITHUB_CLIENT_ID = '__REPLACE_WITH_REAL_CLIENT_ID__';
+export const GITHUB_CLIENT_ID = 'Ov23liLfCB5Kaulza66T';
 
 /**
  * URL of the deployed Cloudflare Worker that exchanges OAuth codes for
  * access tokens. See worker/README.md.
  */
-export const OAUTH_EXCHANGE_URL = '__REPLACE_WITH_WORKER_URL__/exchange';
+export const OAUTH_EXCHANGE_URL = 'https://real-stars-oauth.peer-claw.workers.dev/exchange';
 
 export const GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize';
 

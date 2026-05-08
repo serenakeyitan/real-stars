@@ -40,10 +40,13 @@ export async function handleLogout(): Promise<void> {
 }
 
 export async function handleSignIn(): Promise<AuthState> {
-  if (GITHUB_CLIENT_ID === '__REPLACE_WITH_REAL_CLIENT_ID__') {
+  // Defensive check for un-replaced placeholders. These would be caught at
+  // typecheck once filled in, but the guard helps if someone clones and
+  // doesn't read SETUP.md.
+  if ((GITHUB_CLIENT_ID as string).startsWith('__REPLACE_')) {
     throw new Error('GitHub Client ID not configured. See SETUP.md to register an OAuth App.');
   }
-  if (OAUTH_EXCHANGE_URL.startsWith('__REPLACE_')) {
+  if ((OAUTH_EXCHANGE_URL as string).startsWith('__REPLACE_')) {
     throw new Error(
       'OAuth exchange URL not configured. Deploy the worker (see worker/README.md) and update OAUTH_EXCHANGE_URL.',
     );
