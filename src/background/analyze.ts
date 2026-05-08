@@ -63,8 +63,8 @@ export async function handleAnalyzeRepo(payload: {
   if (!token) return { error: 'unauthenticated' };
 
   try {
-    // Fetch repo metadata first so we have the *true* total star count for
-    // the badge — fetchStargazers() caps at DEFAULT_STARGAZER_LIMIT.
+    // Repo metadata: we need stargazers_count up-front for the gate
+    // decision, so this can't be parallelized with stargazer fetch.
     const meta = await fetchRepoMetadata(owner, repo, token);
 
     // Confidence gate: under MIN_STARS_FOR_VERDICT the algorithm's
@@ -91,7 +91,22 @@ export async function handleAnalyzeRepo(payload: {
       return result;
     }
 
-    const stargazers = await fetchStargazers(owner, repo, token, DEFAULT_STARGAZER_LIMIT);
+    // Run stargazer + fork + traffic in parallel. They're independent reads
+    // that all need to complete before validation. Saves ~2s compared to
+    // serial. Fork and traffic are best-effort — wrap in inner try blocks
+    // via Promise.allSettled so a 403 on traffic doesn't kill the analysis.
+    const [stargazerResult, forkResult, referrerResult] = await Promise.allSettled([
+      fetchStargazers(owner, repo, token, DEFAULT_STARGAZER_LIMIT),
+      fetchForkTimeseries(owner, repo, token),
+      fetchTrafficReferrers(owner, repo, token),
+    ]);
+
+    if (stargazerResult.status === 'rejected') {
+      throw stargazerResult.reason;
+    }
+    const stargazers = stargazerResult.value;
+    const earlyForkSeries = forkResult.status === 'fulfilled' ? forkResult.value : [];
+    const earlyReferrers = referrerResult.status === 'fulfilled' ? referrerResult.value : [];
 
     if (stargazers.length === 0) {
       const empty: AnalysisResult = {
@@ -113,22 +128,11 @@ export async function handleAnalyzeRepo(payload: {
 
     const bursts = detectBursts(stargazers);
 
-    // Cross-validate each burst against fork activity and traffic referrers
-    let forkSeries: Awaited<ReturnType<typeof fetchForkTimeseries>> = [];
-    let referrers: Awaited<ReturnType<typeof fetchTrafficReferrers>> = [];
-
-    if (bursts.length > 0) {
-      try {
-        forkSeries = await fetchForkTimeseries(owner, repo, token);
-      } catch {
-        // Fork data is best-effort
-      }
-      try {
-        referrers = await fetchTrafficReferrers(owner, repo, token);
-      } catch {
-        // Traffic data requires push access; many users won't have it. Fail soft.
-      }
-    }
+    // Reuse the parallel-fetched fork + referrer data. We already paid the
+    // RTT for these even when there are zero bursts — the cost is small
+    // (1 fork-list call + 1 traffic-popular-referrers call) and parallel.
+    const forkSeries = earlyForkSeries;
+    const referrers = earlyReferrers;
 
     const validatedBursts: Array<Burst & { validation: CrossValidation }> = bursts.map((b) => ({
       ...b,
