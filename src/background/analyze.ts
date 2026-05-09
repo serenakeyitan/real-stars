@@ -8,6 +8,7 @@ import { detectBursts } from '@/shared/mad';
 import { validateBurst } from '@/shared/validation';
 import { getAuthToken } from './auth';
 import {
+  CACHE_SCHEMA_VERSION,
   CACHE_TTL_MS,
   STORAGE_KEY_CACHE_PREFIX,
   DEFAULT_STARGAZER_LIMIT,
@@ -26,12 +27,20 @@ async function readCache(owner: string, repo: string): Promise<CachedAnalysis | 
   const result = await chrome.storage.local.get(key);
   const entry: CachedAnalysis | undefined = result[key];
   if (!entry) return null;
+  // Schema mismatch → treat as stale. Prevents users from seeing results
+  // computed under a pre-fix algorithm after the extension auto-updates.
+  if (entry.schemaVersion !== CACHE_SCHEMA_VERSION) return null;
   if (Date.now() - entry.cachedAt > entry.ttlMs) return null;
   return entry;
 }
 
 async function writeCache(result: AnalysisResult): Promise<void> {
-  const entry: CachedAnalysis = { ...result, cachedAt: Date.now(), ttlMs: CACHE_TTL_MS };
+  const entry: CachedAnalysis = {
+    ...result,
+    cachedAt: Date.now(),
+    ttlMs: CACHE_TTL_MS,
+    schemaVersion: CACHE_SCHEMA_VERSION,
+  };
   await chrome.storage.local.set({ [cacheKey(result.owner, result.repo)]: entry });
 }
 

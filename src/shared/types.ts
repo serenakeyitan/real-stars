@@ -64,6 +64,13 @@ export interface AnalysisResult {
 export interface CachedAnalysis extends AnalysisResult {
   cachedAt: number;
   ttlMs: number;
+  /**
+   * Cache schema version (CACHE_SCHEMA_VERSION at write time). Read paths
+   * MUST treat entries with a mismatched version as stale, even if they're
+   * still inside the TTL — older entries may have fields computed under a
+   * pre-fix algorithm.
+   */
+  schemaVersion: number;
 }
 
 export type AuthState =

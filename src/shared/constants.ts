@@ -41,6 +41,18 @@ export const MIN_STARS_FOR_VERDICT = 1000;
 export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 /**
+ * Cache schema version. Bump this whenever the analysis pipeline changes
+ * in a way that would invalidate previously-cached results — algorithm
+ * tweaks, new fields, fixes that change the verdict on the same input.
+ *
+ * History:
+ *   1: initial release
+ *   2: fakePercent denominator switched from analyzedStars to total stars
+ *      (was producing inflated percentages on large repos)
+ */
+export const CACHE_SCHEMA_VERSION = 2;
+
+/**
  * GitHub OAuth App Client ID.
  *
  * v1 ships with a PLACEHOLDER. Register an OAuth App at
