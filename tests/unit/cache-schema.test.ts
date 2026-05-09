@@ -36,10 +36,13 @@ describe('CACHE_SCHEMA_VERSION', () => {
     expect(entry.schemaVersion).toBe(CACHE_SCHEMA_VERSION);
   });
 
-  it('current version is at least 2 (the denominator-fix bump)', () => {
-    // Schema v2 corresponds to the fakePercent-uses-true-total fix that
-    // dropped vscode from "183.2k real (69%)" to "184k real (99%)".
-    // Reverting to v1 would silently re-expose users to the old bug.
-    expect(CACHE_SCHEMA_VERSION).toBeGreaterThanOrEqual(2);
+  it('current version is at least 3 (StarScout lookup layer bump)', () => {
+    // Schema bumps:
+    //   v2: fakePercent denominator fix (vscode 69% → 99%)
+    //   v3: StarScout lookup layer added (verdicts now reflect peer-
+    //       reviewed ground truth where available)
+    // Reverting below this floor would silently re-expose users to
+    // earlier verdicts and skip the high-confidence StarScout path.
+    expect(CACHE_SCHEMA_VERSION).toBeGreaterThanOrEqual(3);
   });
 });

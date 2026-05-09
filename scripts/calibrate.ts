@@ -22,12 +22,13 @@ import { fileURLToPath } from 'node:url';
 import { detectBursts } from '../src/shared/mad';
 import { validateBurst } from '../src/shared/validation';
 import { fetchStargazers as fetchStargazersFromSrc } from '../src/background/github';
+import { checkStarScout } from '../src/background/starscout';
 import {
   DEFAULT_STARGAZER_LIMIT,
   RISK_HIGH_THRESHOLD,
   RISK_MEDIUM_THRESHOLD,
 } from '../src/shared/constants';
-import type { ForkPoint, ReferrerSnapshot } from '../src/shared/types';
+import type { ForkPoint, ReferrerSnapshot, StarScoutVerdict } from '../src/shared/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -53,6 +54,9 @@ interface RepoResult {
   fakePercent: number;
   riskLevel: 'low' | 'medium' | 'high';
   match: 'agree' | 'disagree' | 'inconclusive';
+  /** Source of the verdict — 'starscout' if peer-reviewed, 'heuristic' otherwise */
+  verdictSource: 'starscout' | 'heuristic';
+  starscout?: StarScoutVerdict;
   warning?: string;
   error?: string;
   durationMs: number;
@@ -121,6 +125,7 @@ for (const seed of seeds) {
       fakePercent: 0,
       riskLevel: 'low',
       match: 'inconclusive',
+      verdictSource: 'heuristic',
       error: err instanceof Error ? err.message : String(err),
       durationMs: Date.now() - t0,
     });
@@ -143,9 +148,39 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
   const [owner, name] = seed.repo.split('/');
   if (!owner || !name) throw new Error(`invalid repo: ${seed.repo}`);
 
-  const meta = await fetchRepoMetadata(owner, name);
-  // Use the SAME fetchStargazers as the production extension. Defaults to
-  // 'random' sampling strategy.
+  // Run StarScout lookup + repo metadata in parallel — same as production.
+  const [meta, starscout] = await Promise.all([
+    fetchRepoMetadata(owner, name),
+    checkStarScout(owner, name).catch(() => null),
+  ]);
+
+  // Fast path: StarScout has a verdict on this repo. Use it directly.
+  if (starscout) {
+    const suspiciousStars = starscout.fakeStars;
+    const fakePercent = starscout.fakeRatio * 100;
+    let riskLevel: 'low' | 'medium' | 'high' = 'low';
+    if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
+    else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
+    return {
+      repo: seed.repo,
+      expected: seed.expected,
+      expectedReason: seed.reason,
+      totalStars: meta.stargazers_count,
+      analyzedStars: 0,
+      bursts: 0,
+      organicBursts: 0,
+      suspiciousBursts: 0,
+      fakeBursts: 0,
+      suspiciousStars,
+      fakePercent,
+      riskLevel,
+      match: classifyMatch(seed.expected, riskLevel),
+      verdictSource: 'starscout',
+      starscout,
+    };
+  }
+
+  // Heuristic fallback path
   const stargazers = await fetchStargazersFromSrc(owner, name, TOKEN!, limit);
   const bursts = detectBursts(stargazers);
 
@@ -175,8 +210,6 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
     .filter((b) => b.validation.verdict !== 'organic')
     .reduce((s, b) => s + b.stars, 0);
   const analyzedTotal = stargazers.length;
-  // Match the production analyze.ts: denominator is true repo total stars,
-  // not the analyzed slice.
   const fakePercent =
     meta.stargazers_count > 0 ? (suspiciousStars / meta.stargazers_count) * 100 : 0;
 
@@ -200,6 +233,7 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
     fakePercent,
     riskLevel,
     match,
+    verdictSource: 'heuristic',
     warning:
       analyzedTotal === limit && meta.stargazers_count > limit
         ? `analyzed ${limit} of ${meta.stargazers_count}`
