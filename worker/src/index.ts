@@ -1,24 +1,38 @@
 /**
- * real-stars OAuth token-exchange worker.
+ * real-stars Worker.
  *
- * The only reason this server exists: GitHub's OAuth Web Flow requires
- * exchanging the authorization code for an access token using a
- * client_secret, and a client_secret can't be safely embedded in a Chrome
- * extension. This worker holds the secret and acts as the exchange proxy.
+ * Two responsibilities:
+ *
+ *   1. OAuth code-to-token exchange (the original reason this Worker
+ *      exists). GitHub's OAuth Web Flow requires client_secret; we hold
+ *      it here and proxy the exchange.
+ *
+ *   2. StarScout fake-repo lookup. The Worker bundles StarScout's
+ *      published 250101-snapshot dataset (~13.5k repos flagged via
+ *      low-activity or lockstep heuristics, peer-reviewed at ICSE 2026).
+ *      Hits return the exact fake-star count and which heuristic fired.
  *
  * Endpoints:
- *   POST /exchange  body: { code: string }
- *                   resp: { access_token, scope, token_type } | { error }
- *
- *   GET /healthz   resp: { ok: true }
- *
- * Required env (set via wrangler secret):
- *   GITHUB_CLIENT_ID
- *   GITHUB_CLIENT_SECRET
- *
- * Optional env:
- *   ALLOWED_ORIGINS     comma-separated CORS allowlist (default: chrome-extension://*)
+ *   POST /exchange   body: { code }
+ *                    resp: { access_token, scope, token_type } | { error }
+ *   GET  /check?repo=owner/name
+ *                    resp: { hit: true, totalStars, fakeStars, fakeRatio,
+ *                            detectedBy[], snapshot } | { hit: false }
+ *   GET  /healthz    resp: { ok: true, lookupSize: number }
  */
+
+import lookup from './starscout-lookup.json';
+
+type DetectedBy = 'low-activity' | 'lockstep';
+interface LookupEntry {
+  totalStars: number;
+  fakeStars: number;
+  fakeRatio: number;
+  detectedBy: DetectedBy[];
+  snapshot: string;
+}
+const STARSCOUT_LOOKUP = lookup as Record<string, LookupEntry>;
+const LOOKUP_SIZE = Object.keys(STARSCOUT_LOOKUP).length;
 
 interface Env {
   GITHUB_CLIENT_ID: string;
@@ -38,7 +52,11 @@ export default {
     }
 
     if (url.pathname === '/healthz') {
-      return json({ ok: true }, 200, corsHeaders(origin, env));
+      return json({ ok: true, lookupSize: LOOKUP_SIZE }, 200, corsHeaders(origin, env));
+    }
+
+    if (url.pathname === '/check' && request.method === 'GET') {
+      return handleCheck(url, origin, env);
     }
 
     if (url.pathname === '/exchange' && request.method === 'POST') {
@@ -48,6 +66,22 @@ export default {
     return new Response('not found', { status: 404, headers: corsHeaders(origin, env) });
   },
 };
+
+function handleCheck(url: URL, origin: string, env: Env): Response {
+  // /check serves public peer-reviewed data — no auth or origin gate needed.
+  // We DO send permissive CORS so chrome-extension origins work, but we
+  // don't reject other callers (e.g. the calibration script running from
+  // Node, public health checks, etc).
+  const repo = url.searchParams.get('repo');
+  if (!repo || !repo.includes('/') || repo.length > 200) {
+    return json({ error: 'bad_repo_param' }, 400, corsHeaders(origin, env));
+  }
+  const entry = STARSCOUT_LOOKUP[repo.toLowerCase()];
+  if (!entry) {
+    return json({ hit: false }, 200, corsHeaders(origin, env));
+  }
+  return json({ hit: true, ...entry }, 200, corsHeaders(origin, env));
+}
 
 async function handleExchange(request: Request, env: Env, origin: string): Promise<Response> {
   if (!isOriginAllowed(origin, env)) {
