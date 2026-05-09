@@ -74,10 +74,12 @@ export async function fetchStargazers(
   repo: string,
   token: string,
   limit: number,
-  // TEMPORARY: revert to 'recent' until the MAD algorithm is taught to
-  // handle sparse time series (random sampling currently produces near-100%
-  // false positives because gap-fill zeros tank the rolling median).
-  // See CALIBRATION.md.
+  // Default 'recent' for v0.1.0. The 'random' mode is implemented but
+  // currently produces near-100% false positives because the MAD detector
+  // assumes a contiguous daily time series — sparse samples + zero-fill
+  // collapse the rolling median to zero. Switching the default to 'random'
+  // is gated on a v2 algorithm rewrite that operates on page-density
+  // buckets instead of per-day buckets. See CALIBRATION.md.
   strategy: StargazerSamplingStrategy = 'recent',
 ): Promise<StargazerEvent[]> {
   // First request: serially, to read the Link header so we know lastPage.
