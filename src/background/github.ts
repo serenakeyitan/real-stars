@@ -44,21 +44,41 @@ async function gh(
  * enough (33 pages in ~1s vs ~7s serial). */
 const STARGAZER_FETCH_CONCURRENCY = 6;
 
+export type StargazerSamplingStrategy = 'recent' | 'random';
+
 /**
  * Fetch stargazer timestamps. The `Accept: application/vnd.github.v3.star+json`
  * header opts into the timestamped variant of the response.
  *
- * GitHub paginates from oldest to newest. To prioritize recent stargazers
- * (which is where bought stars cluster), we walk to the last page first.
+ * Two strategies (selectable via the `strategy` argument):
  *
- * Pages are fetched in parallel batches (CONCURRENCY=6). For a 1500-cap on
- * a 100k-star repo this turns ~7s of serial fetching into ~1.2s.
+ * - 'recent' (legacy): walk the LAST N pages, getting the most recent
+ *   stargazers. Fast but biased — for popular repos, the recent slice spans
+ *   only days and gives the MAD detector no historical baseline. Empirically
+ *   this caused 60-100% false-positive rates on viral organic repos.
+ *
+ * - 'random' (default): sample N pages uniformly across the repo's full
+ *   stargazer history. Always includes page 1 (creation-era baseline) and
+ *   the last page (recent activity to catch in-progress fake-star episodes).
+ *   The remaining pages are picked deterministically via a seeded RNG so
+ *   re-runs against the same repo produce comparable results.
+ *
+ *   This gives the MAD detector a representative time series spanning the
+ *   repo's whole life, so spikes can actually be compared against a
+ *   meaningful median.
+ *
+ * Pages within a batch are fetched in parallel (CONCURRENCY=6).
  */
 export async function fetchStargazers(
   owner: string,
   repo: string,
   token: string,
   limit: number,
+  // TEMPORARY: revert to 'recent' until the MAD algorithm is taught to
+  // handle sparse time series (random sampling currently produces near-100%
+  // false positives because gap-fill zeros tank the rolling median).
+  // See CALIBRATION.md.
+  strategy: StargazerSamplingStrategy = 'recent',
 ): Promise<StargazerEvent[]> {
   // First request: serially, to read the Link header so we know lastPage.
   const firstResp = await gh(
@@ -74,19 +94,36 @@ export async function fetchStargazers(
   const lastPage = lastPageMatch ? parseInt(lastPageMatch[1], 10) : 1;
 
   const pagesNeeded = Math.ceil(limit / STARGAZERS_PER_PAGE);
-  const startPage = Math.max(1, lastPage - pagesNeeded + 1);
+
+  let pagesToFetch: number[];
+  let needFirstPage: boolean;
+
+  if (strategy === 'recent' || lastPage <= pagesNeeded) {
+    // Recent strategy, or repo small enough that we'd fetch everything anyway.
+    const startPage = Math.max(1, lastPage - pagesNeeded + 1);
+    pagesToFetch = [];
+    for (let p = Math.max(startPage, 2); p <= lastPage; p++) pagesToFetch.push(p);
+    needFirstPage = startPage === 1;
+  } else {
+    // Random uniform-ish sample across the full page range, anchored on
+    // page 1 + lastPage. We use a deterministic PRNG seeded on the repo
+    // name so repeated runs against the same repo agree.
+    const seed = hashStringToSeed(`${owner}/${repo}`);
+    const sample = pickEvenlySpacedPages(lastPage, pagesNeeded, seed);
+    pagesToFetch = sample.filter((p) => p !== 1 && p !== undefined);
+    needFirstPage = sample.includes(1);
+    // Always include lastPage (most recent activity)
+    if (!pagesToFetch.includes(lastPage) && lastPage !== 1) pagesToFetch.push(lastPage);
+  }
 
   const events: StargazerEvent[] = [];
-  if (startPage === 1) {
+  if (needFirstPage) {
     pushEvents(events, firstPage);
   }
 
-  // Fetch remaining pages concurrently in CONCURRENCY-sized batches.
-  const pages: number[] = [];
-  for (let p = Math.max(startPage, 2); p <= lastPage; p++) pages.push(p);
-
-  for (let i = 0; i < pages.length; i += STARGAZER_FETCH_CONCURRENCY) {
-    const batch = pages.slice(i, i + STARGAZER_FETCH_CONCURRENCY);
+  // Fetch pages concurrently in CONCURRENCY-sized batches.
+  for (let i = 0; i < pagesToFetch.length; i += STARGAZER_FETCH_CONCURRENCY) {
+    const batch = pagesToFetch.slice(i, i + STARGAZER_FETCH_CONCURRENCY);
     const responses = await Promise.all(
       batch.map((page) =>
         gh(
@@ -112,8 +149,56 @@ export async function fetchStargazers(
   }
 
   events.sort((a, b) => a.starredAt.getTime() - b.starredAt.getTime());
-  // Cap to limit, keeping the most recent
-  return events.slice(-limit);
+  return events;
+}
+
+/**
+ * Pick `count` page numbers from [1, lastPage] inclusive, distributed
+ * evenly with a small deterministic jitter so adjacent samples don't
+ * align exactly on multiples. Always includes 1 and lastPage.
+ */
+function pickEvenlySpacedPages(lastPage: number, count: number, seed: number): number[] {
+  if (lastPage <= count) {
+    const all: number[] = [];
+    for (let p = 1; p <= lastPage; p++) all.push(p);
+    return all;
+  }
+  const rng = mulberry32(seed);
+  const picked = new Set<number>([1, lastPage]);
+  const stride = lastPage / (count - 1);
+  for (let i = 1; i < count - 1; i++) {
+    const target = Math.round(i * stride);
+    // Add small jitter (up to ±stride/4) to break alignment on regular intervals
+    const jitter = Math.floor((rng() - 0.5) * stride * 0.5);
+    const p = Math.max(2, Math.min(lastPage - 1, target + jitter));
+    picked.add(p);
+  }
+  // If jitter caused collisions and we lost some samples, fill greedily
+  while (picked.size < count) {
+    const p = 1 + Math.floor(rng() * lastPage);
+    picked.add(p);
+  }
+  return Array.from(picked).sort((a, b) => a - b);
+}
+
+function hashStringToSeed(s: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function mulberry32(seed: number): () => number {
+  let s = seed;
+  return () => {
+    s = (s + 0x6d2b79f5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
 function pushEvents(out: StargazerEvent[], raw: RawStargazer[]): void {
