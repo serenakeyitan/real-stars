@@ -21,13 +21,13 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { detectBursts } from '../src/shared/mad';
 import { validateBurst } from '../src/shared/validation';
+import { fetchStargazers as fetchStargazersFromSrc } from '../src/background/github';
 import {
   DEFAULT_STARGAZER_LIMIT,
   RISK_HIGH_THRESHOLD,
   RISK_MEDIUM_THRESHOLD,
-  STARGAZERS_PER_PAGE,
 } from '../src/shared/constants';
-import type { ForkPoint, ReferrerSnapshot, StargazerEvent } from '../src/shared/types';
+import type { ForkPoint, ReferrerSnapshot } from '../src/shared/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -144,7 +144,9 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
   if (!owner || !name) throw new Error(`invalid repo: ${seed.repo}`);
 
   const meta = await fetchRepoMetadata(owner, name);
-  const stargazers = await fetchStargazers(owner, name, limit);
+  // Use the SAME fetchStargazers as the production extension. Defaults to
+  // 'random' sampling strategy.
+  const stargazers = await fetchStargazersFromSrc(owner, name, TOKEN!, limit);
   const bursts = detectBursts(stargazers);
 
   let forkSeries: ForkPoint[] = [];
@@ -173,7 +175,10 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
     .filter((b) => b.validation.verdict !== 'organic')
     .reduce((s, b) => s + b.stars, 0);
   const analyzedTotal = stargazers.length;
-  const fakePercent = analyzedTotal > 0 ? (suspiciousStars / analyzedTotal) * 100 : 0;
+  // Match the production analyze.ts: denominator is true repo total stars,
+  // not the analyzed slice.
+  const fakePercent =
+    meta.stargazers_count > 0 ? (suspiciousStars / meta.stargazers_count) * 100 : 0;
 
   let riskLevel: 'low' | 'medium' | 'high' = 'low';
   if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
@@ -235,66 +240,6 @@ async function fetchRepoMetadata(
   const resp = await gh(`/repos/${owner}/${repo}`);
   if (!resp.ok) throw new Error(`repo metadata: ${resp.status} ${resp.statusText}`);
   return (await resp.json()) as { stargazers_count: number; forks_count: number };
-}
-
-async function fetchStargazers(
-  owner: string,
-  repo: string,
-  limit: number,
-): Promise<StargazerEvent[]> {
-  const firstResp = await gh(
-    `/repos/${owner}/${repo}/stargazers?per_page=${STARGAZERS_PER_PAGE}&page=1`,
-    { Accept: 'application/vnd.github.star+json' },
-  );
-  if (!firstResp.ok) throw new Error(`stargazers: ${firstResp.status} ${firstResp.statusText}`);
-  const firstPage = (await firstResp.json()) as Array<{
-    starred_at: string;
-    user: { login: string };
-  }>;
-
-  const linkHeader = firstResp.headers.get('Link') ?? '';
-  const lastPageMatch = linkHeader.match(/<[^>]*[?&]page=(\d+)[^>]*>;\s*rel="last"/);
-  const lastPage = lastPageMatch ? parseInt(lastPageMatch[1], 10) : 1;
-
-  const pagesNeeded = Math.ceil(limit / STARGAZERS_PER_PAGE);
-  const startPage = Math.max(1, lastPage - pagesNeeded + 1);
-
-  const events: StargazerEvent[] = [];
-  if (startPage === 1) pushEvents(events, firstPage);
-
-  for (let page = Math.max(startPage, 2); page <= lastPage; page++) {
-    const resp = await gh(
-      `/repos/${owner}/${repo}/stargazers?per_page=${STARGAZERS_PER_PAGE}&page=${page}`,
-      { Accept: 'application/vnd.github.star+json' },
-    );
-    if (!resp.ok) {
-      if (resp.status === 403 && resp.headers.get('X-RateLimit-Remaining') === '0') {
-        const reset = resp.headers.get('X-RateLimit-Reset');
-        const resetAt = reset ? new Date(parseInt(reset, 10) * 1000).toLocaleTimeString() : 'soon';
-        throw new Error(`rate limit hit; resets at ${resetAt}`);
-      }
-      throw new Error(`stargazers page ${page}: ${resp.status}`);
-    }
-    pushEvents(
-      events,
-      (await resp.json()) as Array<{ starred_at: string; user: { login: string } }>,
-    );
-  }
-
-  events.sort((a, b) => a.starredAt.getTime() - b.starredAt.getTime());
-  return events.slice(-limit);
-}
-
-function pushEvents(
-  out: StargazerEvent[],
-  raw: Array<{ starred_at: string; user: { login: string } }>,
-): void {
-  for (const item of raw) {
-    if (!item.starred_at || !item.user?.login) continue;
-    const t = new Date(item.starred_at);
-    if (Number.isNaN(t.getTime())) continue;
-    out.push({ username: item.user.login, starredAt: t });
-  }
 }
 
 async function fetchForkTimeseries(
