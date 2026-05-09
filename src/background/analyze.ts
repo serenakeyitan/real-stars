@@ -149,7 +149,13 @@ export async function handleAnalyzeRepo(payload: {
     // total in the result uses the true repo count for context.
     const analyzedTotal = stargazers.length;
     const realStars = Math.max(0, meta.stargazers_count - suspiciousStars);
-    const fakePercent = analyzedTotal > 0 ? (suspiciousStars / analyzedTotal) * 100 : 0;
+    // The denominator must be the TRUE total stars, not the analyzed slice.
+    // Otherwise a 5000-stargazer slice with 1000 suspicious shows as "20% fake"
+    // even when those 1000 are 0.5% of the repo's actual 200k stars. The
+    // suspicious count itself is still bounded by what we analyzed; we're
+    // honest about this via the `analyzedStars` field.
+    const fakePercent =
+      meta.stargazers_count > 0 ? (suspiciousStars / meta.stargazers_count) * 100 : 0;
 
     let riskLevel: 'low' | 'medium' | 'high' = 'low';
     if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
