@@ -49,8 +49,10 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  *   1: initial release
  *   2: fakePercent denominator switched from analyzedStars to total stars
  *      (was producing inflated percentages on large repos)
+ *   3: StarScout lookup layer added — verdicts now incorporate
+ *      peer-reviewed ground truth where available
  */
-export const CACHE_SCHEMA_VERSION = 2;
+export const CACHE_SCHEMA_VERSION = 3;
 
 /**
  * GitHub OAuth App Client ID.
@@ -62,10 +64,15 @@ export const CACHE_SCHEMA_VERSION = 2;
 export const GITHUB_CLIENT_ID = 'Ov23liLfCB5Kaulza66T';
 
 /**
- * URL of the deployed Cloudflare Worker that exchanges OAuth codes for
- * access tokens. See worker/README.md.
+ * Base URL of the deployed Cloudflare Worker. The Worker has two endpoints:
+ *   POST /exchange — OAuth code-to-token swap
+ *   GET  /check?repo=owner/name — StarScout fake-repo lookup
+ *
+ * See worker/README.md.
  */
-export const OAUTH_EXCHANGE_URL = 'https://real-stars-oauth.peer-claw.workers.dev/exchange';
+export const WORKER_BASE_URL = 'https://real-stars-oauth.peer-claw.workers.dev';
+export const OAUTH_EXCHANGE_URL = `${WORKER_BASE_URL}/exchange`;
+export const STARSCOUT_CHECK_URL = `${WORKER_BASE_URL}/check`;
 
 export const GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize';
 

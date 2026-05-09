@@ -7,6 +7,7 @@ import {
 import { detectBursts } from '@/shared/mad';
 import { validateBurst } from '@/shared/validation';
 import { getAuthToken } from './auth';
+import { checkStarScout } from './starscout';
 import {
   CACHE_SCHEMA_VERSION,
   CACHE_TTL_MS,
@@ -72,11 +73,48 @@ export async function handleAnalyzeRepo(payload: {
   if (!token) return { error: 'unauthenticated' };
 
   try {
-    // Repo metadata: we need stargazers_count up-front for the gate
-    // decision, so this can't be parallelized with stargazer fetch.
-    const meta = await fetchRepoMetadata(owner, repo, token);
+    // Run StarScout lookup + repo metadata in parallel. StarScout is
+    // peer-reviewed ground truth — when it has an opinion, we should trust
+    // it over our heuristics. The lookup is a single tiny request to our
+    // Worker, so it costs nothing in the common (cache miss) path.
+    const [meta, starscout] = await Promise.all([
+      fetchRepoMetadata(owner, repo, token),
+      checkStarScout(owner, repo).catch(() => null),
+    ]);
 
-    // Confidence gate: under MIN_STARS_FOR_VERDICT the algorithm's
+    // If StarScout flagged this repo, build the verdict directly from its
+    // numbers. We still attach the heuristic burst data when available so
+    // the user can see WHERE the fake stars came from, but the headline
+    // numbers (suspiciousStars, fakePercent, riskLevel) come from
+    // StarScout. This is the highest-confidence path — overrides the
+    // 1000-star gate too.
+    if (starscout) {
+      const suspiciousStars = starscout.fakeStars;
+      const fakePercent = starscout.fakeRatio * 100;
+      const realStars = Math.max(0, meta.stargazers_count - suspiciousStars);
+      let riskLevel: 'low' | 'medium' | 'high' = 'low';
+      if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
+      else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
+
+      const result: AnalysisResult = {
+        owner,
+        repo,
+        totalStars: meta.stargazers_count,
+        analyzedStars: 0, // we didn't run heuristic analysis on this branch
+        bursts: [],
+        validatedBursts: [],
+        suspiciousStars,
+        realStars,
+        fakePercent,
+        riskLevel,
+        starscout,
+        analyzedAt: Date.now(),
+      };
+      await writeCache(result);
+      return result;
+    }
+
+    // Confidence gate: under MIN_STARS_FOR_VERDICT the heuristic's
     // false-positive rate is too high to make a public claim (see
     // CALIBRATION.md). Skip analysis entirely and tell the badge to show
     // an "insufficient data" state.

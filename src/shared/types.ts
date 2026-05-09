@@ -40,6 +40,21 @@ export interface ReferrerSnapshot {
   uniques: number;
 }
 
+/**
+ * StarScout lookup hit. Set when the repo is in the published 250101
+ * dataset of fake-star-flagged repos. When this is present, it overrides
+ * the heuristic burst-detection result — StarScout is peer-reviewed
+ * ground truth, ours is a heuristic.
+ */
+export interface StarScoutVerdict {
+  source: 'starscout';
+  totalStarsAtSnapshot: number;
+  fakeStars: number;
+  fakeRatio: number; // 0..1
+  detectedBy: Array<'low-activity' | 'lockstep'>;
+  snapshot: string; // ISO date
+}
+
 export interface AnalysisResult {
   owner: string;
   repo: string;
@@ -53,10 +68,17 @@ export interface AnalysisResult {
   riskLevel: 'low' | 'medium' | 'high';
   /**
    * When true, the algorithm has too little signal to give a confident
-   * verdict (e.g. repo is below MIN_STARS_FOR_VERDICT). The badge should
-   * show an "insufficient data" state and ignore the burst/risk fields.
+   * verdict (e.g. repo is below MIN_STARS_FOR_VERDICT) AND no StarScout
+   * verdict was found. The badge should show an "insufficient data" state
+   * and ignore the burst/risk fields.
    */
   insufficientData?: boolean;
+  /**
+   * Set if the repo appears in StarScout's published dataset. This is
+   * peer-reviewed ground truth — overrides the heuristic verdict.
+   * Display layer should prefer this over fakePercent etc when set.
+   */
+  starscout?: StarScoutVerdict;
   analyzedAt: number;
   warning?: string;
 }
