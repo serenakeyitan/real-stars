@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Hall of Shame — Repos with the most bought stars</title>
+    <meta
+      name="description"
+      content="13,499 GitHub repositories with statistically suspected bought stars, ranked by an ICSE 2026 peer-reviewed algorithm."
+    />
+    <meta property="og:title" content="GitHub Hall of Shame" />
+    <meta
+      property="og:description"
+      content="13,499 GitHub repositories with bought stars, per the ICSE 2026 StarScout paper. Sortable, searchable, free."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="brand">
+          <h1>🚨 GitHub Hall of Shame</h1>
+          <p class="tagline">
+            <strong id="totalCount">…</strong> GitHub repositories with statistically suspected
+            bought stars
+          </p>
+        </div>
+        <a
+          class="cta"
+          href="https://github.com/serenakeyitan/real-stars"
+          target="_blank"
+          rel="noopener"
+        >
+          🔍 install the real-stars chrome extension →
+        </a>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="intro">
+        <p>
+          Data straight from the
+          <a href="https://arxiv.org/abs/2412.13459" target="_blank" rel="noopener"
+            >ICSE 2026 StarScout paper</a
+          >
+          — peer-reviewed, snapshot from
+          <span class="snapshot">2025-01-01</span>. We did not compute these numbers ourselves; we
+          just put them on a wall. Each repo was flagged by one or both of StarScout's heuristics:
+        </p>
+        <ul class="heuristics">
+          <li>
+            <strong>low-activity</strong>: stargazer accounts that only ever starred this one
+            repository (the throwaway-account fingerprint of cheap fake-star sellers)
+          </li>
+          <li>
+            <strong>lockstep</strong>: groups of 50+ accounts that hit many repos together in tight
+            time windows (sophisticated farm behavior)
+          </li>
+        </ul>
+        <p class="meta">
+          90% of the repos StarScout flagged were later deleted by GitHub Trust &amp; Safety — the
+          strongest external validation any fake-star detector has.
+        </p>
+      </section>
+
+      <section id="famousBoard">
+        <h2>🏆 Top of the wall — most fake stars (≥5,000 stars)</h2>
+        <p class="section-note">
+          The famous ones. Sorted by absolute fake-star count. Click any repo to view on GitHub.
+        </p>
+        <div id="famousGrid" class="grid"></div>
+      </section>
+
+      <section id="percentBoard">
+        <h2>📊 Highest fake ratio — when the repo is mostly fake</h2>
+        <p class="section-note">≥1,000 stars, sorted by fake percentage.</p>
+        <div id="percentGrid" class="grid"></div>
+      </section>
+
+      <section id="searchSection">
+        <h2>🔎 Search all <span id="totalInTable">13,499</span> flagged repositories</h2>
+        <p class="section-note">
+          Type a repo name (owner/name format), language, or any keyword. Click a column header to
+          sort.
+        </p>
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="search e.g. 'huggingface' or 'ai-agent'…"
+          autocomplete="off"
+        />
+        <div class="table-wrapper">
+          <table id="fullTable">
+            <thead>
+              <tr>
+                <th data-sort="repo">Repository</th>
+                <th data-sort="totalStars" class="num">Stars</th>
+                <th data-sort="fakeStars" class="num">Fake</th>
+                <th data-sort="fakePercent" class="num">Fake %</th>
+                <th>Detected by</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+        <p id="tableFooter" class="meta">showing <span id="shownCount">0</span> repos</p>
+      </section>
+
+      <section id="extension">
+        <h2>🔌 Want to check repos that aren't in the dataset?</h2>
+        <p>
+          This list is a 2025-01-01 snapshot. For fresh data on any repo —
+          <strong
+            >install the
+            <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
+              >real-stars chrome extension</a
+            ></strong
+          >
+          and the same algorithm runs live on every GitHub page you visit, including repos that
+          appeared after the paper's cutoff.
+        </p>
+        <div class="ext-preview">
+          <code class="badge-demo green">✓ 184k real (99%)</code>
+          <code class="badge-demo red">🚨 1.2k real (17%)</code>
+          <span class="caption">← what the extension shows next to GitHub's star count</span>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>
+          Data:
+          <a href="https://github.com/hehao98/StarScout" target="_blank" rel="noopener"
+            >StarScout</a
+          >
+          (ICSE 2026, Apache-2.0). This page does not redistribute the dataset for any commercial
+          purpose; it visualizes the published findings.
+        </p>
+        <p>
+          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
+            >github.com/serenakeyitan/real-stars</a
+          >
+          · MIT licensed
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

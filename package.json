@@ -18,6 +18,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "package": "node scripts/pack.mjs",
+    "site:build-data": "node site/build-data.mjs",
+    "site:dev": "cd site && python3 -m http.server 4567",
+    "site:deploy": "cd worker && pnpm wrangler pages deploy ../site --project-name=real-stars-hall-of-shame --commit-dirty=true",
     "calibrate": "tsx scripts/calibrate.ts",
     "calibrate:build-seeds": "tsx scripts/build-starscout-seeds.ts"
   },
