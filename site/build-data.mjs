@@ -89,19 +89,32 @@ for (const row of clustered) {
 }
 console.error(`[build] ${clustered.length} clustered repos`);
 
-// Sort by fakePercent desc
+// Compute shameScore = log10(totalStars) × fakeStars
+// Weights fame against fakeness. A 100k-star repo with 5% fake (5000 fake)
+// scores 25000; a 5k-star repo at 80% (4000 fake) scores 14800. Famous wins,
+// but mid-tier scandals can break in.
+for (const r of out.values()) {
+  r.shameScore = +(Math.log10(Math.max(r.totalStars, 10)) * r.fakeStars).toFixed(0);
+}
+
+// Sort by fakePercent desc (default sort for the full list)
 const all = [...out.values()].sort((a, b) => b.fakePercent - a.fakePercent);
 console.error(`[build] merged: ${all.length} unique repos`);
 
-// Top offenders: tiered by visibility
-//   1. "Most Famous" — ≥5000 stars (these are recognizable names; ~20 of these are
-//      AI/dev tools that programmers will know)
-//   2. "Highest Fake %" — ≥1000 stars, sorted by fakePercent
+// Three views into the data, each tells a different story:
+//   topByShame   — fame-weighted: the household-name scandals
+//   topByStars   — pure absolute fake count (existing famous-offender list)
+//   topByPercent — repos that are MOSTLY fake (existing extreme-ratio list)
+const topByShame = [...all]
+  .filter((r) => r.fakePercent >= 5) // filter noise floor
+  .sort((a, b) => b.shameScore - a.shameScore)
+  .slice(0, 30);
 const topByStars = all
   .filter((r) => r.totalStars >= 5000 && r.fakePercent >= 15)
-  .sort((a, b) => b.fakeStars - a.fakeStars) // absolute fake count is the shocking number
+  .sort((a, b) => b.fakeStars - a.fakeStars)
   .slice(0, 50);
 const topByPercent = all.filter((r) => r.totalStars >= 1000 && r.fakePercent >= 15).slice(0, 50);
+console.error(`[build] top by shame score (log10(stars) × fake): ${topByShame.length}`);
 console.error(`[build] top by famousness (≥5000 stars, ≥15% fake): ${topByStars.length}`);
 console.error(`[build] top by percent (≥1000 stars, ≥15% fake): ${topByPercent.length}`);
 
@@ -112,7 +125,9 @@ const data = {
   paper: 'https://arxiv.org/abs/2412.13459',
   paperTitle:
     '4.5 Million (Suspected) Fake Stars in GitHub: A Growing Problem with Wide-Reaching Implications',
+  shameScoreFormula: 'log10(totalStars) × fakeStars',
   totalRepos: all.length,
+  topByShame,
   topByStars,
   topByPercent,
   all,
