@@ -121,7 +121,7 @@ test('cache pre-seeding round-trips through chrome.storage', async () => {
     riskLevel: 'medium' as const,
     analyzedAt: Date.now(),
     cachedAt: Date.now(),
-    schemaVersion: 3,
+    schemaVersion: 4,
     ttlMs: 7 * 24 * 60 * 60 * 1000,
   };
 
@@ -217,7 +217,7 @@ test('analyze-repo returns insufficientData verdict for small repos', async () =
     analyzedAt: Date.now(),
     warning: 'real-stars only issues verdicts for repos with at least 1,000 stars.',
     cachedAt: Date.now(),
-    schemaVersion: 3,
+    schemaVersion: 4,
     ttlMs: 7 * 24 * 60 * 60 * 1000,
   };
 
@@ -279,7 +279,7 @@ test('content script logic injects a badge into a GitHub-shaped DOM', async () =
         riskLevel: 'medium',
         analyzedAt: Date.now(),
         cachedAt: Date.now(),
-        schemaVersion: 3,
+        schemaVersion: 4,
         ttlMs: 7 * 24 * 60 * 60 * 1000,
       },
     });

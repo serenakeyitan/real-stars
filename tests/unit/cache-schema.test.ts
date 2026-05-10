@@ -36,13 +36,13 @@ describe('CACHE_SCHEMA_VERSION', () => {
     expect(entry.schemaVersion).toBe(CACHE_SCHEMA_VERSION);
   });
 
-  it('current version is at least 3 (StarScout lookup layer bump)', () => {
+  it('current version is at least 4 (per-user heuristics bump)', () => {
     // Schema bumps:
     //   v2: fakePercent denominator fix (vscode 69% → 99%)
-    //   v3: StarScout lookup layer added (verdicts now reflect peer-
-    //       reviewed ground truth where available)
+    //   v3: StarScout snapshot lookup (later removed — snapshot was stale)
+    //   v4: per-user heuristics on burst stargazers (real-time, replaces v3)
     // Reverting below this floor would silently re-expose users to
-    // earlier verdicts and skip the high-confidence StarScout path.
-    expect(CACHE_SCHEMA_VERSION).toBeGreaterThanOrEqual(3);
+    // earlier verdicts.
+    expect(CACHE_SCHEMA_VERSION).toBeGreaterThanOrEqual(4);
   });
 });

@@ -22,13 +22,98 @@ import { fileURLToPath } from 'node:url';
 import { detectBursts } from '../src/shared/mad';
 import { validateBurst } from '../src/shared/validation';
 import { fetchStargazers as fetchStargazersFromSrc } from '../src/background/github';
-import { checkStarScout } from '../src/background/starscout';
 import {
+  GITHUB_API_BASE,
   DEFAULT_STARGAZER_LIMIT,
   RISK_HIGH_THRESHOLD,
   RISK_MEDIUM_THRESHOLD,
 } from '../src/shared/constants';
-import type { ForkPoint, ReferrerSnapshot, StarScoutVerdict } from '../src/shared/types';
+import type { ForkPoint, ReferrerSnapshot } from '../src/shared/types';
+
+// Re-implement userScore inline for the calibration script — chrome.storage
+// caching from src/background/userScore.ts requires a chrome environment
+// that doesn't exist in Node. Logic mirrors that module exactly.
+
+const USER_SUSPICIOUS_THRESHOLD = 4.0;
+const USER_FETCH_CONCURRENCY = 6;
+const USER_SAMPLE_SIZE = 50;
+
+interface UserScoreLite {
+  login: string;
+  score: number;
+  suspicious: boolean;
+}
+
+async function scoreUserCli(login: string): Promise<UserScoreLite | null> {
+  let resp: Response;
+  try {
+    resp = await fetch(`${GITHUB_API_BASE}/users/${encodeURIComponent(login)}`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN!}`,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+    });
+  } catch {
+    return null;
+  }
+  if (resp.status === 404) {
+    return { login, score: 5.0, suspicious: true };
+  }
+  if (!resp.ok) return null;
+  const u = (await resp.json()) as {
+    login: string;
+    created_at: string;
+    followers: number;
+    public_repos: number;
+    gravatar_id?: string;
+    avatar_url?: string;
+  };
+  const ageDays = (Date.now() - new Date(u.created_at).getTime()) / 86400000;
+  let score = 0;
+  if (ageDays < 30) score += 2.0;
+  if (u.followers === 0) score += 1.5;
+  else if (u.followers < 5) score += 0.5;
+  if (u.public_repos === 0) score += 1.5;
+  else if (u.public_repos < 2) score += 0.5;
+  const hasCustomAvatar = !!u.avatar_url && /\?(v=|u=)/.test(u.avatar_url);
+  const noGravatar = !u.gravatar_id || u.gravatar_id === '';
+  if (!hasCustomAvatar && noGravatar) score += 0.5;
+  if (u.followers === 0 && u.public_repos === 0) score += 1.0;
+  return { login: u.login, score, suspicious: score >= USER_SUSPICIOUS_THRESHOLD };
+}
+
+async function scoreUsersCli(logins: string[]): Promise<UserScoreLite[]> {
+  const out: UserScoreLite[] = [];
+  for (let i = 0; i < logins.length; i += USER_FETCH_CONCURRENCY) {
+    const batch = logins.slice(i, i + USER_FETCH_CONCURRENCY);
+    const settled = await Promise.allSettled(batch.map(scoreUserCli));
+    for (const r of settled) if (r.status === 'fulfilled' && r.value) out.push(r.value);
+  }
+  return out;
+}
+
+function sampleUsersCli(users: string[], n: number, seed: string): string[] {
+  if (users.length <= n) return [...users];
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  let s = h >>> 0;
+  const rng = () => {
+    s = (s + 0x6d2b79f5) >>> 0;
+    let t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const indices = new Set<number>();
+  while (indices.size < n) indices.add(Math.floor(rng() * users.length));
+  return Array.from(indices)
+    .sort((a, b) => a - b)
+    .map((i) => users[i]);
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -54,9 +139,6 @@ interface RepoResult {
   fakePercent: number;
   riskLevel: 'low' | 'medium' | 'high';
   match: 'agree' | 'disagree' | 'inconclusive';
-  /** Source of the verdict — 'starscout' if peer-reviewed, 'heuristic' otherwise */
-  verdictSource: 'starscout' | 'heuristic';
-  starscout?: StarScoutVerdict;
   warning?: string;
   error?: string;
   durationMs: number;
@@ -125,7 +207,6 @@ for (const seed of seeds) {
       fakePercent: 0,
       riskLevel: 'low',
       match: 'inconclusive',
-      verdictSource: 'heuristic',
       error: err instanceof Error ? err.message : String(err),
       durationMs: Date.now() - t0,
     });
@@ -148,39 +229,7 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
   const [owner, name] = seed.repo.split('/');
   if (!owner || !name) throw new Error(`invalid repo: ${seed.repo}`);
 
-  // Run StarScout lookup + repo metadata in parallel — same as production.
-  const [meta, starscout] = await Promise.all([
-    fetchRepoMetadata(owner, name),
-    checkStarScout(owner, name).catch(() => null),
-  ]);
-
-  // Fast path: StarScout has a verdict on this repo. Use it directly.
-  if (starscout) {
-    const suspiciousStars = starscout.fakeStars;
-    const fakePercent = starscout.fakeRatio * 100;
-    let riskLevel: 'low' | 'medium' | 'high' = 'low';
-    if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
-    else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
-    return {
-      repo: seed.repo,
-      expected: seed.expected,
-      expectedReason: seed.reason,
-      totalStars: meta.stargazers_count,
-      analyzedStars: 0,
-      bursts: 0,
-      organicBursts: 0,
-      suspiciousBursts: 0,
-      fakeBursts: 0,
-      suspiciousStars,
-      fakePercent,
-      riskLevel,
-      match: classifyMatch(seed.expected, riskLevel),
-      verdictSource: 'starscout',
-      starscout,
-    };
-  }
-
-  // Heuristic fallback path
+  const meta = await fetchRepoMetadata(owner, name);
   const stargazers = await fetchStargazersFromSrc(owner, name, TOKEN!, limit);
   const bursts = detectBursts(stargazers);
 
@@ -199,16 +248,57 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
     }
   }
 
-  const validated = bursts.map((b) => ({
+  const initialValidated = bursts.map((b) => ({
     ...b,
     validation: validateBurst(b, forkSeries, referrers),
   }));
+
+  // Per-user analysis on ALL bursts with users (mirrors production).
+  const burstsNeedingUserAnalysis = initialValidated.filter((b) => b.users.length > 0);
+  const userAnalyses = new Map<string, { sampled: number; suspicious: number; ratio: number }>();
+  for (const b of burstsNeedingUserAnalysis) {
+    const sample = sampleUsersCli(b.users, USER_SAMPLE_SIZE, b.startDate);
+    const scores = await scoreUsersCli(sample);
+    const sus = scores.filter((s) => s.suspicious).length;
+    userAnalyses.set(`${b.startDate}|${b.endDate}`, {
+      sampled: scores.length,
+      suspicious: sus,
+      ratio: scores.length > 0 ? sus / scores.length : 0,
+    });
+  }
+
+  const validated = initialValidated.map((b) => {
+    const ua = userAnalyses.get(`${b.startDate}|${b.endDate}`);
+    let v = b.validation;
+    if (ua && ua.sampled >= 10) {
+      if (ua.ratio >= 0.6) {
+        v = {
+          ...b.validation,
+          verdict: 'fake',
+          confidence: Math.max(b.validation.confidence, 0.85),
+        };
+      } else if (ua.ratio <= 0.1) {
+        v = {
+          ...b.validation,
+          verdict: 'organic',
+          confidence: Math.max(b.validation.confidence, 0.85),
+        };
+      }
+    }
+    return { ...b, validation: v, userAnalysis: ua };
+  });
+
   const organicBursts = validated.filter((b) => b.validation.verdict === 'organic').length;
   const suspiciousBursts = validated.filter((b) => b.validation.verdict === 'suspicious').length;
   const fakeBursts = validated.filter((b) => b.validation.verdict === 'fake').length;
   const suspiciousStars = validated
     .filter((b) => b.validation.verdict !== 'organic')
-    .reduce((s, b) => s + b.stars, 0);
+    .reduce((s, b) => {
+      if (b.userAnalysis && b.userAnalysis.sampled >= 10) {
+        return s + Math.round(b.stars * b.userAnalysis.ratio);
+      }
+      return s + b.stars;
+    }, 0);
   const analyzedTotal = stargazers.length;
   const fakePercent =
     meta.stargazers_count > 0 ? (suspiciousStars / meta.stargazers_count) * 100 : 0;
@@ -233,7 +323,6 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
     fakePercent,
     riskLevel,
     match,
-    verdictSource: 'heuristic',
     warning:
       analyzedTotal === limit && meta.stargazers_count > limit
         ? `analyzed ${limit} of ${meta.stargazers_count}`
