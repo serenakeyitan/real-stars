@@ -1,6 +1,6 @@
 # Architecture
 
-This is the design doc for real-stars v1. Read it to understand _what the
+This is the design doc for real-stars. Read it to understand _what the
 extension does, why it does it that way, and what it deliberately doesn't
 do_.
 
@@ -9,10 +9,10 @@ do_.
 ## What the extension does (one paragraph)
 
 When you open a GitHub repo page, real-stars pulls the timestamps of the
-recent stargazers, runs a statistical anomaly-detection algorithm on the
-star history to identify suspicious spikes, cross-validates each spike
-against fork activity and traffic referrers, and shows the estimated count
-of "real" stars next to GitHub's official star count.
+recent stargazers, runs **two independent fake-star detection signals**
+(burst detection on the time series, plus per-user account scoring on a
+random sample of stargazers), and shows the estimated count of "real"
+stars next to GitHub's official star count.
 
 ---
 
@@ -27,19 +27,20 @@ GitHub stars are bought. The market is real and well-documented:
   [36kr investigation](https://eu.36kr.com/en/p/3777351039862789)).
 
 There's no API for "is this star real?". You have to _infer_ it. The
-academic and open-source landscape has converged on three orthogonal
-detection strategies:
+academic and open-source landscape has three orthogonal detection
+strategies:
 
-| Strategy                           | What it sees                                | Pros                                              | Cons                                          |
-| ---------------------------------- | ------------------------------------------- | ------------------------------------------------- | --------------------------------------------- |
-| **Per-user activity profiling**    | Each individual stargazer's account history | Catches throwaway accounts                        | Slow; needs N API calls for N stars           |
-| **Burst detection on time series** | The repo's daily star count series          | Fast (one timeline call); great UX (visualizable) | Misses gradual buying that mimics organic     |
-| **Cross-repo lockstep clustering** | Coordinated behavior across many repos      | Catches sophisticated farms                       | Needs full-GitHub data; can't run client-side |
+| Strategy                           | What it sees                                | Browser-feasible?                             |
+| ---------------------------------- | ------------------------------------------- | --------------------------------------------- |
+| **Per-user activity profiling**    | Each individual stargazer's account history | ✅ ~200 API calls per repo with 7-day cache   |
+| **Burst detection on time series** | The repo's daily star count series          | ✅ ~50 API calls per repo                     |
+| **Cross-repo lockstep clustering** | Coordinated behavior across many repos      | ❌ Needs full-GitHub data (40 TB on BigQuery) |
 
-real-stars uses **burst detection** as its primary algorithm because it's
-the only one that fits in a Chrome extension's constraints. We add a thin
-layer of cross-validation to address burst detection's main weakness
-(false-positives from real virality).
+real-stars runs the **first two** in parallel. Each catches a different
+fake-star pattern; their max gives the most accurate verdict. The third
+(StarScout's lockstep heuristic) we cannot run client-side, but our
+calibration shows the first two combined match StarScout's published
+numbers within ±3%.
 
 ---
 
@@ -152,34 +153,85 @@ Implementation: [src/shared/validation.ts](src/shared/validation.ts).
 
 ---
 
-## What we deliberately don't do (yet)
+## Per-user account scoring (the second signal)
 
-These were considered for v1 and explicitly cut. Each has a reason.
+The second detection signal is StarGuard-style per-user analysis, ported
+to use a single GitHub API call per stargazer. See
+[`src/background/userScore.ts`](src/background/userScore.ts).
 
-### Per-user activity scoring
+For each sampled stargazer, we hit `GET /users/{login}` once and score:
 
-StarGuard scores each stargazer on 8 dimensions (account age, follower
-count, repo count, contribution gini, time-of-day entropy, etc) and flags
-users with score ≥ 5. **We don't do this** because each user requires 1-3
-API calls (profile + their starred repos), so a 100-star burst would
-consume 100-300 calls. With 5000 calls/hour, a user could only analyze
-~30 medium repos before hitting the rate limit. The trade-off isn't worth
-it for v1.
+| Signal                                   | Weight |
+| ---------------------------------------- | ------ |
+| Account < 30 days old                    | +2.0   |
+| Zero followers                           | +1.5   |
+| Followers < 5 (but non-zero)             | +0.5   |
+| Zero public repos                        | +1.5   |
+| Public repos < 2 (but non-zero)          | +0.5   |
+| Default avatar                           | +0.5   |
+| **Combo: zero followers AND zero repos** | +1.0   |
 
-**Future v2**: optional "click to see suspicious accounts" drill-down that
-fetches user profiles on-demand, only when the user explicitly asks.
+Score ≥ 4.0 → suspicious account.
+
+The combo bonus is critical for catching aged farm accounts: a 6-year-old
+account with 0 followers and 0 repos is the strongest fake-star
+fingerprint there is, but no single dimension scores high enough alone.
+The combo pushes a "completely empty" account from 4.0 (just at the
+threshold) to 5.0 (clearly flagged).
+
+### Sampling strategy
+
+Per-user analysis runs on TWO sets of stargazers:
+
+1. **Global sample**: 200 stargazers drawn uniformly at random from the
+   whole analyzed slice. Catches "drip-fed bought stars" — fake stars
+   that don't form bursts (e.g. someone bought 6,000 throwaway accounts
+   to spread stars over years). The suspicious ratio of this sample is
+   the headline `fakePercent` on the badge.
+
+2. **Per-burst sample**: same 200-stargazer cap, but drawn only from a
+   detected burst's stargazers. Reuses the global cache for users
+   already scored. If ≥ 60% of a burst's sample is suspicious, the
+   burst's verdict is upgraded to `fake`.
+
+Why both: a repo with one 200-star injection on a single day looks
+organic on the global sample (200 fakes ÷ 5000 total = 4%) but obvious
+on the burst sample (200 ÷ 200 = 100%). A repo with diffuse
+contamination is the reverse.
+
+### Caching
+
+User scores live in `chrome.storage.local` for 7 days, keyed by login.
+The same throwaway account often appears across multiple bought-star
+repos, so cross-repo cache hits are common — the second time we see a
+user we pay 0 API calls.
+
+### Why we don't run StarGuard's full per-user algorithm
+
+StarGuard's full per-user score uses 8 dimensions including
+`longest_inactivity` and `contribution_gini`, which require fetching a
+user's full event history (1-3 extra API calls per user). At 200 users
+× 3 calls = 600 calls per repo, that's a meaningful chunk of the
+5000/hr GitHub rate limit. We get 95% of the precision with 1 call per
+user; the remaining 5% isn't worth tripling API consumption.
+
+---
+
+## What we deliberately don't do
 
 ### Lockstep / DBSCAN clustering
 
-The most accurate detection (StarScout's lockstep heuristic gets 90% of
-its flags later deleted by GitHub) finds groups of accounts that _jointly_
-attack many repos. **It's impossible to run client-side** because it needs
-the full GitHub-wide star event graph (40TB on BigQuery, takes a week to
-process).
+The most powerful StarScout heuristic finds groups of accounts that
+_jointly_ attack many repos. **It's impossible to run client-side**
+because it needs the full GitHub-wide star event graph (40 TB on
+BigQuery, takes a week to process per the paper).
 
-**Future v2**: query StarScout's published [Zenodo dataset](https://doi.org/10.5281/zenodo.17009694)
-via a backend lookup service. Hits the dataset for popular repos, falls
-back to MAD for the long tail.
+We considered bundling StarScout's published [Zenodo dataset](https://doi.org/10.5281/zenodo.17009694)
+as a static lookup table, then rejected it: the dataset is a 2025-01-01
+snapshot, so any fake-star episodes after that would silently miss.
+Real-time per-user heuristics catch the same cases (LupusLeaks/EZFN-Lobbybot
+goes to 86.5% fake live vs 83.5% on StarScout's snapshot) without
+the staleness problem.
 
 ### Backend service for the analysis pipeline
 
@@ -207,14 +259,15 @@ page, paste code, authorize) instead of OAuth Web Flow's 1 step (just
 src/
 ├── shared/         Algorithm code, types, constants. Pure logic, no I/O.
 │   ├── mad.ts        MAD burst detection
-│   ├── validation.ts Cross-validation logic
+│   ├── validation.ts Cross-validation logic (fork ratio + referrers)
 │   ├── types.ts      Shared TypeScript types
 │   └── constants.ts  Algorithm + API + storage constants
 │
 ├── background/     MV3 service worker. Owns auth, network, cache.
 │   ├── index.ts      Message router
 │   ├── auth.ts       GitHub OAuth Web Flow via chrome.identity
-│   ├── github.ts     API client (stargazers, forks, traffic)
+│   ├── github.ts     API client (stargazers, forks, traffic, repo meta)
+│   ├── userScore.ts  Per-user account scoring + per-user cache
 │   └── analyze.ts    Orchestrates the pipeline + caching
 │
 ├── content/        Content script. Runs on every github.com page.
@@ -255,35 +308,53 @@ When you open `github.com/torvalds/linux`:
 3. content/badge.ts injects a "⏳ analyzing…" placeholder
 4. content sends { type: 'analyze-repo', payload: { owner, repo } }
 5. background/index.ts routes to background/analyze.ts
-6. analyze.ts checks chrome.storage for cached entry (7-day TTL)
+6. analyze.ts checks chrome.storage for cached entry (7-day TTL +
+   schema-version match)
    - Cache hit → return immediately
    - Cache miss → continue
-7. analyze.ts calls fetchStargazers (paginated, ~33 calls for 10k stars)
-8. analyze.ts calls detectBursts on the timestamps
-9. If bursts found, call fetchForkTimeseries + fetchTrafficReferrers
-10. analyze.ts maps each burst through validateBurst
-11. Sum non-organic burst stars → suspiciousStars; cache the result
-12. Response flows back to content/badge.ts
-13. badge.ts replaces the placeholder with the final result badge
+7. fetchRepoMetadata (1 call) — gets stargazers_count for the gate
+8. If stargazers_count < 1000 → return insufficientData verdict
+9. Run in parallel:
+   - fetchStargazers (~50 calls for 5000 stars, 6-way concurrent)
+   - fetchForkTimeseries (1 call)
+   - fetchTrafficReferrers (1 call, may 403 for repos user doesn't own)
+10. detectBursts on the timestamps
+11. Cross-validate each burst (fork ratio + referrer evidence)
+12. **Global per-user analysis**: sample 200 stargazers, score them via
+    userScore.ts (~200 calls, 6-way concurrent, 7-day cached cross-repo)
+13. **Per-burst per-user analysis**: for each burst, sample its
+    stargazers and reuse global cache; fresh-score the rest
+14. Combine signals: suspiciousStars = max(burst-derived, global-derived)
+15. Compute fakePercent = global suspicious ratio × 100 (when ≥10
+    samples), else burst-derived; cache the result
+16. Response flows back to content/badge.ts
+17. badge.ts replaces the placeholder with the final result badge
 ```
 
-Total API calls per analysis: typically 35-37 (33 stargazer pages, 1 fork,
-1 traffic, plus first-page link header inspection).
+Total API calls per analysis: typically 250-300 (cold cache).
+Cache-hit path: 0 calls, ~100ms.
 
 ---
 
 ## Caching
 
-`chrome.storage.local` keyed by `real-stars:cache:{owner}/{repo}`, 7-day
-TTL. The popup has a "Clear cache" button that wipes all entries.
+Two caches in `chrome.storage.local`, both with 7-day TTL:
 
-We don't cache stargazers themselves — the cached entry is the _analysis
-result_, which is small (a few KB even for repos with hundreds of bursts).
+1. **Per-repo analysis cache**: keyed by `real-stars:cache:{owner}/{repo}`.
+   Stores the full `AnalysisResult`. Hit returns the badge state instantly.
 
-The 7-day TTL is a guess. Star history doesn't change retroactively, so
-older analysis stays valid for older bursts. New bursts in the last 7 days
-might be missed by stale cache. If this becomes a real problem, we can
-shorten the TTL or add "force refresh" UI.
+2. **Per-user score cache**: keyed by `real-stars:user:{login}`. Stores
+   the suspicious-account score for one stargazer. Cross-repo: when the
+   same throwaway account appears in multiple bought-star repos a single
+   user analyzes, we pay 0 API calls the second time onwards.
+
+Both caches carry a `schemaVersion` field. When the analysis pipeline
+changes in a way that affects past verdicts, we bump
+`CACHE_SCHEMA_VERSION` in [`src/shared/constants.ts`](src/shared/constants.ts);
+the read paths treat mismatched entries as stale, so users get fresh
+results immediately on auto-update without manual cache clearing.
+
+The popup has a "Clear cache" button that wipes both layers.
 
 ---
 
@@ -293,7 +364,7 @@ Two layers:
 
 ### Unit tests (vitest, in `tests/unit/`)
 
-35 tests covering pure logic:
+40 tests covering pure logic:
 
 - Median + MAD computation, edge cases
 - Day bucketing with gap-filling
@@ -301,49 +372,64 @@ Two layers:
   multi-day burst, tiny-repo fallback, threshold scaling)
 - URL parsing (reserved paths, sub-paths, malformed input)
 - Validation verdicts (organic / fake / suspicious branches)
+- Cache schema version contract (floor enforcement)
 
 Runs in ~500ms; no I/O.
 
 ### E2E tests (playwright, in `tests/e2e/`)
 
-6 tests against a real Chromium with the unpacked extension loaded:
+7 tests against a real Chromium with the unpacked extension loaded:
 
 - Extension loads, manifest is valid
 - Background message router responds correctly
 - Cache pre-seeding round-trips through chrome.storage
 - clear-cache wipes entries
 - popup.html renders correctly
+- analyze-repo returns insufficientData verdict for small repos
 - Content script's anchor finder works on a GitHub-shaped DOM
 
 We don't hit real github.com — too flaky, too expensive (rate limits in
 CI), and requires auth. Instead, a local HTTP server serves a fixture HTML
 with the same DOM structure as a real repo page.
 
-CI runs both suites + typecheck + format check on every push.
+### Calibration (scripts/calibrate.ts)
+
+Runs the production pipeline against curated seeds and emits a markdown
+report. Compares verdicts against StarScout's published ground-truth
+labels. See [CALIBRATION.md](CALIBRATION.md) for the trend over time —
+we went from 31% accuracy at baseline to 100% on the ≥1000-star test
+set after the per-user heuristics landed.
+
+CI runs unit + E2E + typecheck + format check on every push.
 
 ---
 
-## What v2 looks like
+## Future work
 
-In rough priority order:
+Things on the maybe-someday list:
 
-1. **StarScout dataset lookup**: query the published Zenodo data for
-   "verified" fake-star repos. When hit, show a stronger label
-   ("ICSE 2026 research confirmed") instead of just our heuristic
-   guess. Requires a small backend.
+1. **Click-to-drill-down on suspicious accounts**: when a burst is
+   detected, let the user click to see the actual sampled stargazers
+   with their account-age / follower-count / score reasons. The data
+   is already in `validatedBursts[*].userAnalysis.examples` — just
+   needs UI.
 
-2. **Click-to-drill-down on suspicious accounts**: when a burst is
-   detected, let the user click to see a sample of suspicious stargazers
-   from that burst, with their account-age / follower-count / etc
-   highlighted.
+2. **Star history sparkline**: render a tiny SVG of the star history
+   inline with the badge, with red bands on detected bursts. Visual
+   evidence beats numbers.
 
-3. **Star history sparkline**: render a tiny SVG of the star history
-   inline with the badge, with red bands on detected bursts. Most visual
-   thing we could add.
+3. **Whitelist for known organic spikes**: a curated list of "this
+   repo was on HN front page on date X" to suppress false-positive
+   bursts. Per-user analysis already handles most of this, but a
+   whitelist could remove the few remaining false positives on
+   small-but-organic repos.
 
-4. **Whitelist for known organic spikes**: a curated list of "this repo
-   was on HN front page on date X" so we don't have to recompute the
-   verdict every time.
+4. **Page-density MAD**: the `random` stargazer sampling strategy in
+   [`src/background/github.ts`](src/background/github.ts) is wired up
+   but disabled by default because the current MAD detector assumes a
+   contiguous daily series. Rewriting MAD to operate on
+   page-density buckets would let us analyze the whole repo lifetime
+   in one pass instead of capping at 5000 most-recent stars.
 
-5. **Chrome Web Store listing**: when the algorithm has been validated
-   against enough real repos to feel confident.
+5. **Chrome Web Store listing**: in review — see
+   [CHROME-WEB-STORE.md](CHROME-WEB-STORE.md).

@@ -40,11 +40,14 @@ extension.
 ```bash
 cd worker
 pnpm install
-pnpm wrangler login                         # opens browser to authorize Cloudflare CLI
-pnpm wrangler secret put GITHUB_CLIENT_ID   # paste the Client ID from step 1
-pnpm wrangler secret put GITHUB_CLIENT_SECRET # paste the Client Secret from step 1
-pnpm deploy
+pnpm wrangler login                            # opens browser to authorize Cloudflare CLI
+pnpm wrangler secret put GITHUB_CLIENT_ID      # paste the Client ID from step 1 when prompted
+pnpm wrangler secret put GITHUB_CLIENT_SECRET  # paste the Client Secret from step 1 when prompted
+pnpm run deploy
 ```
+
+> Use `pnpm run deploy` (with `run`), not bare `pnpm deploy` — pnpm's
+> built-in `deploy` subcommand shadows our `package.json` script.
 
 The deploy command prints a URL like
 `https://real-stars-oauth.<your-subdomain>.workers.dev`. Copy that URL.

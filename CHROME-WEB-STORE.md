@@ -29,23 +29,23 @@ pnpm install
 pnpm package
 ```
 
-This produces `artifacts/real-stars-0.2.0.zip` (~38 KB). The store wants
+This produces `artifacts/real-stars-0.2.1.zip` (~38 KB). The store wants
 this exact zip — don't rezip the dist folder yourself.
 
-> **Alternative**: tag `v0.2.0` and let GitHub Actions build it for you.
+> **Alternative**: tag `v0.2.1` and let GitHub Actions build it for you.
 > The release workflow attaches the zip to a GitHub release automatically.
 >
 > ```bash
-> git tag v0.2.0
-> git push origin v0.2.0
+> git tag v0.2.1
+> git push origin v0.2.1
 > ```
 >
-> Wait ~1 min, then download the zip from `https://github.com/serenakeyitan/real-stars/releases/tag/v0.2.0`.
+> Wait ~1 min, then download the zip from `https://github.com/serenakeyitan/real-stars/releases/tag/v0.2.1`.
 
 ## Step 3 — Create the listing in the dev console
 
 1. Open https://chrome.google.com/webstore/devconsole
-2. Click **New Item** → upload `real-stars-0.2.0.zip` → wait for parsing
+2. Click **New Item** → upload `real-stars-0.2.1.zip` → wait for parsing
 3. Fill out the **Store listing** tab. Suggested copy:
 
    **Item name** (max 50 chars):
@@ -84,7 +84,7 @@ this exact zip — don't rezip the dist folder yourself.
    Validated against StarScout's published ground truth (ICSE 2026
    paper, https://arxiv.org/abs/2412.13459). Live algorithm matches
    StarScout's snapshot numbers within ±3% on the test set:
-     - LupusLeaks/EasyFN: 86.5% fake (StarScout: 83.5%)
+     - LupusLeaks/EZFN-Lobbybot: 86.5% fake (StarScout: 83.5%)
      - microsoft/vscode:   1.5% fake (StarScout: 1.27%)
      - torvalds/linux:     1.5% fake (StarScout: 0.88%)
 
@@ -113,7 +113,7 @@ this exact zip — don't rezip the dist folder yourself.
 7. **Promotional images** (optional but recommended for visibility):
    - Small: 440×280
    - Marquee: 1400×560 (Google sometimes features extensions on this)
-   - I'd skip these for v0.1.0 and add later if you want featured placement
+   - Skip for the first submission and add later if you want featured placement
 
 8. **Icon**: already in the manifest, the dashboard auto-extracts it
 
@@ -134,7 +134,7 @@ and display the estimated real star count.
 - **identity**: chrome.identity.launchWebAuthFlow for the OAuth sign-in
 - **host: github.com**: content script injects the badge on repo pages
 - **host: api.github.com**: reads public repo metadata (stargazers, forks, traffic)
-- **host: \*.workers.dev**: posts the OAuth code to the Cloudflare Worker that holds the client_secret
+- **host: real-stars-oauth.peer-claw.workers.dev**: posts the OAuth code to the specific Cloudflare Worker that holds the client_secret. Narrow URL (not a wildcard) to avoid triggering Chrome Web Store's in-depth review for broad host permissions.
 
 **Remote code use**: select "I am not using remote code"
 
@@ -150,16 +150,16 @@ and display the estimated real star count.
 - ☑ "I do not collect user activity"
 - ☑ "I do not collect website content"
 
-**Privacy policy URL**: required if you collect anything; for a non-collecting extension you can paste a static page like:
+**Privacy policy URL**:
 
-- Option A: link to the README's Privacy section on GitHub (`https://github.com/serenakeyitan/real-stars#privacy`)
-- Option B: a one-paragraph privacy.html in the repo
+```
+https://github.com/serenakeyitan/real-stars#privacy
+```
 
-I'd add a Privacy section to README.md saying "real-stars stores your
-GitHub OAuth token in chrome.storage.local on your device. It is never
-transmitted to any server. The Cloudflare Worker is contacted exactly
-once per sign-in to exchange the auth code for a token; after that, all
-GitHub API calls go directly from your browser."
+The Privacy section in README.md covers the required disclosures: token
+stays in chrome.storage.local, repo analysis runs in-browser, the only
+server-side component is the OAuth-exchange Worker, no analytics /
+telemetry / third-party scripts.
 
 ## Step 5 — Submit for review
 

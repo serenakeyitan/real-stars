@@ -4,6 +4,19 @@ All notable changes to real-stars are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.2.1] — 2026-05-09
+
+### Fixed
+
+- **Narrow `host_permissions` from `https://*.workers.dev/*` to the
+  specific Worker URL** `https://real-stars-oauth.peer-claw.workers.dev/*`.
+  Wildcard host permissions trigger Chrome Web Store's "in-depth review"
+  flag, delaying publishing by 1-7 days. The narrow URL avoids the
+  delay and is more honest — the extension only ever talks to this
+  one Worker.
+
+No functional changes; same v0.2.0 algorithm.
+
 ## [0.2.0] — 2026-05-09
 
 ### Major: live per-user account analysis
@@ -147,6 +160,7 @@ First public release.
   trend over time.
 - [CHROME-WEB-STORE.md](CHROME-WEB-STORE.md) — publishing guide.
 
-[Unreleased]: https://github.com/serenakeyitan/real-stars/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/serenakeyitan/real-stars/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/serenakeyitan/real-stars/releases/tag/v0.2.1
 [0.2.0]: https://github.com/serenakeyitan/real-stars/releases/tag/v0.2.0
 [0.1.0]: https://github.com/serenakeyitan/real-stars/releases/tag/v0.1.0

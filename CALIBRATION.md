@@ -267,16 +267,82 @@ precision (no public claim about a repo unless we're confident). The
 v2 plan removes the gate by adding per-user heuristics that work even
 on small repos.
 
+## Fix #2: fakePercent denominator (2026-05-09)
+
+The 1000-star calibration above hid a separate bug: `fakePercent` was
+computed as `suspiciousStars / analyzedStars`, where `analyzedStars`
+caps at the DEFAULT_STARGAZER_LIMIT (5000). For mega-repos this produced
+wildly inflated percentages — vscode showed "183.2k real (69%)" when
+only ~1500 of its 185k stars were actually flagged.
+
+Fixed in [`src/background/analyze.ts`](src/background/analyze.ts):
+denominator now uses the true repo total. Calibration on the same
+11-repo ≥1000-star set jumped from 31% to **91% accuracy**. The
+remaining false negative was LupusLeaks/EZFN-Lobbybot, which produces
+no significant time-series burst because its fake stars were drip-fed
+across years.
+
+Full report:
+[calibration/post-denominator-fix.md](calibration/post-denominator-fix.md).
+
+## Fix #3: per-user account scoring (2026-05-09) — current state
+
+Burst detection alone misses drip-fed bought stars. We added
+StarGuard-style per-user account analysis as the second detection
+signal:
+
+- Sample 200 stargazers from the whole analyzed slice
+- For each, hit `GET /users/{login}` once
+- Score account age, follower count, public repo count, default avatar,
+  and a "completely empty profile" combo bonus
+- Accounts scoring ≥ 4.0 are flagged as suspicious
+
+The displayed `fakePercent` takes the max of the burst-derived signal
+and the global per-user signal — a repo gets flagged whether the fake
+stars came in a single spike or were spread out.
+
+### Result: 91% → 100% on the ≥1000-star test set
+
+Full report:
+[calibration/post-global-per-user.md](calibration/post-global-per-user.md).
+
+| Repo                     | StarScout (snapshot) | real-stars (live) | Match |
+| ------------------------ | -------------------- | ----------------- | ----- |
+| LupusLeaks/EZFN-Lobbybot | 83.5% fake           | **86.5% fake**    | ✅    |
+| microsoft/vscode         | 1.27% fake           | 1.5% fake         | ✅    |
+| torvalds/linux           | 0.88% fake           | 1.5% fake         | ✅    |
+| kubernetes/kubernetes    | not in dataset       | 1.6% fake         | ✅    |
+| facebook/react           | not in dataset       | low risk          | ✅    |
+| anthropics/claude-code   | not in dataset       | low risk          | ✅    |
+| (7 more mega-organic)    | —                    | low risk          | ✅    |
+
+The live algorithm matches StarScout's published numbers within ±3%
+on every overlapping case. The "1.5% fake" floor on mega-organic repos
+is real — even legitimate repos have a small population of empty /
+throwaway stargazers; both StarScout and we see them.
+
+### Production status
+
+The ≥1000-star gate stays in place because the heuristic still has
+higher false-positive rates on small repos (no calibration data
+available below 1000 stars yet). v0.2.0 ships with both signals
+enabled by default.
+
 ## Future fixes
 
-1. **Whitelist known-organic mega-repos**: short-term hedge while we
-   tune. linux/vscode/etc never need analysis anyway.
-2. **Per-user activity check**: for the 6 small "false positive" cases,
-   check whether the burst stargazers look like real or throwaway
-   accounts. This is the v2 plan in ARCHITECTURE.md and would close
-   the small-repo recall gap.
-3. **Larger calibration set**: 26 is too few for precision/recall
-   stability. Generate 50+50 fresh seeds.
+1. **Larger calibration set across the long tail**: re-run with seeds
+   covering 100-1000 star repos to validate that per-user signals
+   handle them correctly. Would let us drop or lower the 1000-star
+   gate.
+2. **Page-density MAD**: the global `random` sampling strategy in
+   github.ts is wired but disabled because the current MAD detector
+   assumes contiguous daily series. A rewrite to operate on
+   page-density buckets would let us cover whole-repo lifetime
+   instead of last 5000 stars.
+3. **Whitelist for the very rare false-positive**: for repos that
+   somehow trip both signals when they shouldn't, a small curated
+   override list. Not pressing while accuracy stays at 100% on the
+   test set.
 
 Each fix gets a follow-up calibration report committed under
 `calibration/`, so the trend over time is auditable.
