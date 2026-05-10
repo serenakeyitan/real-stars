@@ -3,92 +3,130 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GitHub Hall of Shame — Repos with the most bought stars</title>
+    <title>GitHub Hall of Shame — bought-star ranking, ICSE 2026 peer-reviewed</title>
     <meta
       name="description"
-      content="13,499 GitHub repositories with statistically suspected bought stars, ranked by an ICSE 2026 peer-reviewed algorithm."
+      content="13,499 GitHub repositories caught buying stars. Ranked by fame × bought stars, per the ICSE 2026 StarScout paper. Plus today's trending repos, cross-checked."
     />
     <meta property="og:title" content="GitHub Hall of Shame" />
     <meta
       property="og:description"
-      content="13,499 GitHub repositories with bought stars, per the ICSE 2026 StarScout paper. Sortable, searchable, free."
+      content="13,499 GitHub repos caught buying stars, ranked by fame. Per the ICSE 2026 StarScout paper."
     />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
     <header>
       <div class="container">
-        <div class="brand">
-          <h1>🚨 GitHub Hall of Shame</h1>
-          <p class="tagline">
-            <strong id="totalCount">…</strong> GitHub repositories with statistically suspected
-            bought stars
-          </p>
-        </div>
-        <a
-          class="cta"
-          href="https://github.com/serenakeyitan/real-stars"
-          target="_blank"
-          rel="noopener"
-        >
-          🔍 install the real-stars chrome extension →
-        </a>
-      </div>
-    </header>
-
-    <main class="container">
-      <section class="intro">
-        <p>
-          Data straight from the
+        <p class="eyebrow">A peer-reviewed wall of shame</p>
+        <h1 class="display">GitHub Hall of Shame</h1>
+        <p class="lede">
+          <strong id="totalCount">13,499</strong> repositories caught buying stars.<br />
+          Ranked by who has the most to lose.
+        </p>
+        <p class="meta-line">
+          Data from the
           <a href="https://arxiv.org/abs/2412.13459" target="_blank" rel="noopener"
             >ICSE 2026 StarScout paper</a
           >
-          — peer-reviewed, snapshot from
-          <span class="snapshot">2025-01-01</span>. We did not compute these numbers ourselves; we
-          just put them on a wall. Each repo was flagged by one or both of StarScout's heuristics:
+          · snapshot <time>2025-01-01</time> ·
+          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
+            >install the chrome extension →</a
+          >
         </p>
-        <ul class="heuristics">
-          <li>
-            <strong>low-activity</strong>: stargazer accounts that only ever starred this one
-            repository (the throwaway-account fingerprint of cheap fake-star sellers)
-          </li>
-          <li>
-            <strong>lockstep</strong>: groups of 50+ accounts that hit many repos together in tight
-            time windows (sophisticated farm behavior)
-          </li>
-        </ul>
-        <p class="meta">
-          90% of the repos StarScout flagged were later deleted by GitHub Trust &amp; Safety — the
-          strongest external validation any fake-star detector has.
+      </div>
+    </header>
+
+    <main>
+      <!-- TODAY'S TRENDING — CROSS-CHECKED -->
+      <section id="trendingNow" class="container">
+        <div class="section-head">
+          <h2>Today's Trending, Cross-Checked</h2>
+          <p class="section-sub">
+            Live from <a href="https://github.com/trending" target="_blank" rel="noopener">github.com/trending</a>.
+            Each repo gets a certificate against our dataset.
+          </p>
+          <div class="tabs" id="trendingTabs">
+            <button class="tab active" data-period="daily">Today</button>
+            <button class="tab" data-period="weekly">This Week</button>
+          </div>
+        </div>
+        <div id="trendingGrid" class="cert-grid"></div>
+        <p class="snapshot-warning">
+          ⚠ Cross-check uses the 2025-01-01 dataset. A "No record" certificate means the repo wasn't
+          flagged in that snapshot — it could still have bought stars added afterward. For live
+          analysis, <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener">use the extension</a>.
         </p>
       </section>
 
-      <section id="famousBoard">
-        <h2>🏆 Top of the wall — most fake stars (≥5,000 stars)</h2>
-        <p class="section-note">
-          The famous ones. Sorted by absolute fake-star count. Click any repo to view on GitHub.
-        </p>
-        <div id="famousGrid" class="grid"></div>
+      <!-- THE WALL — TOP 30 BY SHAME SCORE -->
+      <section id="theWall" class="wall-section">
+        <div class="container">
+          <div class="section-head">
+            <h2>The Wall</h2>
+            <p class="section-sub">
+              The 30 repos with the most to answer for — ranked by
+              <code>log₁₀(stars) × bought stars</code>. Fame counts.
+            </p>
+          </div>
+          <div id="tombstones" class="tombstone-grid"></div>
+        </div>
       </section>
 
-      <section id="percentBoard">
-        <h2>📊 Highest fake ratio — when the repo is mostly fake</h2>
-        <p class="section-note">≥1,000 stars, sorted by fake percentage.</p>
-        <div id="percentGrid" class="grid"></div>
+      <!-- THE ALGORITHM (about) -->
+      <section id="how" class="container">
+        <div class="section-head">
+          <h2>How they were caught</h2>
+        </div>
+        <div class="how-grid">
+          <div class="how-card">
+            <p class="how-tag">heuristic 1</p>
+            <h3>Low activity</h3>
+            <p>
+              Accounts that starred this one repository and nothing else. The
+              throwaway-account fingerprint of cheap fake-star sellers.
+            </p>
+          </div>
+          <div class="how-card">
+            <p class="how-tag">heuristic 2</p>
+            <h3>Lockstep</h3>
+            <p>
+              Groups of 50+ accounts that hit many repos together in tight time windows.
+              Sophisticated farm behavior, much harder to fake by hand.
+            </p>
+          </div>
+          <div class="how-card">
+            <p class="how-tag">validation</p>
+            <h3>90% later banned</h3>
+            <p>
+              GitHub's Trust &amp; Safety team has since deleted 90% of the accounts StarScout
+              flagged. The strongest external signal any detector has produced.
+            </p>
+          </div>
+        </div>
       </section>
 
-      <section id="searchSection">
-        <h2>🔎 Search all <span id="totalInTable">13,499</span> flagged repositories</h2>
-        <p class="section-note">
-          Type a repo name (owner/name format), language, or any keyword. Click a column header to
-          sort.
-        </p>
+      <!-- FULL SEARCH -->
+      <section id="searchSection" class="container">
+        <div class="section-head">
+          <h2>Search all <span id="totalInTable">13,499</span></h2>
+          <p class="section-sub">Type a repo name, owner, or fragment. Click a column to sort.</p>
+        </div>
         <input
           type="search"
           id="searchInput"
-          placeholder="search e.g. 'huggingface' or 'ai-agent'…"
+          placeholder="search e.g. huggingface, langchain, supabase…"
           autocomplete="off"
         />
         <div class="table-wrapper">
@@ -97,9 +135,9 @@
               <tr>
                 <th data-sort="repo">Repository</th>
                 <th data-sort="totalStars" class="num">Stars</th>
-                <th data-sort="fakeStars" class="num">Fake</th>
-                <th data-sort="fakePercent" class="num">Fake %</th>
-                <th>Detected by</th>
+                <th data-sort="fakeStars" class="num">Bought</th>
+                <th data-sort="fakePercent" class="num">%</th>
+                <th data-sort="shameScore" class="num">Shame</th>
               </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -108,23 +146,20 @@
         <p id="tableFooter" class="meta">showing <span id="shownCount">0</span> repos</p>
       </section>
 
-      <section id="extension">
-        <h2>🔌 Want to check repos that aren't in the dataset?</h2>
-        <p>
-          This list is a 2025-01-01 snapshot. For fresh data on any repo —
-          <strong
-            >install the
+      <!-- EXTENSION -->
+      <section id="extension" class="container">
+        <div class="ext-box">
+          <h2>Check any repo, live</h2>
+          <p>
+            This page is a 2025-01-01 snapshot. For fresh analysis on any repo —
             <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
-              >real-stars chrome extension</a
-            ></strong
-          >
-          and the same algorithm runs live on every GitHub page you visit, including repos that
-          appeared after the paper's cutoff.
-        </p>
-        <div class="ext-preview">
-          <code class="badge-demo green">✓ 184k real (99%)</code>
-          <code class="badge-demo red">🚨 1.2k real (17%)</code>
-          <span class="caption">← what the extension shows next to GitHub's star count</span>
+              >install the Chrome extension</a
+            >. The same algorithm runs on every GitHub page you visit.
+          </p>
+          <div class="ext-preview">
+            <code class="badge-demo good">✓ 184k real (99%)</code>
+            <code class="badge-demo bad">🚨 1.2k real (17%)</code>
+          </div>
         </div>
       </section>
     </main>
@@ -133,17 +168,14 @@
       <div class="container">
         <p>
           Data:
-          <a href="https://github.com/hehao98/StarScout" target="_blank" rel="noopener"
-            >StarScout</a
-          >
-          (ICSE 2026, Apache-2.0). This page does not redistribute the dataset for any commercial
-          purpose; it visualizes the published findings.
+          <a href="https://github.com/hehao98/StarScout" target="_blank" rel="noopener">StarScout</a>
+          (ICSE 2026, Apache-2.0). This page visualizes the published findings; we did not compute these numbers.
         </p>
         <p>
+          Shame score: <code>log₁₀(totalStars) × bought stars</code> ·
           <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
             >github.com/serenakeyitan/real-stars</a
           >
-          · MIT licensed
         </p>
       </div>
     </footer>

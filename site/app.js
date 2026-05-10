@@ -1,22 +1,26 @@
-// GitHub Hall of Shame — vanilla JS, no framework.
-// Loads data/hall-of-shame.json and renders three views:
-//   1. Top 18 famous offenders (≥5000 stars, by absolute fake count)
-//   2. Top 18 by fake-percent (≥1000 stars)
-//   3. Full searchable + sortable table of all 13,499
+// Hall of Shame v2 — tombstone wall + live trending cross-check.
+// Vanilla JS, no framework. Loads two JSON files (dataset + trending snapshot).
 
 const $ = (sel) => document.querySelector(sel);
 
 let DATA = null;
+let TRENDING = null;
+let trendingPeriod = 'daily';
 
 (async () => {
-  const resp = await fetch('/data/hall-of-shame.json');
-  DATA = await resp.json();
+  const [dataResp, trendingResp] = await Promise.all([
+    fetch('/data/hall-of-shame.json'),
+    fetch('/data/trending.json').catch(() => null),
+  ]);
+  DATA = await dataResp.json();
+  TRENDING = trendingResp && trendingResp.ok ? await trendingResp.json() : null;
 
   $('#totalCount').textContent = DATA.totalRepos.toLocaleString();
   $('#totalInTable').textContent = DATA.totalRepos.toLocaleString();
 
-  renderFamous(DATA.topByStars.slice(0, 18));
-  renderPercent(DATA.topByPercent.slice(0, 18));
+  renderTombstones(DATA.topByShame);
+  renderTrending();
+  wireTrendingTabs();
   renderTable(DATA.all);
   wireSearch();
   wireSort();
@@ -27,43 +31,116 @@ function ghUrl(repo) {
 }
 
 function fmt(n) {
+  if (n == null) return '—';
   return n.toLocaleString();
 }
 
-function riskClass(pct) {
-  if (pct >= 30) return 'red';
-  if (pct >= 10) return 'yellow';
-  return '';
-}
-
-function pctClass(pct) {
-  if (pct >= 30) return '';
-  if (pct >= 10) return 'medium';
-  return 'low';
-}
-
-function cardHtml(r) {
-  const cls = riskClass(r.fakePercent);
-  const badges = r.detectedBy.map((d) => `<span class="badge">${d}</span>`).join('');
+// ─────────── TOMBSTONES (THE WALL) ───────────
+function tombstoneHtml(r, i) {
+  const tier = i < 3 ? 'tier-1' : '';
   return `
-    <a class="card ${cls}" href="${ghUrl(r.repo)}" target="_blank" rel="noopener">
-      <div class="repo-name">${r.repo}</div>
-      <div class="stats">
-        <div class="total">${fmt(r.totalStars)} <span>stars</span></div>
-        <div class="percent">${r.fakePercent}%</div>
+    <a class="tombstone ${tier}" href="${ghUrl(r.repo)}" target="_blank" rel="noopener">
+      <span class="rank">#${i + 1}</span>
+      <p class="repo-name">${r.repo}</p>
+      <p class="pct">${r.fakePercent}%</p>
+      <p class="pct-label">bought stars</p>
+      <div class="breakdown">
+        <span><strong>${fmt(r.totalStars)}</strong> stars</span>
+        <span><strong>${fmt(r.fakeStars)}</strong> bought</span>
       </div>
-      <div class="fake-count">~${fmt(r.fakeStars)} bought stars</div>
-      <div class="badges">${badges}</div>
     </a>
   `;
 }
 
-function renderFamous(rows) {
-  $('#famousGrid').innerHTML = rows.map(cardHtml).join('');
+function renderTombstones(rows) {
+  $('#tombstones').innerHTML = rows.map(tombstoneHtml).join('');
 }
 
-function renderPercent(rows) {
-  $('#percentGrid').innerHTML = rows.map(cardHtml).join('');
+// ─────────── TRENDING CERTIFICATES ───────────
+function relativeTime(iso) {
+  if (!iso) return '';
+  const ms = Date.now() - new Date(iso).getTime();
+  const hours = Math.floor(ms / 3_600_000);
+  if (hours < 1) return 'just now';
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
+
+function certHtml(r, period) {
+  const todayLabel = period === 'daily' ? 'today' : 'this week';
+  const todayStr = r.todayStars ? `+${fmt(r.todayStars)} ${todayLabel}` : '';
+  const lang = r.language ? `<span>${r.language}</span>` : '<span>—</span>';
+
+  let stamp;
+  if (r.inDataset) {
+    stamp = `
+      <div class="cert-stamp shame">
+        <span class="stamp-icon">🚨</span>
+        <span class="stamp-text">
+          <strong>Certified shame</strong>
+          ${r.fakePercent}% bought · ${fmt(r.fakeStars)} fake of ${fmt(r.totalStars)}
+        </span>
+      </div>
+    `;
+  } else {
+    stamp = `
+      <div class="cert-stamp clean">
+        <span class="stamp-icon">○</span>
+        <span class="stamp-text">
+          <strong>No record</strong>
+          Not flagged in the 2025-01-01 snapshot
+        </span>
+      </div>
+    `;
+  }
+
+  return `
+    <a class="cert" href="${ghUrl(r.repo)}" target="_blank" rel="noopener">
+      <div class="cert-head">
+        <p class="repo">${r.repo}</p>
+        <p class="today">${todayStr}</p>
+      </div>
+      ${stamp}
+      <div class="cert-meta">
+        ${lang}
+        <span>github.com/trending</span>
+      </div>
+    </a>
+  `;
+}
+
+function renderTrending() {
+  const grid = $('#trendingGrid');
+  if (!TRENDING) {
+    grid.innerHTML = `<p class="snapshot-warning">Trending data unavailable.</p>`;
+    return;
+  }
+  const rows = TRENDING[trendingPeriod] || [];
+  if (rows.length === 0) {
+    grid.innerHTML = `<p class="snapshot-warning">No trending repos this period.</p>`;
+    return;
+  }
+  grid.innerHTML = rows.map((r) => certHtml(r, trendingPeriod)).join('');
+}
+
+function wireTrendingTabs() {
+  const tabs = document.querySelectorAll('#trendingTabs .tab');
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach((t) => t.classList.remove('active'));
+      tab.classList.add('active');
+      trendingPeriod = tab.dataset.period;
+      renderTrending();
+    });
+  });
+}
+
+// ─────────── SEARCH TABLE ───────────
+function pctClass(pct) {
+  if (pct >= 30) return '';
+  if (pct >= 10) return 'medium';
+  return 'low';
 }
 
 function tableRowHtml(r) {
@@ -73,13 +150,13 @@ function tableRowHtml(r) {
       <td class="num">${fmt(r.totalStars)}</td>
       <td class="num">${fmt(r.fakeStars)}</td>
       <td class="num pct-cell ${pctClass(r.fakePercent)}">${r.fakePercent}%</td>
-      <td>${r.detectedBy.join(', ')}</td>
+      <td class="num">${fmt(r.shameScore)}</td>
     </tr>
   `;
 }
 
 function renderTable(rows) {
-  const max = 500; // render at most 500 rows for performance
+  const max = 500;
   const visible = rows.slice(0, max);
   $('#tableBody').innerHTML = visible.map(tableRowHtml).join('');
   $('#shownCount').textContent =
@@ -108,7 +185,7 @@ function applySort(rows) {
     if (typeof a[col] === 'string') {
       return mul * a[col].localeCompare(b[col]);
     }
-    return mul * (a[col] - b[col]);
+    return mul * ((a[col] ?? 0) - (b[col] ?? 0));
   });
 }
 
@@ -129,6 +206,5 @@ function wireSort() {
       renderTable(applySort(filtered));
     });
   });
-  // Default sort indicator
   document.querySelector('th[data-sort="fakePercent"]').classList.add('sorted-desc');
 }
