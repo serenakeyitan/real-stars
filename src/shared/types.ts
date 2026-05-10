@@ -41,11 +41,12 @@ export interface ReferrerSnapshot {
 }
 
 /**
- * Result of per-user account scoring on a sample of burst stargazers.
- * Attached to a burst when we ran user-level analysis on it.
+ * Result of per-user account scoring on a sample of stargazers.
+ * Attached to a burst (when scoped to that burst's stargazers) or to the
+ * top-level result (when scoped to all stargazers in the analyzed slice).
  */
 export interface UserScoreSummary {
-  /** How many stargazers we sampled and scored from the burst */
+  /** How many stargazers we sampled and scored */
   sampled: number;
   /** How many of the sample crossed the suspicion threshold */
   suspicious: number;
@@ -73,6 +74,15 @@ export interface AnalysisResult {
    * and ignore the burst/risk fields.
    */
   insufficientData?: boolean;
+  /**
+   * Per-user analysis applied to a sample drawn from the WHOLE analyzed
+   * stargazer set (not just burst-internal). When ratio is high, the
+   * fake-star contamination is broad-spectrum (not concentrated in a
+   * single time window) — this is the strong signal for repos like
+   * LupusLeaks/EasyFN where bought stars were spread out enough that
+   * burst detection alone undercounts them.
+   */
+  globalUserAnalysis?: UserScoreSummary;
   analyzedAt: number;
   warning?: string;
 }
