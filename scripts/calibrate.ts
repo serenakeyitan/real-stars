@@ -95,9 +95,13 @@ async function scoreUsersCli(logins: string[]): Promise<UserScoreLite[]> {
 
 function sampleUsersCli(users: string[], n: number, seed: string): string[] {
   if (users.length <= n) return [...users];
+  // Allow a CALIBRATE_RUN_ID env var to vary the seed across runs of the
+  // same repo, so multiple passes produce different samples and we can
+  // estimate variance.
+  const fullSeed = seed + (process.env.CALIBRATE_RUN_ID ?? '');
   let h = 2166136261;
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i);
+  for (let i = 0; i < fullSeed.length; i++) {
+    h ^= fullSeed.charCodeAt(i);
     h = Math.imul(h, 16777619);
   }
   let s = h >>> 0;
