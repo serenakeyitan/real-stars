@@ -36,7 +36,7 @@ import type { ForkPoint, ReferrerSnapshot } from '../src/shared/types';
 
 const USER_SUSPICIOUS_THRESHOLD = 4.0;
 const USER_FETCH_CONCURRENCY = 6;
-const USER_SAMPLE_SIZE = 50;
+const USER_SAMPLE_SIZE = 200;
 
 interface UserScoreLite {
   login: string;
@@ -253,7 +253,14 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
     validation: validateBurst(b, forkSeries, referrers),
   }));
 
-  // Per-user analysis on ALL bursts with users (mirrors production).
+  // Global per-user analysis on the whole stargazer slice (mirrors production).
+  const allUsers = stargazers.map((s) => s.username);
+  const globalSample = sampleUsersCli(allUsers, USER_SAMPLE_SIZE, `${owner}/${name}`);
+  const globalScores = await scoreUsersCli(globalSample);
+  const globalSus = globalScores.filter((s) => s.suspicious).length;
+  const globalRatio = globalScores.length > 0 ? globalSus / globalScores.length : 0;
+
+  // Per-burst user analysis (mirrors production).
   const burstsNeedingUserAnalysis = initialValidated.filter((b) => b.users.length > 0);
   const userAnalyses = new Map<string, { sampled: number; suspicious: number; ratio: number }>();
   for (const b of burstsNeedingUserAnalysis) {
@@ -291,7 +298,9 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
   const organicBursts = validated.filter((b) => b.validation.verdict === 'organic').length;
   const suspiciousBursts = validated.filter((b) => b.validation.verdict === 'suspicious').length;
   const fakeBursts = validated.filter((b) => b.validation.verdict === 'fake').length;
-  const suspiciousStars = validated
+
+  // Same dual-signal logic as production.
+  const burstSuspiciousStars = validated
     .filter((b) => b.validation.verdict !== 'organic')
     .reduce((s, b) => {
       if (b.userAnalysis && b.userAnalysis.sampled >= 10) {
@@ -299,9 +308,16 @@ async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResu
       }
       return s + b.stars;
     }, 0);
+  const globalSuspiciousStars =
+    globalScores.length >= 10 ? Math.round(stargazers.length * globalRatio) : 0;
+  const suspiciousStars = Math.max(burstSuspiciousStars, globalSuspiciousStars);
   const analyzedTotal = stargazers.length;
   const fakePercent =
-    meta.stargazers_count > 0 ? (suspiciousStars / meta.stargazers_count) * 100 : 0;
+    globalScores.length >= 10
+      ? globalRatio * 100
+      : meta.stargazers_count > 0
+        ? (suspiciousStars / meta.stargazers_count) * 100
+        : 0;
 
   let riskLevel: 'low' | 'medium' | 'high' = 'low';
   if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
