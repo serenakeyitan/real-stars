@@ -31,7 +31,18 @@
 import { GITHUB_API_BASE } from '@/shared/constants';
 
 export const USER_SUSPICIOUS_THRESHOLD = 4.0;
-export const USER_SAMPLE_SIZE = 50;
+/**
+ * Stargazers sampled per burst for per-user analysis.
+ *
+ * Statistically: sample of 200 with binomial proportion gives ±5% at 95%
+ * confidence — tight enough that "60% suspicious" reliably means the burst
+ * is dominated by throwaway accounts.
+ *
+ * Cost: 200 GitHub /users/{login} calls per burst, 7-day cached. 6-way
+ * parallel → ~7s per burst. A typical repo has 1-3 bursts so total user-
+ * analysis time is ~10-30s. Stays well under the 5000/hr rate limit.
+ */
+export const USER_SAMPLE_SIZE = 200;
 export const USER_FETCH_CONCURRENCY = 6;
 export const USER_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const USER_CACHE_PREFIX = 'real-stars:user:';
