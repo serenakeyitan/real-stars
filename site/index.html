@@ -15,13 +15,10 @@
     />
     <meta property="og:type" content="website" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Cormorant+Garamond:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@500;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/style.css" />
@@ -29,10 +26,10 @@
   <body>
     <header>
       <div class="container">
-        <p class="eyebrow">A peer-reviewed wall of shame</p>
-        <h1 class="display">GitHub Hall of Shame</h1>
+        <p class="eyebrow">peer-reviewed · class of 2025</p>
+        <h1 class="display">Hall of Shame</h1>
         <p class="lede">
-          <strong id="totalCount">13,499</strong> repositories caught buying stars.<br />
+          <strong id="totalCount">13,499</strong> GitHub repositories inducted for buying stars.<br />
           Ranked by who has the most to lose.
         </p>
         <p class="meta-line">
@@ -40,7 +37,7 @@
           <a href="https://arxiv.org/abs/2412.13459" target="_blank" rel="noopener"
             >ICSE 2026 StarScout paper</a
           >
-          · snapshot <time>2025-01-01</time> ·
+          · induction date <time>2025-01-01</time> ·
           <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
             >install the chrome extension →</a
           >
@@ -52,10 +49,10 @@
       <!-- TODAY'S TRENDING — CROSS-CHECKED -->
       <section id="trendingNow" class="container">
         <div class="section-head">
-          <h2>Today's Trending, Cross-Checked</h2>
+          <h2>Today's Nominees</h2>
           <p class="section-sub">
             Live from <a href="https://github.com/trending" target="_blank" rel="noopener">github.com/trending</a>.
-            Each repo gets a certificate against our dataset.
+            Each contender cross-checked against the induction registry.
           </p>
           <div class="tabs" id="trendingTabs">
             <button class="tab active" data-period="daily">Today</button>
@@ -64,9 +61,9 @@
         </div>
         <div id="trendingGrid" class="cert-grid"></div>
         <p class="snapshot-warning">
-          ⚠ Cross-check uses the 2025-01-01 dataset. A "No record" certificate means the repo wasn't
-          flagged in that snapshot — it could still have bought stars added afterward. For live
-          analysis, <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener">use the extension</a>.
+          Registry as of <time>2025-01-01</time>. "Pending review" means the repo wasn't inducted in
+          that snapshot — it may still have bought stars added afterward. For live verdicts,
+          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener">install the chrome extension</a>.
         </p>
       </section>
 
@@ -76,7 +73,7 @@
           <div class="section-head">
             <h2>The Wall</h2>
             <p class="section-sub">
-              The 30 repos with the most to answer for — ranked by
+              The thirty inductees with the most to answer for — ranked by
               <code>log₁₀(stars) × bought stars</code>. Fame counts.
             </p>
           </div>
@@ -84,22 +81,22 @@
         </div>
       </section>
 
-      <!-- THE ALGORITHM (about) -->
+      <!-- THE ALGORITHM (about → induction criteria) -->
       <section id="how" class="container">
         <div class="section-head">
-          <h2>How they were caught</h2>
+          <h2>Induction Criteria</h2>
         </div>
         <div class="how-grid">
           <div class="how-card">
-            <p class="how-tag">heuristic 1</p>
-            <h3>Low activity</h3>
+            <p class="how-tag">criterion i</p>
+            <h3>Low Activity</h3>
             <p>
               Accounts that starred this one repository and nothing else. The
               throwaway-account fingerprint of cheap fake-star sellers.
             </p>
           </div>
           <div class="how-card">
-            <p class="how-tag">heuristic 2</p>
+            <p class="how-tag">criterion ii</p>
             <h3>Lockstep</h3>
             <p>
               Groups of 50+ accounts that hit many repos together in tight time windows.
@@ -107,8 +104,8 @@
             </p>
           </div>
           <div class="how-card">
-            <p class="how-tag">validation</p>
-            <h3>90% later banned</h3>
+            <p class="how-tag">verification</p>
+            <h3>90% Later Banned</h3>
             <p>
               GitHub's Trust &amp; Safety team has since deleted 90% of the accounts StarScout
               flagged. The strongest external signal any detector has produced.
@@ -120,8 +117,11 @@
       <!-- FULL SEARCH -->
       <section id="searchSection" class="container">
         <div class="section-head">
-          <h2>Search all <span id="totalInTable">13,499</span></h2>
-          <p class="section-sub">Type a repo name, owner, or fragment. Click a column to sort.</p>
+          <h2>The Full Registry</h2>
+          <p class="section-sub">
+            All <span id="totalInTable">13,499</span> inducted repositories. Search by name, owner,
+            or fragment. Click any column to sort.
+          </p>
         </div>
         <input
           type="search"
@@ -149,16 +149,16 @@
       <!-- EXTENSION -->
       <section id="extension" class="container">
         <div class="ext-box">
-          <h2>Check any repo, live</h2>
+          <h2>Audit Any Repo, Live</h2>
           <p>
-            This page is a 2025-01-01 snapshot. For fresh analysis on any repo —
+            This registry is a 2025-01-01 snapshot. For a live verdict on any repository,
             <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
               >install the Chrome extension</a
             >. The same algorithm runs on every GitHub page you visit.
           </p>
           <div class="ext-preview">
-            <code class="badge-demo good">✓ 184k real (99%)</code>
-            <code class="badge-demo bad">🚨 1.2k real (17%)</code>
+            <code class="badge-demo good">184k real · 99%</code>
+            <code class="badge-demo bad">1.2k real · 17%</code>
           </div>
         </div>
       </section>
@@ -167,12 +167,12 @@
     <footer>
       <div class="container">
         <p>
-          Data:
+          Registry data:
           <a href="https://github.com/hehao98/StarScout" target="_blank" rel="noopener">StarScout</a>
-          (ICSE 2026, Apache-2.0). This page visualizes the published findings; we did not compute these numbers.
+          (ICSE 2026, Apache-2.0). This page visualizes the published findings.
         </p>
         <p>
-          Shame score: <code>log₁₀(totalStars) × bought stars</code> ·
+          Shame score · <code>log₁₀(totalStars) × bought stars</code> ·
           <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
             >github.com/serenakeyitan/real-stars</a
           >
