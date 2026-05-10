@@ -35,24 +35,18 @@ function fmt(n) {
   return n.toLocaleString();
 }
 
-// ─────────── INDUCTION PLAQUES (THE WALL) ───────────
-function inductionYear() {
-  return DATA?.snapshotDate?.slice(0, 4) ?? '2025';
-}
-
+// ─────────── REPO CARDS (THE WALL) ───────────
 function tombstoneHtml(r, i) {
-  const tier = i < 3 ? 'tier-1' : '';
   return `
-    <a class="tombstone ${tier}" href="${ghUrl(r.repo)}" target="_blank" rel="noopener">
-      <span class="inducted">inducted · ${inductionYear()}</span>
+    <a class="tombstone" href="${ghUrl(r.repo)}" target="_blank" rel="noopener">
+      <p class="rank">#${i + 1}</p>
       <p class="repo-name">${r.repo}</p>
       <p class="pct">${r.fakePercent}%</p>
       <p class="pct-label">bought stars</p>
       <div class="breakdown">
-        <span><strong>${fmt(r.totalStars)}</strong> total</span>
+        <span><strong>${fmt(r.totalStars)}</strong> stars</span>
         <span><strong>${fmt(r.fakeStars)}</strong> bought</span>
       </div>
-      <span class="rank">№ ${i + 1} of ${fmt(DATA.totalRepos)}</span>
     </a>
   `;
 }
@@ -82,8 +76,8 @@ function certHtml(r, period) {
     stamp = `
       <div class="cert-stamp shame">
         <span class="stamp-text">
-          <strong>Inducted · Class of ${inductionYear()}</strong>
-          ${r.fakePercent}% bought · ${fmt(r.fakeStars)} fake of ${fmt(r.totalStars)}
+          <strong>${r.fakePercent}% bought</strong>
+          ${fmt(r.fakeStars)} fake of ${fmt(r.totalStars)}
         </span>
       </div>
     `;
@@ -91,8 +85,8 @@ function certHtml(r, period) {
     stamp = `
       <div class="cert-stamp clean">
         <span class="stamp-text">
-          <strong>Pending Review</strong>
-          Not in the ${inductionYear()} induction registry
+          <strong>Not in registry</strong>
+          No flags as of 2025-01-01
         </span>
       </div>
     `;
