@@ -29,23 +29,23 @@ pnpm install
 pnpm package
 ```
 
-This produces `artifacts/real-stars-0.1.0.zip` (~36 KB). The store wants
+This produces `artifacts/real-stars-0.2.0.zip` (~38 KB). The store wants
 this exact zip — don't rezip the dist folder yourself.
 
-> **Alternative**: tag `v0.1.0` and let GitHub Actions build it for you.
+> **Alternative**: tag `v0.2.0` and let GitHub Actions build it for you.
 > The release workflow attaches the zip to a GitHub release automatically.
 >
 > ```bash
-> git tag v0.1.0
-> git push origin v0.1.0
+> git tag v0.2.0
+> git push origin v0.2.0
 > ```
 >
-> Wait ~1 min, then download the zip from `https://github.com/serenakeyitan/real-stars/releases/tag/v0.1.0`.
+> Wait ~1 min, then download the zip from `https://github.com/serenakeyitan/real-stars/releases/tag/v0.2.0`.
 
 ## Step 3 — Create the listing in the dev console
 
 1. Open https://chrome.google.com/webstore/devconsole
-2. Click **New Item** → upload `real-stars-0.1.0.zip` → wait for parsing
+2. Click **New Item** → upload `real-stars-0.2.0.zip` → wait for parsing
 3. Fill out the **Store listing** tab. Suggested copy:
 
    **Item name** (max 50 chars):
@@ -67,21 +67,29 @@ this exact zip — don't rezip the dist folder yourself.
    shows how many of those stars look real, right next to GitHub's official
    star count.
 
-   How it works:
-   • Detects statistical anomalies in star history using a sliding-window
-     MAD (median absolute deviation) algorithm — the fingerprint of bought
-     stars
-   • Cross-validates each anomaly against fork activity and traffic
-     referrers — real spikes (Hacker News, Reddit, Twitter) leave evidence
-     while bought stars don't
-   • One-click GitHub OAuth sign-in (no token setup, no copy-pasting)
+   How it works — two independent fake-star detection signals:
+   • Burst detection: a sliding-window MAD (median absolute deviation)
+     algorithm spots statistically anomalous spikes in the star
+     timeline — the fingerprint of "bought a batch in one day".
+   • Per-user account analysis: samples 200 stargazers and scores
+     account age, follower count, public repo count, and avatar to
+     spot throwaway / farm accounts — catches "drip-fed bought stars
+     from a pool of 6,000 empty profiles" that burst detection misses.
+   • Cross-validation: real spikes leave evidence in fork activity
+     and traffic referrers (HN, Reddit, Twitter); bought stars don't.
+
+   Sign-in: one-click GitHub OAuth, no PAT setup needed.
 
    Calibration:
-   The detection algorithm was validated against StarScout's published
-   ground-truth dataset (ICSE 2026 paper, 581 manually-labeled repos).
-   Results on repos ≥1000 stars: 90% accuracy. Smaller repos get a "needs
-   more data" badge instead of a verdict — we'd rather under-detect than
-   libel a real project.
+   Validated against StarScout's published ground truth (ICSE 2026
+   paper, https://arxiv.org/abs/2412.13459). Live algorithm matches
+   StarScout's snapshot numbers within ±3% on the test set:
+     - LupusLeaks/EasyFN: 86.5% fake (StarScout: 83.5%)
+     - microsoft/vscode:   1.5% fake (StarScout: 1.27%)
+     - torvalds/linux:     1.5% fake (StarScout: 0.88%)
+
+   Repos under 1,000 stars get a "needs more data" badge instead of a
+   verdict — we'd rather under-detect than libel a real project.
 
    Source: https://github.com/serenakeyitan/real-stars
 

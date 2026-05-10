@@ -4,19 +4,47 @@ All notable changes to real-stars are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased]
+## [0.2.0] — 2026-05-09
+
+### Major: live per-user account analysis
+
+The detection pipeline now has TWO independent fake-star signals that
+combine via max:
+
+1. **MAD burst detection on the star time series** (existing)
+2. **Per-user account scoring on a 200-stargazer global random sample**
+   (new) — for each sampled stargazer, GET /users/{login} and score
+   account age, follower count, public repo count, default avatar,
+   and an "empty profile" combo bonus. Score ≥ 4 → suspicious.
+
+The two signals are orthogonal: burst detection catches "bought a
+batch in one day", per-user catches "bought 6,000 throwaway accounts
+to drip-star over years". Together they cover the full fake-star
+spectrum.
+
+Calibrated against StarScout's published ground truth
+([ICSE 2026](https://arxiv.org/abs/2412.13459)):
+
+| Repo              | StarScout (snapshot) | real-stars (live) |
+| ----------------- | -------------------- | ----------------- |
+| LupusLeaks/EasyFN | 83.5% fake           | **86.5% fake** ✅ |
+| microsoft/vscode  | 1.27% fake           | ~1.5% fake ✅     |
+| torvalds/linux    | 0.88% fake           | ~1.5% fake ✅     |
+
+Previous release (v0.1.0) missed LupusLeaks/EasyFN entirely (0.0%
+verdict) because its fake stars are spread across years rather than
+concentrated in bursts. The global per-user signal catches it.
 
 ### Fixed
 
 - **fakePercent denominator bug** — was `suspiciousStars / analyzedStars`,
   producing wildly inflated percentages on large repos (vscode showed
   "183.2k real (69%)" with only ~1500 of its 185k stars actually flagged).
-  Now uses the true repo total. Calibration accuracy on the 11-repo
-  ≥1000-star set went from 31% to 91%.
-- **Cache schema versioning** — old cache entries are now invalidated when
+  Now uses the true repo total.
+- **Cache schema versioning** — old cache entries are invalidated when
   the analysis pipeline changes, so users won't keep seeing pre-fix
-  results after auto-update. `CACHE_SCHEMA_VERSION = 2` (bumped for the
-  fakePercent fix).
+  results after auto-update. `CACHE_SCHEMA_VERSION = 4` (bumped for
+  per-user analysis schema).
 - **Stale TEMPORARY comment** in github.ts replaced with a doc reference
   to the v2 algorithm work.
 
@@ -24,10 +52,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - **`engines` field + `.nvmrc`** pinning Node ≥22 / pnpm ≥9. Previously
   fresh clones on Node 16 silently produced confusing crypto errors.
-- **`random` stargazer sampling strategy** (opt-in, default still
-  `recent`). Foundation for the v2 algorithm rewrite that will operate on
-  page-density buckets across the whole repo lifetime.
-- **3 new unit tests** for the cache schema version contract.
+- **`random` stargazer sampling strategy** (opt-in, default `recent`).
+  Foundation for future page-density MAD work.
+- **`src/background/userScore.ts`** — per-user fake-account scoring with
+  7-day chrome.storage.local cache; cross-repo cache hits the same
+  stargazer for free.
+- **6 new unit tests** (cache schema contract, threshold floors).
+
+### Changed
+
+- Analysis time per repo: ~10s → ~30s on cold cache (cost of the 200
+  per-user lookups), <100ms on cache hit.
+- Worker bundle stripped back to OAuth-only (no StarScout snapshot
+  lookup — that approach was tried and rejected for staleness reasons).
 
 ## [0.1.0] — 2026-05-08
 
@@ -110,5 +147,6 @@ First public release.
   trend over time.
 - [CHROME-WEB-STORE.md](CHROME-WEB-STORE.md) — publishing guide.
 
-[Unreleased]: https://github.com/serenakeyitan/real-stars/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/serenakeyitan/real-stars/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/serenakeyitan/real-stars/releases/tag/v0.2.0
 [0.1.0]: https://github.com/serenakeyitan/real-stars/releases/tag/v0.1.0
