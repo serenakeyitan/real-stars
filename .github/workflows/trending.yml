@@ -1,0 +1,35 @@
+name: refresh-trending
+
+# Scrape github.com/trending every 6 hours and cross-reference against the
+# StarScout dataset. Commits site/data/trending.json if it changed; the
+# Cloudflare Pages integration redeploys on push.
+
+on:
+  schedule:
+    - cron: '17 */6 * * *' # 6-hourly at :17 (off-peak)
+  workflow_dispatch: # manual trigger from Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: fetch trending
+        run: node scripts/fetch-trending.mjs
+      - name: commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ -n "$(git status --porcelain site/data/trending.json)" ]]; then
+            git add site/data/trending.json
+            git commit -m "data(trending): refresh $(date -u +%FT%TZ)"
+            git push
+          else
+            echo "no trending changes"
+          fi
