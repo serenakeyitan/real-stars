@@ -41,18 +41,18 @@ export interface ReferrerSnapshot {
 }
 
 /**
- * StarScout lookup hit. Set when the repo is in the published 250101
- * dataset of fake-star-flagged repos. When this is present, it overrides
- * the heuristic burst-detection result — StarScout is peer-reviewed
- * ground truth, ours is a heuristic.
+ * Result of per-user account scoring on a sample of burst stargazers.
+ * Attached to a burst when we ran user-level analysis on it.
  */
-export interface StarScoutVerdict {
-  source: 'starscout';
-  totalStarsAtSnapshot: number;
-  fakeStars: number;
-  fakeRatio: number; // 0..1
-  detectedBy: Array<'low-activity' | 'lockstep'>;
-  snapshot: string; // ISO date
+export interface UserScoreSummary {
+  /** How many stargazers we sampled and scored from the burst */
+  sampled: number;
+  /** How many of the sample crossed the suspicion threshold */
+  suspicious: number;
+  /** Fraction of sample flagged (0..1) */
+  suspiciousRatio: number;
+  /** Top suspicious accounts (login + reasons), capped at ~10 for the tooltip */
+  examples: Array<{ login: string; score: number; reasons: string[] }>;
 }
 
 export interface AnalysisResult {
@@ -61,7 +61,7 @@ export interface AnalysisResult {
   totalStars: number;
   analyzedStars: number;
   bursts: Burst[];
-  validatedBursts: Array<Burst & { validation: CrossValidation }>;
+  validatedBursts: Array<Burst & { validation: CrossValidation; userAnalysis?: UserScoreSummary }>;
   suspiciousStars: number;
   realStars: number;
   fakePercent: number;
@@ -73,12 +73,6 @@ export interface AnalysisResult {
    * and ignore the burst/risk fields.
    */
   insufficientData?: boolean;
-  /**
-   * Set if the repo appears in StarScout's published dataset. This is
-   * peer-reviewed ground truth — overrides the heuristic verdict.
-   * Display layer should prefer this over fakePercent etc when set.
-   */
-  starscout?: StarScoutVerdict;
   analyzedAt: number;
   warning?: string;
 }

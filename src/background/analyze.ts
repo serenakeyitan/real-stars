@@ -7,7 +7,8 @@ import {
 import { detectBursts } from '@/shared/mad';
 import { validateBurst } from '@/shared/validation';
 import { getAuthToken } from './auth';
-import { checkStarScout } from './starscout';
+import { scoreUsers, sampleUsers, USER_SAMPLE_SIZE } from './userScore';
+import type { UserScoreSummary } from '@/shared/types';
 import {
   CACHE_SCHEMA_VERSION,
   CACHE_TTL_MS,
@@ -73,46 +74,9 @@ export async function handleAnalyzeRepo(payload: {
   if (!token) return { error: 'unauthenticated' };
 
   try {
-    // Run StarScout lookup + repo metadata in parallel. StarScout is
-    // peer-reviewed ground truth — when it has an opinion, we should trust
-    // it over our heuristics. The lookup is a single tiny request to our
-    // Worker, so it costs nothing in the common (cache miss) path.
-    const [meta, starscout] = await Promise.all([
-      fetchRepoMetadata(owner, repo, token),
-      checkStarScout(owner, repo).catch(() => null),
-    ]);
-
-    // If StarScout flagged this repo, build the verdict directly from its
-    // numbers. We still attach the heuristic burst data when available so
-    // the user can see WHERE the fake stars came from, but the headline
-    // numbers (suspiciousStars, fakePercent, riskLevel) come from
-    // StarScout. This is the highest-confidence path — overrides the
-    // 1000-star gate too.
-    if (starscout) {
-      const suspiciousStars = starscout.fakeStars;
-      const fakePercent = starscout.fakeRatio * 100;
-      const realStars = Math.max(0, meta.stargazers_count - suspiciousStars);
-      let riskLevel: 'low' | 'medium' | 'high' = 'low';
-      if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
-      else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
-
-      const result: AnalysisResult = {
-        owner,
-        repo,
-        totalStars: meta.stargazers_count,
-        analyzedStars: 0, // we didn't run heuristic analysis on this branch
-        bursts: [],
-        validatedBursts: [],
-        suspiciousStars,
-        realStars,
-        fakePercent,
-        riskLevel,
-        starscout,
-        analyzedAt: Date.now(),
-      };
-      await writeCache(result);
-      return result;
-    }
+    // Repo metadata: we need stargazers_count up-front for the gate
+    // decision, so this can't be parallelized with stargazer fetch.
+    const meta = await fetchRepoMetadata(owner, repo, token);
 
     // Confidence gate: under MIN_STARS_FOR_VERDICT the heuristic's
     // false-positive rate is too high to make a public claim (see
@@ -181,15 +145,87 @@ export async function handleAnalyzeRepo(payload: {
     const forkSeries = earlyForkSeries;
     const referrers = earlyReferrers;
 
-    const validatedBursts: Array<Burst & { validation: CrossValidation }> = bursts.map((b) => ({
+    // First pass: cross-validate with fork + traffic only (cheap, all-local).
+    const initialValidated = bursts.map((b) => ({
       ...b,
       validation: validateBurst(b, forkSeries, referrers),
     }));
 
-    // Sum stars from bursts that crossed the "suspicious" or "fake" verdict
+    // Per-user analysis: sample the burst's stargazers and check their
+    // account profiles. This is the live equivalent of StarScout's
+    // low-activity heuristic — we look for throwaway-account fingerprints
+    // (new account, no followers, no repos, default avatar) on the actual
+    // people who starred during the spike.
+    //
+    // We run this on ALL bursts (not just already-suspicious ones) because
+    // the fork-ratio check has known false-organic cases — e.g. a repo
+    // that legitimately got forks but whose stars were also bought from a
+    // pool of throwaway accounts. Per-user is the strongest single signal
+    // we have, so it should be the deciding voice.
+    //
+    // Cost: ~50 GitHub API calls per burst (sample size, with 7-day cache
+    // per stargazer). For most repos this is just 1-3 bursts × 50 calls,
+    // well under the 5000/hr quota.
+    const burstsNeedingUserAnalysis = initialValidated.filter((b) => b.users.length > 0);
+
+    const userAnalyses = new Map<string, UserScoreSummary>();
+    for (const b of burstsNeedingUserAnalysis) {
+      const sample = sampleUsers(b.users, USER_SAMPLE_SIZE, b.startDate);
+      const scores = await scoreUsers(sample, token);
+      const suspiciousCount = scores.filter((s) => s.suspicious).length;
+      const summary: UserScoreSummary = {
+        sampled: scores.length,
+        suspicious: suspiciousCount,
+        suspiciousRatio: scores.length > 0 ? suspiciousCount / scores.length : 0,
+        examples: scores
+          .filter((s) => s.suspicious)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 10)
+          .map(({ login, score, reasons }) => ({ login, score, reasons })),
+      };
+      userAnalyses.set(`${b.startDate}|${b.endDate}`, summary);
+    }
+
+    const validatedBursts: Array<
+      Burst & { validation: CrossValidation; userAnalysis?: UserScoreSummary }
+    > = initialValidated.map((b) => {
+      const ua = userAnalyses.get(`${b.startDate}|${b.endDate}`);
+      // Per-user data overrides the verdict in either direction:
+      //   ≥60% suspicious → 'fake' (strongest evidence we have)
+      //   ≤10% suspicious → 'organic' (real user spike, even if fork-ratio
+      //                                 was ambiguous)
+      let upgradedValidation = b.validation;
+      if (ua && ua.sampled >= 10) {
+        if (ua.suspiciousRatio >= 0.6) {
+          upgradedValidation = {
+            ...b.validation,
+            verdict: 'fake',
+            confidence: Math.max(b.validation.confidence, 0.85),
+          };
+        } else if (ua.suspiciousRatio <= 0.1) {
+          upgradedValidation = {
+            ...b.validation,
+            verdict: 'organic',
+            confidence: Math.max(b.validation.confidence, 0.85),
+          };
+        }
+      }
+      return { ...b, validation: upgradedValidation, userAnalysis: ua };
+    });
+
+    // Sum stars from bursts that crossed the "suspicious" or "fake" verdict.
+    // For bursts where we have per-user data, scale by the suspicious ratio
+    // (if 80% of sampled stargazers are throwaways, count 80% of the
+    // burst's stars). For bursts without per-user data, count the whole
+    // burst — same as before.
     const suspiciousStars = validatedBursts
       .filter((b) => b.validation.verdict !== 'organic')
-      .reduce((sum: number, b) => sum + b.stars, 0);
+      .reduce((sum: number, b) => {
+        if (b.userAnalysis && b.userAnalysis.sampled >= 10) {
+          return sum + Math.round(b.stars * b.userAnalysis.suspiciousRatio);
+        }
+        return sum + b.stars;
+      }, 0);
 
     // The "total" for risk-level math is the analyzed slice (we can only
     // claim suspicion about stars we actually looked at). The "displayed"

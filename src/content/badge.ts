@@ -156,11 +156,7 @@ function renderBadge(
 
   const realFmt = formatStars(r.realStars);
   const pct = Math.round(100 - r.fakePercent);
-  // Append a peer-review marker when the verdict is StarScout-backed.
-  // Bold-weight on the icon to visually distinguish it from heuristic
-  // verdicts.
-  const verifiedBadge = r.starscout ? ' ✓✓' : '';
-  el.textContent = `${riskIcon(r.riskLevel)} ${realFmt} real (${pct}%)${verifiedBadge}`;
+  el.textContent = `${riskIcon(r.riskLevel)} ${realFmt} real (${pct}%)`;
   el.title = buildTooltip(r);
   return el;
 }
@@ -191,24 +187,13 @@ function formatStars(n: number): string {
 }
 
 function buildTooltip(r: AnalysisResult): string {
-  const lines = [`real-stars analysis for ${r.owner}/${r.repo}`];
-
-  if (r.starscout) {
-    lines.push(
-      '',
-      `✓ Verified by StarScout (ICSE 2026 paper)`,
-      `Snapshot: ${r.starscout.snapshot}`,
-      `Detected by: ${r.starscout.detectedBy.join(' + ')}`,
-      `Fake stars: ${r.starscout.fakeStars.toLocaleString()} of ${r.starscout.totalStarsAtSnapshot.toLocaleString()} (${(r.starscout.fakeRatio * 100).toFixed(1)}%)`,
-    );
-  } else {
-    lines.push(
-      `Analyzed ${r.analyzedStars.toLocaleString()} most recent stargazers`,
-      `Detected ${r.bursts.length} suspicious burst(s)`,
-      `Estimated suspicious: ${r.suspiciousStars.toLocaleString()} (${r.fakePercent.toFixed(1)}%)`,
-    );
-  }
-  lines.push(`Risk level: ${r.riskLevel}`);
+  const lines = [
+    `real-stars analysis for ${r.owner}/${r.repo}`,
+    `Analyzed ${r.analyzedStars.toLocaleString()} most recent stargazers`,
+    `Detected ${r.bursts.length} suspicious burst(s)`,
+    `Estimated suspicious: ${r.suspiciousStars.toLocaleString()} (${r.fakePercent.toFixed(1)}%)`,
+    `Risk level: ${r.riskLevel}`,
+  ];
   if (r.warning) lines.push('', r.warning);
   return lines.join('\n');
 }
