@@ -113,17 +113,60 @@ a:hover {
 
 /* ─────────── PAGE HEAD ─────────── */
 .page-head {
-  margin: 24px 0 16px;
+  margin: 32px 0 20px;
+}
+
+.page-head-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
 }
 
 .page-head h1 {
   font-family: var(--sans);
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.25;
-  margin: 0 0 4px;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 6px;
   color: var(--fg);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+}
+
+/* Platform icons row: right side of headline, links to GitHub / Twitter / extension */
+.platform-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.platform-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: var(--fg-mute);
+  transition: color 0.12s, background 0.12s;
+}
+
+.platform-link:hover {
+  color: var(--fg);
+  background: var(--bg-soft);
+  text-decoration: none;
+}
+
+@media (max-width: 720px) {
+  .page-head-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .platform-icons {
+    padding-top: 0;
+  }
 }
 
 .page-head h1 strong {
@@ -655,7 +698,7 @@ td a:hover {
     padding: 0 16px;
   }
   .page-head h1 {
-    font-size: 20px;
+    font-size: 24px;
   }
   .row-title .owner,
   .row-title .slash,
