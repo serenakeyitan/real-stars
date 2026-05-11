@@ -56,19 +56,54 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 export const CACHE_SCHEMA_VERSION = 4;
 
 /**
- * GitHub OAuth App Client ID.
+ * GitHub OAuth App Client ID. Sourced from build-time env so dev and prod
+ * builds use different OAuth apps (and therefore different Web Store /
+ * unpacked extension IDs can each have their own registered callback URL).
  *
- * v1 ships with a PLACEHOLDER. Register an OAuth App at
- * https://github.com/settings/applications/new and replace this value.
- * See SETUP.md for step-by-step instructions.
+ * Values come from `.env.production` or `.env.development` depending on
+ * `pnpm build` vs `pnpm build:dev`. See SETUP.md.
+ *
+ * The client_id is public — it ships in every OAuth request URL — so it's
+ * fine to commit. The matching client_secret stays in the Cloudflare Worker.
+ *
+ * We defer the placeholder check to lazy getters so that tests (which
+ * import this module but don't exercise OAuth) don't fail at module load.
+ * Production code paths that actually use these values get a loud error
+ * if they're missing.
  */
-export const GITHUB_CLIENT_ID = 'Ov23liLfCB5Kaulza66T';
+function requireEnv(name: 'VITE_GITHUB_CLIENT_ID' | 'VITE_OAUTH_EXCHANGE_URL'): string {
+  const v = import.meta.env[name];
+  if (!v || v.includes('__DEV_CLIENT_ID__')) {
+    throw new Error(
+      `${name} is not set or still a placeholder. ` +
+        'For prod builds this should never fail. For dev builds, register a ' +
+        '"real-stars (dev)" OAuth app at github.com/settings/applications/new ' +
+        'and put its client_id in .env.development. See SETUP.md.',
+    );
+  }
+  return v;
+}
+
+export const GITHUB_CLIENT_ID = (import.meta.env.VITE_GITHUB_CLIENT_ID ?? '') as string;
 
 /**
  * URL of the deployed Cloudflare Worker that exchanges OAuth codes for
- * access tokens. See worker/README.md.
+ * access tokens. Prod points at the production worker; dev points at a
+ * separate dev worker holding the dev OAuth app's client_secret.
+ * See worker/README.md.
  */
-export const OAUTH_EXCHANGE_URL = 'https://real-stars-oauth.peer-claw.workers.dev/exchange';
+export const OAUTH_EXCHANGE_URL = (import.meta.env.VITE_OAUTH_EXCHANGE_URL ?? '') as string;
+
+/**
+ * Validate the env values are real (not placeholder/undefined). Call this
+ * from the OAuth flow entrypoint before reading GITHUB_CLIENT_ID or
+ * OAUTH_EXCHANGE_URL — throws a clear error pointing the developer at
+ * .env.development if they haven't set up the dev OAuth app.
+ */
+export function assertOAuthConfig(): void {
+  requireEnv('VITE_GITHUB_CLIENT_ID');
+  requireEnv('VITE_OAUTH_EXCHANGE_URL');
+}
 
 export const GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize';
 

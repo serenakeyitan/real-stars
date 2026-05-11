@@ -4,6 +4,7 @@ import {
   GITHUB_AUTHORIZE_URL,
   OAUTH_EXCHANGE_URL,
   STORAGE_KEY_AUTH,
+  assertOAuthConfig,
 } from '@/shared/constants';
 
 /**
@@ -40,17 +41,8 @@ export async function handleLogout(): Promise<void> {
 }
 
 export async function handleSignIn(): Promise<AuthState> {
-  // Defensive check for un-replaced placeholders. These would be caught at
-  // typecheck once filled in, but the guard helps if someone clones and
-  // doesn't read SETUP.md.
-  if ((GITHUB_CLIENT_ID as string).startsWith('__REPLACE_')) {
-    throw new Error('GitHub Client ID not configured. See SETUP.md to register an OAuth App.');
-  }
-  if ((OAUTH_EXCHANGE_URL as string).startsWith('__REPLACE_')) {
-    throw new Error(
-      'OAuth exchange URL not configured. Deploy the worker (see worker/README.md) and update OAUTH_EXCHANGE_URL.',
-    );
-  }
+  // Fail loudly with a clear pointer to SETUP.md if env vars aren't configured.
+  assertOAuthConfig();
 
   const redirectUri = chrome.identity.getRedirectURL();
   // Random state guards against CSRF on the callback
