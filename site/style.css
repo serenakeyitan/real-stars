@@ -514,6 +514,20 @@ h2 {
   border: 1px solid var(--border);
   border-radius: 6px 6px 0 0;
   border-bottom: none;
+  gap: 16px;
+}
+
+.freshness {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--fg-mute);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.section-head-row .freshness {
+  align-self: flex-end;
+  margin-bottom: 4px;
 }
 
 .trending-list {

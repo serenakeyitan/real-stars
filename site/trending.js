@@ -18,6 +18,13 @@ let period = 'daily';
     ? `scored ${relative(SCORED.scoredAt)}`
     : 'scoring pending';
 
+  const fresh = $('#leaderboardFreshness');
+  if (fresh) {
+    fresh.textContent = SCORED.scoredAt
+      ? `Last refreshed ${relative(SCORED.scoredAt)}`
+      : '';
+  }
+
   wireTabs();
   render();
 })();
@@ -171,21 +178,23 @@ function escapeHtml(s) {
 }
 
 function render() {
-  const rows = TRENDING[period] ?? [];
+  // Show only repos that have a verdict. Repos without scores don't appear
+  // until the next cron run picks them up — the user always sees clean data,
+  // never "scoring…" placeholders. Freshness is communicated by the single
+  // "scored Xh ago" timestamp at the top of the page.
+  const allRows = TRENDING[period] ?? [];
+  const rows = allRows.filter((r) => SCORED?.scores?.[r.repo.toLowerCase()]);
   const listEl = $('#trendingList');
   if (rows.length === 0) {
-    listEl.innerHTML = `<p class="snapshot-warning" style="margin:20px">No trending repos this period.</p>`;
+    listEl.innerHTML = `<p class="snapshot-warning" style="margin:20px">No verdicts available for this period yet. Check back in a few hours.</p>`;
+    $('#snapshotWarning').textContent = '';
     return;
   }
   listEl.innerHTML = rows.map((r, i) => rowHtml(r, i)).join('');
 
-  const total = rows.length;
-  const scored = rows.filter((r) => SCORED?.scores?.[r.repo.toLowerCase()]).length;
-  const pending = total - scored;
+  // Show a quiet count so the page doesn't feel arbitrary.
   $('#snapshotWarning').textContent =
-    pending > 0
-      ? `${scored} of ${total} scored. The remaining ${pending} will be scored on the next refresh (every 6h).`
-      : `All ${total} repos scored.`;
+    `${rows.length} repositories shown · this list updates every six hours.`;
 }
 
 function wireTabs() {

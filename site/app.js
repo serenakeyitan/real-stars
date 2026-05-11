@@ -23,10 +23,31 @@ let SCORED = null;
 
   renderTombstones(DATA.topByShame);
   renderTrendingPreview();
+  renderFreshness();
   renderTable(DATA.all);
   wireSearch();
   wireSort();
 })();
+
+function renderFreshness() {
+  const el = document.getElementById('previewFreshness');
+  if (!el) return;
+  if (!SCORED?.scoredAt) {
+    el.textContent = '';
+    return;
+  }
+  el.textContent = `Last refreshed ${relativeTimeShort(SCORED.scoredAt)}`;
+}
+
+function relativeTimeShort(iso) {
+  const ms = Date.now() - new Date(iso).getTime();
+  const m = Math.floor(ms / 60_000);
+  if (m < 1) return 'just now';
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ago`;
+  return `${Math.floor(h / 24)}d ago`;
+}
 
 function ghUrl(repo) {
   return `https://github.com/${repo}`;
@@ -120,7 +141,9 @@ function renderTrendingPreview() {
     return;
   }
 
-  // Pull daily + weekly + monthly, dedup, attach scores
+  // Only show repos with verdicts. The preview must always look complete —
+  // the user shouldn't see "scoring…" placeholders.
+  const scored = SCORED?.scores ?? {};
   const allTrending = [];
   const seen = new Set();
   for (const period of ['daily', 'weekly', 'monthly']) {
@@ -128,28 +151,18 @@ function renderTrendingPreview() {
       const key = r.repo.toLowerCase();
       if (seen.has(key)) continue;
       seen.add(key);
-      allTrending.push(r);
+      const score = scored[key];
+      if (!score || score.insufficientData || score.deleted) continue;
+      allTrending.push({ ...r, score });
     }
   }
 
-  const scored = SCORED?.scores ?? {};
-  const enriched = allTrending.map((r) => ({
-    ...r,
-    score: scored[r.repo.toLowerCase()] ?? null,
-  }));
+  // Rank by fakePercent descending — surfaces the most suspect repos first
+  allTrending.sort((a, b) => b.score.fakePercent - a.score.fakePercent);
 
-  // Rank: scored with verdicts first (by fakePercent desc), then unscored, then insufficient
-  enriched.sort((a, b) => {
-    const sa = a.score,
-      sb = b.score;
-    const pa = sa && !sa.insufficientData ? sa.fakePercent : -1;
-    const pb = sb && !sb.insufficientData ? sb.fakePercent : -1;
-    return pb - pa;
-  });
-
-  const top = enriched.slice(0, 6);
+  const top = allTrending.slice(0, 6);
   if (top.length === 0) {
-    grid.innerHTML = `<p class="meta">No trending data.</p>`;
+    grid.innerHTML = `<p class="meta">No verdicts available yet.</p>`;
     return;
   }
   grid.innerHTML = top.map((r) => previewCardHtml(r, r.score)).join('');
