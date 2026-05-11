@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Trending, scored — real-stars</title>
+    <meta
+      name="description"
+      content="GitHub's trending list, with every repo scored by the real-stars fake-star algorithm. Today, this week, this month."
+    />
+    <meta property="og:title" content="GitHub Trending, scored" />
+    <meta
+      property="og:description"
+      content="Every trending repo on GitHub scored for bought stars by the real-stars algorithm."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav class="topnav">
+          <a href="/" class="nav-link">The Wall</a>
+          <a href="/trending.html" class="nav-link active">Trending</a>
+        </nav>
+        <p class="eyebrow">GitHub Trending, scored</p>
+        <h1 class="display">
+          Every trending repo, scored for bought stars.
+        </h1>
+        <p class="lede">
+          GitHub Trending tells you what's rising. We tell you whether the rise is real. Each
+          repository on this page has been analyzed by the real-stars algorithm — the same
+          per-stargazer scoring the Chrome extension runs live.
+        </p>
+        <p class="meta-line">
+          <span id="scoredAt">scored …</span> ·
+          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
+            >how this works</a
+          >
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <section id="trendingSection" class="container">
+        <div class="section-head">
+          <div class="tabs" id="trendingTabs">
+            <button class="tab active" data-period="daily">Today</button>
+            <button class="tab" data-period="weekly">This week</button>
+            <button class="tab" data-period="monthly">This month</button>
+          </div>
+          <p class="section-sub" id="periodNote">
+            Today's top trending repos from
+            <a href="https://github.com/trending" target="_blank" rel="noopener">github.com/trending</a>,
+            ranked as GitHub ranks them.
+          </p>
+        </div>
+        <div id="trendingGrid" class="trending-grid"></div>
+        <p class="snapshot-warning" id="snapshotWarning"></p>
+      </section>
+
+      <!-- METHODOLOGY -->
+      <section id="how" class="container">
+        <div class="section-head">
+          <h2>How the verdicts work</h2>
+        </div>
+        <div class="how-grid">
+          <div class="how-card">
+            <p class="how-tag">step 1</p>
+            <h3>Sample 200 stargazers</h3>
+            <p>
+              We pull a representative sample of recent stargazers for each repo — enough for
+              ±5% confidence at 95% on the suspicious-account ratio.
+            </p>
+          </div>
+          <div class="how-card">
+            <p class="how-tag">step 2</p>
+            <h3>Score every account</h3>
+            <p>
+              Each sampled stargazer is scored on account age, followers, public repos, and
+              avatar — the StarGuard fingerprint of throwaway accounts. Deleted accounts count
+              the heaviest.
+            </p>
+          </div>
+          <div class="how-card">
+            <p class="how-tag">step 3</p>
+            <h3>Cross-validate bursts</h3>
+            <p>
+              Spikes in star count are checked against fork activity in the same window. Real
+              spikes correlate with forks; bought spikes don't. Per-burst user analysis can
+              upgrade or downgrade the verdict.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="extension" class="container">
+        <div class="ext-box">
+          <h2>Run this live on any repo</h2>
+          <p>
+            This page refreshes every six hours. For an on-demand verdict on any repository,
+            <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
+              >install the Chrome extension</a
+            >. The same algorithm runs on every GitHub page you visit.
+          </p>
+          <div class="ext-preview">
+            <code class="badge-demo good">184k real · 99%</code>
+            <code class="badge-demo bad">1.2k real · 17%</code>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>
+          Verdicts computed by the
+          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
+            >real-stars</a
+          >
+          algorithm. Trending list sourced from
+          <a href="https://github.com/trending" target="_blank" rel="noopener">github.com/trending</a>.
+        </p>
+        <p>
+          Inspired by
+          <a href="https://github.com/Glup3/trendingrepos" target="_blank" rel="noopener"
+            >glup3/trendingrepos</a
+          >
+          for the leaderboard idea — but we score, not rank.
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/trending.js"></script>
+  </body>
+</html>

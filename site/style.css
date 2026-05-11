@@ -57,9 +57,40 @@ a:hover {
   padding: 0 24px;
 }
 
+/* ─────────── TOP NAV ─────────── */
+.topnav {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-link {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-mute);
+  padding: 6px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+}
+
+.nav-link:hover {
+  color: var(--fg);
+  background: var(--bg-soft);
+  text-decoration: none;
+}
+
+.nav-link.active {
+  color: var(--fg);
+  background: var(--bg-soft);
+}
+
 /* ─────────── HEADER ─────────── */
 header {
-  padding: 72px 0 56px;
+  padding: 56px 0 56px;
   position: relative;
   overflow: hidden;
 }
@@ -137,6 +168,18 @@ section.wall-section {
 .section-head {
   margin-bottom: 32px;
   max-width: 720px;
+}
+
+.section-head-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  max-width: none;
+}
+
+.section-head-row .section-sub {
+  margin-top: 6px;
 }
 
 h2 {
@@ -392,6 +435,147 @@ h2 {
   font-size: 13px;
   color: var(--fg-dim);
   max-width: 720px;
+}
+
+/* ─────────── TRENDING-PAGE VERDICT CARDS ─────────── */
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+.trend-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 18px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.trend-card:hover {
+  border-color: var(--fg-dim);
+  background: var(--bg-soft);
+  text-decoration: none;
+}
+
+/* Verdict bucket → left-edge color band */
+.trend-card.verdict-high {
+  border-left: 3px solid var(--red-bright);
+}
+.trend-card.verdict-medium {
+  border-left: 3px solid #d29922;
+}
+.trend-card.verdict-mild {
+  border-left: 3px solid #58a6ff;
+}
+.trend-card.verdict-low {
+  border-left: 3px solid #3fb950;
+}
+.trend-card.verdict-insufficient {
+  border-left: 3px solid var(--fg-dim);
+}
+.trend-card.verdict-unscored {
+  border-left: 3px solid var(--border);
+}
+
+.trend-card .card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.trend-card .repo {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--fg);
+  word-break: break-all;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.trend-card .today {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-dim);
+  white-space: nowrap;
+  margin: 0;
+}
+
+/* Verdict line: colored dot + plain label */
+.verdict-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--fg);
+}
+
+.verdict-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.verdict-high .verdict-dot {
+  background: var(--red-bright);
+  box-shadow: 0 0 0 3px rgba(248, 81, 73, 0.18);
+}
+.verdict-medium .verdict-dot {
+  background: #d29922;
+  box-shadow: 0 0 0 3px rgba(210, 153, 34, 0.18);
+}
+.verdict-mild .verdict-dot {
+  background: #58a6ff;
+}
+.verdict-low .verdict-dot {
+  background: #3fb950;
+}
+.verdict-insufficient .verdict-dot {
+  background: var(--fg-dim);
+}
+.verdict-unscored .verdict-dot {
+  background: var(--border);
+}
+
+.verdict-text {
+  flex: 1;
+}
+
+.verdict-high .verdict-text {
+  color: var(--red-bright);
+  font-weight: 500;
+}
+.verdict-medium .verdict-text {
+  color: #d29922;
+  font-weight: 500;
+}
+
+.trend-card .card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-mute);
+  padding: 8px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.trend-card .card-foot {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-dim);
 }
 
 /* ─────────── HOW (algorithm) ─────────── */

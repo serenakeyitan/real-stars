@@ -26,6 +26,10 @@
   <body>
     <header>
       <div class="container">
+        <nav class="topnav">
+          <a href="/" class="nav-link active">The Wall</a>
+          <a href="/trending.html" class="nav-link">Trending</a>
+        </nav>
         <p class="eyebrow">GitHub Hall of Shame</p>
         <h1 class="display">
           <strong id="totalCount">13,499</strong> repositories caught buying stars.
@@ -45,28 +49,18 @@
     </header>
 
     <main>
-      <!-- TODAY'S TRENDING -->
-      <section id="trendingNow" class="container">
-        <div class="section-head">
-          <h2>Trending now, cross-checked</h2>
-          <p class="section-sub">
-            Live from
-            <a href="https://github.com/trending" target="_blank" rel="noopener">github.com/trending</a>.
-            A red dot means the repo is in the registry.
-          </p>
-          <div class="tabs" id="trendingTabs">
-            <button class="tab active" data-period="daily">Today</button>
-            <button class="tab" data-period="weekly">This week</button>
+      <!-- TRENDING PREVIEW (links to /trending) -->
+      <section id="trendingPreview" class="container">
+        <div class="section-head section-head-row">
+          <div>
+            <h2>Trending now, scored live</h2>
+            <p class="section-sub">
+              The top six trending repos with the most suspect star activity —
+              <a href="/trending.html">see the full leaderboard →</a>
+            </p>
           </div>
         </div>
-        <div id="trendingGrid" class="cert-grid"></div>
-        <p class="snapshot-warning">
-          Registry is the 2025-01-01 snapshot. "Not in registry" doesn't mean clean — bought stars
-          added after that date won't appear here. For live verdicts,
-          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
-            >use the extension</a
-          >.
-        </p>
+        <div id="previewGrid" class="trending-grid"></div>
       </section>
 
       <!-- THE WALL — TOP 30 -->

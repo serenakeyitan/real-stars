@@ -1,26 +1,28 @@
-// Hall of Shame v2 — tombstone wall + live trending cross-check.
-// Vanilla JS, no framework. Loads two JSON files (dataset + trending snapshot).
+// Hall of Shame — homepage.
+// Renders: shame wall (top 30), trending preview (top 6 most-suspect scored
+// trending repos, linking to /trending), and the full searchable registry.
 
 const $ = (sel) => document.querySelector(sel);
 
 let DATA = null;
 let TRENDING = null;
-let trendingPeriod = 'daily';
+let SCORED = null;
 
 (async () => {
-  const [dataResp, trendingResp] = await Promise.all([
+  const [dataResp, trendingResp, scoredResp] = await Promise.all([
     fetch('/data/hall-of-shame.json'),
     fetch('/data/trending.json').catch(() => null),
+    fetch('/data/trending-scored.json').catch(() => null),
   ]);
   DATA = await dataResp.json();
   TRENDING = trendingResp && trendingResp.ok ? await trendingResp.json() : null;
+  SCORED = scoredResp && scoredResp.ok ? await scoredResp.json() : null;
 
   $('#totalCount').textContent = DATA.totalRepos.toLocaleString();
   $('#totalInTable').textContent = DATA.totalRepos.toLocaleString();
 
   renderTombstones(DATA.topByShame);
-  renderTrending();
-  wireTrendingTabs();
+  renderTrendingPreview();
   renderTable(DATA.all);
   wireSearch();
   wireSort();
@@ -55,82 +57,95 @@ function renderTombstones(rows) {
   $('#tombstones').innerHTML = rows.map(tombstoneHtml).join('');
 }
 
-// ─────────── TRENDING CERTIFICATES ───────────
-function relativeTime(iso) {
-  if (!iso) return '';
-  const ms = Date.now() - new Date(iso).getTime();
-  const hours = Math.floor(ms / 3_600_000);
-  if (hours < 1) return 'just now';
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
+// ─────────── TRENDING PREVIEW (top 6 most suspect) ───────────
+function verdictBucket(score) {
+  if (!score || score.insufficientData) return 'insufficient';
+  const pct = score.fakePercent;
+  if (pct >= 30) return 'high';
+  if (pct >= 10) return 'medium';
+  if (pct < 5) return 'low';
+  return 'mild';
 }
 
-function certHtml(r, period) {
-  const todayLabel = period === 'daily' ? 'today' : 'this week';
-  const todayStr = r.todayStars ? `+${fmt(r.todayStars)} ${todayLabel}` : '';
-  const lang = r.language ? `<span>${r.language}</span>` : '<span>—</span>';
-
-  let stamp;
-  if (r.inDataset) {
-    stamp = `
-      <div class="cert-stamp shame">
-        <span class="stamp-text">
-          <strong>${r.fakePercent}% bought</strong>
-          ${fmt(r.fakeStars)} fake of ${fmt(r.totalStars)}
-        </span>
-      </div>
-    `;
-  } else {
-    stamp = `
-      <div class="cert-stamp clean">
-        <span class="stamp-text">
-          <strong>Not in registry</strong>
-          No flags as of 2025-01-01
-        </span>
-      </div>
-    `;
+function verdictLabel(bucket, score) {
+  switch (bucket) {
+    case 'high':
+      return `${score.fakePercent}% bought · likely fake`;
+    case 'medium':
+      return `${score.fakePercent}% bought · suspicious`;
+    case 'mild':
+      return `${score.fakePercent}% bought · borderline`;
+    case 'low':
+      return `${score.fakePercent}% bought · looks real`;
+    case 'insufficient':
+      return 'too few stars for verdict';
+    default:
+      return 'scoring in progress…';
   }
+}
 
+function previewCardHtml(r, score) {
+  const bucket = score ? verdictBucket(score) : 'unscored';
+  const today = r.todayStars ? `+${fmt(r.todayStars)} today` : '';
   return `
-    <a class="cert" href="${ghUrl(r.repo)}" target="_blank" rel="noopener">
-      <div class="cert-head">
+    <a class="trend-card verdict-${bucket}" href="${ghUrl(r.repo)}" target="_blank" rel="noopener">
+      <div class="card-head">
         <p class="repo">${r.repo}</p>
-        <p class="today">${todayStr}</p>
+        <p class="today">${today}</p>
       </div>
-      ${stamp}
-      <div class="cert-meta">
-        ${lang}
+      <div class="verdict-row">
+        <span class="verdict-dot"></span>
+        <span class="verdict-text">${verdictLabel(bucket, score)}</span>
+      </div>
+      <div class="card-foot">
+        <span>${r.language ?? ''}</span>
         <span>github.com/trending</span>
       </div>
     </a>
   `;
 }
 
-function renderTrending() {
-  const grid = $('#trendingGrid');
+function renderTrendingPreview() {
+  const grid = $('#previewGrid');
+  if (!grid) return;
   if (!TRENDING) {
-    grid.innerHTML = `<p class="snapshot-warning">Trending data unavailable.</p>`;
+    grid.innerHTML = `<p class="meta">Trending data unavailable.</p>`;
     return;
   }
-  const rows = TRENDING[trendingPeriod] || [];
-  if (rows.length === 0) {
-    grid.innerHTML = `<p class="snapshot-warning">No trending repos this period.</p>`;
-    return;
-  }
-  grid.innerHTML = rows.map((r) => certHtml(r, trendingPeriod)).join('');
-}
 
-function wireTrendingTabs() {
-  const tabs = document.querySelectorAll('#trendingTabs .tab');
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      tabs.forEach((t) => t.classList.remove('active'));
-      tab.classList.add('active');
-      trendingPeriod = tab.dataset.period;
-      renderTrending();
-    });
+  // Pull daily + weekly + monthly, dedup, attach scores
+  const allTrending = [];
+  const seen = new Set();
+  for (const period of ['daily', 'weekly', 'monthly']) {
+    for (const r of TRENDING[period] ?? []) {
+      const key = r.repo.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      allTrending.push(r);
+    }
+  }
+
+  const scored = SCORED?.scores ?? {};
+  const enriched = allTrending.map((r) => ({
+    ...r,
+    score: scored[r.repo.toLowerCase()] ?? null,
+  }));
+
+  // Rank: scored with verdicts first (by fakePercent desc), then unscored, then insufficient
+  enriched.sort((a, b) => {
+    const sa = a.score,
+      sb = b.score;
+    const pa = sa && !sa.insufficientData ? sa.fakePercent : -1;
+    const pb = sb && !sb.insufficientData ? sb.fakePercent : -1;
+    return pb - pa;
   });
+
+  const top = enriched.slice(0, 6);
+  if (top.length === 0) {
+    grid.innerHTML = `<p class="meta">No trending data.</p>`;
+    return;
+  }
+  grid.innerHTML = top.map((r) => previewCardHtml(r, r.score)).join('');
 }
 
 // ─────────── SEARCH TABLE ───────────
