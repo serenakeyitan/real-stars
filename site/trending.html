@@ -35,12 +35,14 @@
           Every trending repo, scored for bought stars.
         </h1>
         <p class="lede">
-          GitHub Trending tells you what's rising. We tell you whether the rise is real. Each
-          repository on this page has been analyzed by the real-stars algorithm — the same
-          per-stargazer scoring the Chrome extension runs live.
+          GitHub Trending tells you what's rising. We tell you whether the rise is real. The
+          right rail shows the real-stars verdict — the same per-stargazer algorithm the Chrome
+          extension runs live.
         </p>
         <p class="meta-line">
           <span id="scoredAt">scored …</span> ·
+          <a href="https://github.com/trending" target="_blank" rel="noopener">original on github.com</a>
+          ·
           <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
             >how this works</a
           >
@@ -49,24 +51,20 @@
     </header>
 
     <main>
-      <section id="trendingSection" class="container">
-        <div class="section-head">
-          <div class="tabs" id="trendingTabs">
-            <button class="tab active" data-period="daily">Today</button>
-            <button class="tab" data-period="weekly">This week</button>
-            <button class="tab" data-period="monthly">This month</button>
+      <section id="trendingSection">
+        <div class="container">
+          <div class="trending-toolbar">
+            <div class="tabs" id="trendingTabs">
+              <button class="tab active" data-period="daily">Today</button>
+              <button class="tab" data-period="weekly">This week</button>
+              <button class="tab" data-period="monthly">This month</button>
+            </div>
           </div>
-          <p class="section-sub" id="periodNote">
-            Today's top trending repos from
-            <a href="https://github.com/trending" target="_blank" rel="noopener">github.com/trending</a>,
-            ranked as GitHub ranks them.
-          </p>
+          <div id="trendingList" class="trending-list"></div>
+          <p class="snapshot-warning" id="snapshotWarning"></p>
         </div>
-        <div id="trendingGrid" class="trending-grid"></div>
-        <p class="snapshot-warning" id="snapshotWarning"></p>
       </section>
 
-      <!-- METHODOLOGY -->
       <section id="how" class="container">
         <div class="section-head">
           <h2>How the verdicts work</h2>
@@ -100,22 +98,6 @@
           </div>
         </div>
       </section>
-
-      <section id="extension" class="container">
-        <div class="ext-box">
-          <h2>Run this live on any repo</h2>
-          <p>
-            This page refreshes every six hours. For an on-demand verdict on any repository,
-            <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
-              >install the Chrome extension</a
-            >. The same algorithm runs on every GitHub page you visit.
-          </p>
-          <div class="ext-preview">
-            <code class="badge-demo good">184k real · 99%</code>
-            <code class="badge-demo bad">1.2k real · 17%</code>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer>
@@ -132,8 +114,7 @@
           Inspired by
           <a href="https://github.com/Glup3/trendingrepos" target="_blank" rel="noopener"
             >glup3/trendingrepos</a
-          >
-          for the leaderboard idea — but we score, not rank.
+          >.
         </p>
       </div>
     </footer>

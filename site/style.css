@@ -437,145 +437,255 @@ h2 {
   max-width: 720px;
 }
 
-/* ─────────── TRENDING-PAGE VERDICT CARDS ─────────── */
-.trending-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 12px;
-}
+/* ─────────── TRENDING LEADERBOARD (GitHub-trending-style rows) ───────────
+   Visual reference: github.com/trending (row layout, dark theme).
+   We keep our own palette (Source Serif headlines, JetBrains Mono for
+   repo paths) and replace GitHub's right-rail "+N stars today" with our
+   verdict badge. */
 
-.trend-card {
+.trending-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 16px 18px;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  position: relative;
-  transition: border-color 0.12s, background 0.12s;
+  border-radius: 6px 6px 0 0;
+  border-bottom: none;
 }
 
-.trend-card:hover {
-  border-color: var(--fg-dim);
+.trending-list {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+}
+
+.trending-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px;
+  border-top: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.12s;
+}
+
+.trending-row:first-child {
+  border-top: none;
+}
+
+.trending-row:hover {
   background: var(--bg-soft);
   text-decoration: none;
 }
 
-/* Verdict bucket → left-edge color band */
-.trend-card.verdict-high {
-  border-left: 3px solid var(--red-bright);
-}
-.trend-card.verdict-medium {
-  border-left: 3px solid #d29922;
-}
-.trend-card.verdict-mild {
-  border-left: 3px solid #58a6ff;
-}
-.trend-card.verdict-low {
-  border-left: 3px solid #3fb950;
-}
-.trend-card.verdict-insufficient {
-  border-left: 3px solid var(--fg-dim);
-}
-.trend-card.verdict-unscored {
-  border-left: 3px solid var(--border);
-}
-
-.trend-card .card-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 14px;
-}
-
-.trend-card .repo {
+/* Left column: rank number */
+.row-rank {
   font-family: var(--mono);
-  font-weight: 500;
   font-size: 14px;
-  color: var(--fg);
-  word-break: break-all;
-  line-height: 1.4;
-  margin: 0;
-}
-
-.trend-card .today {
-  font-family: var(--mono);
-  font-size: 11px;
   color: var(--fg-dim);
-  white-space: nowrap;
-  margin: 0;
+  width: 28px;
+  flex-shrink: 0;
+  padding-top: 2px;
+  text-align: right;
 }
 
-/* Verdict line: colored dot + plain label */
-.verdict-row {
+/* Middle column: title + description + meta footer */
+.row-body {
+  flex: 1;
+  min-width: 0; /* allow text truncation */
+}
+
+.row-title {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--fg);
+  gap: 8px;
+  margin: 0 0 6px;
 }
 
-.verdict-dot {
+.row-title .repo-icon {
+  color: var(--fg-mute);
+  flex-shrink: 0;
+}
+
+.row-title .owner {
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--fg-mute);
+  font-weight: 400;
+}
+
+.row-title .slash {
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--fg-mute);
+  font-weight: 400;
+}
+
+.row-title .name {
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--red-bright);
+  font-weight: 600;
+}
+
+.trending-row:hover .row-title .name {
+  text-decoration: underline;
+}
+
+.row-description {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--fg-mute);
+  margin: 0 0 12px;
+  line-height: 1.45;
+  /* allow up to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.row-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--fg-mute);
+}
+
+.row-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.row-meta-item svg {
+  flex-shrink: 0;
+}
+
+.language-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.built-by {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.built-by-label {
+  color: var(--fg-dim);
+}
+
+.avatar-stack {
+  display: inline-flex;
+  align-items: center;
+}
+
+.avatar-stack img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--bg);
+  margin-left: -4px;
+}
+
+.avatar-stack img:first-child {
+  margin-left: 0;
+}
+
+/* Right column: verdict + today's stars */
+.row-verdict {
+  width: 180px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  padding-top: 2px;
+}
+
+.verdict-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 16px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.verdict-badge .verdict-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.verdict-high .verdict-dot {
+.verdict-badge.verdict-high {
+  color: var(--red-bright);
+  border-color: rgba(248, 81, 73, 0.4);
+  background: var(--red-soft);
+}
+.verdict-badge.verdict-high .verdict-dot {
   background: var(--red-bright);
-  box-shadow: 0 0 0 3px rgba(248, 81, 73, 0.18);
 }
-.verdict-medium .verdict-dot {
+
+.verdict-badge.verdict-medium {
+  color: #d29922;
+  border-color: rgba(210, 153, 34, 0.4);
+  background: rgba(210, 153, 34, 0.1);
+}
+.verdict-badge.verdict-medium .verdict-dot {
   background: #d29922;
-  box-shadow: 0 0 0 3px rgba(210, 153, 34, 0.18);
 }
-.verdict-mild .verdict-dot {
+
+.verdict-badge.verdict-mild {
+  color: #58a6ff;
+  border-color: rgba(88, 166, 255, 0.4);
+  background: rgba(88, 166, 255, 0.08);
+}
+.verdict-badge.verdict-mild .verdict-dot {
   background: #58a6ff;
 }
-.verdict-low .verdict-dot {
+
+.verdict-badge.verdict-low {
+  color: #3fb950;
+  border-color: rgba(63, 185, 80, 0.4);
+  background: rgba(63, 185, 80, 0.08);
+}
+.verdict-badge.verdict-low .verdict-dot {
   background: #3fb950;
 }
-.verdict-insufficient .verdict-dot {
+
+.verdict-badge.verdict-insufficient,
+.verdict-badge.verdict-unscored {
+  color: var(--fg-dim);
+}
+.verdict-badge.verdict-insufficient .verdict-dot,
+.verdict-badge.verdict-unscored .verdict-dot {
   background: var(--fg-dim);
 }
-.verdict-unscored .verdict-dot {
-  background: var(--border);
-}
 
-.verdict-text {
-  flex: 1;
-}
-
-.verdict-high .verdict-text {
-  color: var(--red-bright);
-  font-weight: 500;
-}
-.verdict-medium .verdict-text {
-  color: #d29922;
-  font-weight: 500;
-}
-
-.trend-card .card-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--fg-mute);
-  padding: 8px 0;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-.trend-card .card-foot {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--mono);
-  font-size: 11px;
+.row-today {
+  font-family: var(--sans);
+  font-size: 12px;
   color: var(--fg-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* ─────────── HOW (algorithm) ─────────── */
