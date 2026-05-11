@@ -636,6 +636,15 @@ td a:hover {
   margin: 0;
 }
 
+.site-footer p + p {
+  margin-top: 4px;
+}
+
+.site-footer .footer-author {
+  color: var(--fg-dim);
+  font-size: 11px;
+}
+
 .site-footer a {
   color: var(--fg-mute);
 }
