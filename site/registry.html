@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registry — real-stars</title>
+    <meta
+      name="description"
+      content="13,499 GitHub repositories caught buying stars, from the ICSE 2026 StarScout paper. Searchable, sortable."
+    />
+    <meta property="og:title" content="real-stars — Registry" />
+    <meta
+      property="og:description"
+      content="13,499 GitHub repos caught buying stars. Per the ICSE 2026 StarScout paper."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a href="/" class="brand">
+          <img src="/favicon-32.png" alt="" width="20" height="20" />
+          <span>real-stars</span>
+        </a>
+        <nav class="topnav">
+          <a href="/" class="nav-link">Trending</a>
+          <a href="/registry.html" class="nav-link active">Registry</a>
+          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener" class="nav-link">Extension</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="container">
+        <div class="page-head">
+          <h1><strong id="totalCount">13,499</strong> repositories caught buying stars</h1>
+          <p class="page-sub">
+            Snapshot from <time>2025-01-01</time>, per the
+            <a href="https://arxiv.org/abs/2412.13459" target="_blank" rel="noopener">ICSE 2026 StarScout paper</a>.
+            Top 30 ranked by <code>log₁₀(stars) × bought stars</code>.
+          </p>
+        </div>
+
+        <div id="tombstones" class="tombstone-grid"></div>
+
+        <div class="page-head" style="margin-top: 48px;">
+          <h2>Search all <span id="totalInTable">13,499</span></h2>
+        </div>
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="huggingface, langchain, supabase…"
+          autocomplete="off"
+        />
+        <div class="table-wrapper">
+          <table id="fullTable">
+            <thead>
+              <tr>
+                <th data-sort="repo">Repository</th>
+                <th data-sort="totalStars" class="num">Stars</th>
+                <th data-sort="fakeStars" class="num">Bought</th>
+                <th data-sort="fakePercent" class="num">%</th>
+                <th data-sort="shameScore" class="num">Shame</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+        <p id="tableFooter" class="meta">showing <span id="shownCount">0</span> repos</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>
+          Data:
+          <a href="https://github.com/hehao98/StarScout" target="_blank" rel="noopener">StarScout</a>
+          (ICSE 2026, Apache-2.0).
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/registry.js"></script>
+  </body>
+</html>

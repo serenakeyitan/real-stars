@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GitHub Hall of Shame — repos caught buying stars</title>
+    <title>real-stars — GitHub Trending, scored for bought stars</title>
     <meta
       name="description"
-      content="13,499 GitHub repositories statistically caught buying stars, per the ICSE 2026 StarScout paper. Ranked, searchable, and cross-checked against today's trending repos."
+      content="Every repo on GitHub Trending, scored for bought stars by the real-stars algorithm. Updated every six hours."
     />
-    <meta property="og:title" content="GitHub Hall of Shame" />
+    <meta property="og:title" content="real-stars — GitHub Trending, scored" />
     <meta
       property="og:description"
-      content="13,499 GitHub repos caught buying stars, ranked by fame. Per the ICSE 2026 StarScout paper."
+      content="Every repo on GitHub Trending, scored for bought stars by the real-stars algorithm."
     />
     <meta property="og:type" content="website" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
@@ -20,158 +20,58 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
-    <header>
+    <header class="site-header">
       <div class="container">
+        <a href="/" class="brand">
+          <img src="/favicon-32.png" alt="" width="20" height="20" />
+          <span>real-stars</span>
+        </a>
         <nav class="topnav">
-          <a href="/" class="nav-link active">The Wall</a>
-          <a href="/trending.html" class="nav-link">Trending</a>
+          <a href="/" class="nav-link active">Trending</a>
+          <a href="/registry.html" class="nav-link">Registry</a>
+          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener" class="nav-link">Extension</a>
         </nav>
-        <p class="eyebrow">GitHub Hall of Shame</p>
-        <h1 class="display">
-          <strong id="totalCount">13,499</strong> repositories caught buying stars.
-        </h1>
-        <p class="lede">
-          A peer-reviewed registry from the ICSE 2026 StarScout paper. Ranked by fame, searchable,
-          and cross-checked against today's trending repos.
-        </p>
-        <p class="meta-line">
-          <a href="https://arxiv.org/abs/2412.13459" target="_blank" rel="noopener">Read the paper</a>
-          · snapshot <time>2025-01-01</time> ·
-          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
-            >Chrome extension for live checks</a
-          >
-        </p>
       </div>
     </header>
 
     <main>
-      <!-- TRENDING PREVIEW (links to /trending) -->
-      <section id="trendingPreview" class="container">
-        <div class="section-head section-head-row">
-          <div>
-            <h2>Trending now, scored</h2>
-            <p class="section-sub">
-              The trending repos with the most suspect star activity —
-              <a href="/trending.html">see the full leaderboard →</a>
-            </p>
-          </div>
-          <p class="freshness" id="previewFreshness"></p>
-        </div>
-        <div id="previewGrid" class="trending-grid"></div>
-      </section>
-
-      <!-- THE WALL — TOP 30 -->
-      <section id="theWall" class="wall-section">
+      <section id="trendingSection">
         <div class="container">
-          <div class="section-head">
-            <h2>The wall</h2>
-            <p class="section-sub">
-              The 30 repos with the most to answer for — ranked by
-              <code>log₁₀(stars) × bought stars</code>. Fame counts.
+          <div class="page-head">
+            <h1>Trending, scored</h1>
+            <p class="page-sub">
+              Every repo on
+              <a href="https://github.com/trending" target="_blank" rel="noopener">github.com/trending</a>,
+              scored for bought stars. Updated every six hours.
             </p>
           </div>
-          <div id="tombstones" class="tombstone-grid"></div>
-        </div>
-      </section>
-
-      <!-- HOW THEY WERE CAUGHT -->
-      <section id="how" class="container">
-        <div class="section-head">
-          <h2>How they were caught</h2>
-        </div>
-        <div class="how-grid">
-          <div class="how-card">
-            <p class="how-tag">heuristic 1</p>
-            <h3>Low activity</h3>
-            <p>
-              Accounts that starred this one repository and nothing else. The throwaway-account
-              fingerprint of cheap fake-star sellers.
-            </p>
+          <div class="trending-toolbar">
+            <div class="tabs" id="trendingTabs">
+              <button class="tab active" data-period="daily">Today</button>
+              <button class="tab" data-period="weekly">This week</button>
+              <button class="tab" data-period="monthly">This month</button>
+            </div>
+            <p class="freshness" id="leaderboardFreshness"></p>
           </div>
-          <div class="how-card">
-            <p class="how-tag">heuristic 2</p>
-            <h3>Lockstep</h3>
-            <p>
-              Groups of 50+ accounts that hit many repos together in tight time windows.
-              Sophisticated farm behavior, much harder to fake by hand.
-            </p>
-          </div>
-          <div class="how-card">
-            <p class="how-tag">validation</p>
-            <h3>90% later banned</h3>
-            <p>
-              GitHub's Trust &amp; Safety team has since deleted 90% of the accounts StarScout
-              flagged. The strongest external signal any detector has produced.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- FULL SEARCH -->
-      <section id="searchSection" class="container">
-        <div class="section-head">
-          <h2>Search all <span id="totalInTable">13,499</span></h2>
-          <p class="section-sub">Search by repo name. Click any column to sort.</p>
-        </div>
-        <input
-          type="search"
-          id="searchInput"
-          placeholder="huggingface, langchain, supabase…"
-          autocomplete="off"
-        />
-        <div class="table-wrapper">
-          <table id="fullTable">
-            <thead>
-              <tr>
-                <th data-sort="repo">Repository</th>
-                <th data-sort="totalStars" class="num">Stars</th>
-                <th data-sort="fakeStars" class="num">Bought</th>
-                <th data-sort="fakePercent" class="num">%</th>
-                <th data-sort="shameScore" class="num">Shame</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-          </table>
-        </div>
-        <p id="tableFooter" class="meta">showing <span id="shownCount">0</span> repos</p>
-      </section>
-
-      <!-- EXTENSION -->
-      <section id="extension" class="container">
-        <div class="ext-box">
-          <h2>Check any repo, live</h2>
-          <p>
-            This registry is a 2025-01-01 snapshot. For a live verdict on any repository,
-            <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
-              >install the Chrome extension</a
-            >. The same algorithm runs on every GitHub page you visit.
-          </p>
-          <div class="ext-preview">
-            <code class="badge-demo good">184k real · 99%</code>
-            <code class="badge-demo bad">1.2k real · 17%</code>
-          </div>
+          <div id="trendingList" class="trending-list"></div>
+          <p class="snapshot-warning" id="snapshotWarning"></p>
         </div>
       </section>
     </main>
 
-    <footer>
+    <footer class="site-footer">
       <div class="container">
         <p>
-          Data:
-          <a href="https://github.com/hehao98/StarScout" target="_blank" rel="noopener">StarScout</a>
-          (ICSE 2026, Apache-2.0). This page visualizes the published findings.
-        </p>
-        <p>
-          Shame score: <code>log₁₀(totalStars) × bought stars</code> ·
-          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener"
-            >github.com/serenakeyitan/real-stars</a
-          >
+          Scored by the
+          <a href="https://github.com/serenakeyitan/real-stars" target="_blank" rel="noopener">real-stars</a>
+          algorithm · trending list from
+          <a href="https://github.com/trending" target="_blank" rel="noopener">github.com/trending</a>.
         </p>
       </div>
     </footer>
