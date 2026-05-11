@@ -52,8 +52,10 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  *   3: StarScout lookup layer added (later removed for staleness reasons)
  *   4: per-user heuristics added — verdicts now incorporate live account
  *      analysis on burst stargazers (StarGuard's user-scoring approach)
+ *   5: USER_SAMPLE_SIZE 200 → 400 (±5% → ±3.5% binomial CI); cache TTL
+ *      7d → 30d. Results from v4 may differ enough on edge cases to mislead.
  */
-export const CACHE_SCHEMA_VERSION = 4;
+export const CACHE_SCHEMA_VERSION = 5;
 
 /**
  * GitHub OAuth App Client ID. Sourced from build-time env so dev and prod

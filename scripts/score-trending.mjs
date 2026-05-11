@@ -31,7 +31,10 @@ const REPO_ROOT = resolve(__dirname, '..');
 const TRENDING_PATH = resolve(REPO_ROOT, 'site/data/trending.json');
 const SCORED_PATH = resolve(REPO_ROOT, 'site/data/trending-scored.json');
 
-const SCORE_TTL_HOURS = 24; // a repo's score is valid for 24h before re-scoring
+// 12h TTL aligns refresh cadence with our "updated every six hours" promise:
+// every other cron re-scores any given repo, so on average a verdict you see
+// is ≤9h old (was up to 24h+). Cache-warm runs make this affordable.
+const SCORE_TTL_HOURS = 12;
 const MAX_API_BUDGET = 4500; // soft cap per run — leaves buffer under 5000/hr
 
 const token = process.env.GITHUB_TOKEN;
