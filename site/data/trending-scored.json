@@ -1,0 +1,226 @@
+{
+  "scoredAt": "2026-05-11T00:03:51.709Z",
+  "ttlHours": 24,
+  "totalScored": 7,
+  "cacheSize": 4267,
+  "scores": {
+    "bytedance/ui-tars-desktop": {
+      "repo": "bytedance/UI-TARS-desktop",
+      "totalStars": 32075,
+      "analyzedStars": 4975,
+      "fakePercent": 9.5,
+      "riskLevel": "low",
+      "suspiciousStars": 473,
+      "realStars": 29028,
+      "insufficientData": false,
+      "bursts": 2,
+      "validatedBursts": 2,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.095,
+      "burstVerdicts": [
+        {
+          "startDate": "2026-02-08",
+          "endDate": "2026-03-07",
+          "stars": 1297,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.07
+        },
+        {
+          "startDate": "2026-05-07",
+          "endDate": "2026-05-10",
+          "stars": 2482,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.1
+        }
+      ],
+      "warning": null,
+      "scoredAt": 1778457592536
+    },
+    "anthropics/financial-services": {
+      "repo": "anthropics/financial-services",
+      "totalStars": 18759,
+      "analyzedStars": 4958,
+      "fakePercent": 17.5,
+      "riskLevel": "medium",
+      "suspiciousStars": 868,
+      "realStars": 15476,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.175,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1778457611647
+    },
+    "addyosmani/agent-skills": {
+      "repo": "addyosmani/agent-skills",
+      "totalStars": 38372,
+      "analyzedStars": 4971,
+      "fakePercent": 12,
+      "riskLevel": "medium",
+      "suspiciousStars": 597,
+      "realStars": 33767,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.12,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1778457634034
+    },
+    "cloakhq/cloakbrowser": {
+      "repo": "CloakHQ/CloakBrowser",
+      "totalStars": 4666,
+      "analyzedStars": 4666,
+      "fakePercent": 7.5,
+      "riskLevel": "low",
+      "suspiciousStars": 350,
+      "realStars": 4316,
+      "insufficientData": false,
+      "bursts": 5,
+      "validatedBursts": 5,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.075,
+      "burstVerdicts": [
+        {
+          "startDate": "2026-02-23",
+          "endDate": "2026-03-07",
+          "stars": 198,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.06060606060606061
+        },
+        {
+          "startDate": "2026-03-09",
+          "endDate": "2026-03-22",
+          "stars": 631,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.06
+        },
+        {
+          "startDate": "2026-03-24",
+          "endDate": "2026-03-24",
+          "stars": 52,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.038461538461538464
+        },
+        {
+          "startDate": "2026-03-26",
+          "endDate": "2026-03-26",
+          "stars": 62,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.08064516129032258
+        },
+        {
+          "startDate": "2026-05-04",
+          "endDate": "2026-05-10",
+          "stars": 3149,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.055
+        }
+      ],
+      "warning": null,
+      "scoredAt": 1778457674761
+    },
+    "hkuds/ai-trader": {
+      "repo": "HKUDS/AI-Trader",
+      "totalStars": 15522,
+      "analyzedStars": 4922,
+      "fakePercent": 9,
+      "riskLevel": "low",
+      "suspiciousStars": 443,
+      "realStars": 14125,
+      "insufficientData": false,
+      "bursts": 5,
+      "validatedBursts": 5,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.09,
+      "burstVerdicts": [
+        {
+          "startDate": "2026-01-18",
+          "endDate": "2026-02-14",
+          "stars": 443,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0.105
+        },
+        {
+          "startDate": "2026-02-16",
+          "endDate": "2026-02-16",
+          "stars": 113,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.008849557522123894
+        },
+        {
+          "startDate": "2026-03-12",
+          "endDate": "2026-03-12",
+          "stars": 33,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-04-07",
+          "endDate": "2026-04-13",
+          "stars": 1125,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0.115
+        },
+        {
+          "startDate": "2026-05-07",
+          "endDate": "2026-05-10",
+          "stars": 1510,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0.18
+        }
+      ],
+      "warning": null,
+      "scoredAt": 1778457729089
+    },
+    "jundot/omlx": {
+      "repo": "jundot/omlx",
+      "totalStars": 13268,
+      "analyzedStars": 4969,
+      "fakePercent": 9.5,
+      "riskLevel": "low",
+      "suspiciousStars": 472,
+      "realStars": 12008,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.095,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1778457754252
+    },
+    "datawhalechina/easy-vibe": {
+      "repo": "datawhalechina/easy-vibe",
+      "totalStars": 9121,
+      "analyzedStars": 4921,
+      "fakePercent": 14.5,
+      "riskLevel": "medium",
+      "suspiciousStars": 714,
+      "realStars": 7798,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.145,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1778457777211
+    }
+  }
+}
