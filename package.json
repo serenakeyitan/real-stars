@@ -9,8 +9,9 @@
     "pnpm": ">=9.0.0"
   },
   "scripts": {
-    "build": "vite build",
-    "dev": "vite build --watch",
+    "build": "vite build --mode production",
+    "build:dev": "vite build --mode development",
+    "dev": "vite build --watch --mode development",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

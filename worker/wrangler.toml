@@ -2,8 +2,24 @@ name = "real-stars-oauth"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
 
-# Set secrets with: wrangler secret put GITHUB_CLIENT_ID
-#                   wrangler secret put GITHUB_CLIENT_SECRET
-# (Optional) Tighten allowlist after first install:
-#                   wrangler secret put ALLOWED_ORIGINS
-#                   value: chrome-extension://your-real-extension-id
+# Default = production. Two separate Workers — one per OAuth app — so a leaked
+# dev secret can never affect Web Store users.
+#
+# Deploy:
+#   pnpm wrangler deploy                     # → real-stars-oauth (prod)
+#   pnpm wrangler deploy --env dev           # → real-stars-oauth-dev
+#
+# Set secrets per env:
+#   pnpm wrangler secret put GITHUB_CLIENT_ID
+#   pnpm wrangler secret put GITHUB_CLIENT_SECRET
+#   pnpm wrangler secret put GITHUB_CLIENT_ID --env dev
+#   pnpm wrangler secret put GITHUB_CLIENT_SECRET --env dev
+#
+# (Optional) Tighten origin allowlist once each extension ID is known:
+#   pnpm wrangler secret put ALLOWED_ORIGINS
+#     value: chrome-extension://your-prod-extension-id
+#   pnpm wrangler secret put ALLOWED_ORIGINS --env dev
+#     value: chrome-extension://your-dev-extension-id
+
+[env.dev]
+name = "real-stars-oauth-dev"
