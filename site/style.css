@@ -437,6 +437,68 @@ h2 {
   max-width: 720px;
 }
 
+/* ─────────── HOMEPAGE PREVIEW CARDS ───────────
+   The 6-card preview on / that links to /trending. Compact card with the
+   same verdict-badge as the leaderboard. */
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+.trend-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 18px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: border-color 0.12s, background 0.12s;
+}
+
+.trend-card:hover {
+  border-color: var(--fg-dim);
+  background: var(--bg-soft);
+  text-decoration: none;
+}
+
+.trend-card .card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.trend-card .repo {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--fg);
+  word-break: break-all;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.trend-card .today {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-dim);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.trend-card .card-foot {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--fg-dim);
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
 /* ─────────── TRENDING LEADERBOARD (GitHub-trending-style rows) ───────────
    Visual reference: github.com/trending (row layout, dark theme).
    We keep our own palette (Source Serif headlines, JetBrains Mono for
@@ -614,69 +676,55 @@ h2 {
   padding-top: 2px;
 }
 
+/* Verdict badge — extension-style: "15.4k real (82%)" with a warning icon.
+   Sized to be the eye-catching element of the row (this is a dashboard,
+   not a 16px browser badge). Monospace numbers stay aligned across rows. */
 .verdict-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 16px;
-  font-family: var(--sans);
-  font-size: 12px;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 13px;
   font-weight: 500;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   background: var(--bg);
+  white-space: nowrap;
 }
 
-.verdict-badge .verdict-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.verdict-icon {
   flex-shrink: 0;
 }
 
 .verdict-badge.verdict-high {
   color: var(--red-bright);
-  border-color: rgba(248, 81, 73, 0.4);
+  border-color: rgba(248, 81, 73, 0.5);
   background: var(--red-soft);
-}
-.verdict-badge.verdict-high .verdict-dot {
-  background: var(--red-bright);
 }
 
 .verdict-badge.verdict-medium {
   color: #d29922;
-  border-color: rgba(210, 153, 34, 0.4);
-  background: rgba(210, 153, 34, 0.1);
-}
-.verdict-badge.verdict-medium .verdict-dot {
-  background: #d29922;
+  border-color: rgba(210, 153, 34, 0.5);
+  background: rgba(210, 153, 34, 0.08);
 }
 
 .verdict-badge.verdict-mild {
-  color: #58a6ff;
-  border-color: rgba(88, 166, 255, 0.4);
-  background: rgba(88, 166, 255, 0.08);
-}
-.verdict-badge.verdict-mild .verdict-dot {
-  background: #58a6ff;
+  color: #d29922;
+  border-color: rgba(210, 153, 34, 0.4);
+  background: rgba(210, 153, 34, 0.06);
 }
 
 .verdict-badge.verdict-low {
   color: #3fb950;
-  border-color: rgba(63, 185, 80, 0.4);
+  border-color: rgba(63, 185, 80, 0.5);
   background: rgba(63, 185, 80, 0.08);
-}
-.verdict-badge.verdict-low .verdict-dot {
-  background: #3fb950;
 }
 
 .verdict-badge.verdict-insufficient,
 .verdict-badge.verdict-unscored {
   color: var(--fg-dim);
-}
-.verdict-badge.verdict-insufficient .verdict-dot,
-.verdict-badge.verdict-unscored .verdict-dot {
-  background: var(--fg-dim);
+  border-color: var(--border);
 }
 
 .row-today {

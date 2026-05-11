@@ -58,6 +58,14 @@ function renderTombstones(rows) {
 }
 
 // ─────────── TRENDING PREVIEW (top 6 most suspect) ───────────
+function fmtCompact(n) {
+  if (n == null) return '—';
+  if (n < 1000) return String(n);
+  if (n < 100_000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  if (n < 1_000_000) return Math.round(n / 1000) + 'k';
+  return (n / 1_000_000).toFixed(1).replace(/\.0$/, '') + 'M';
+}
+
 function verdictBucket(score) {
   if (!score || score.insufficientData) return 'insufficient';
   const pct = score.fakePercent;
@@ -67,21 +75,20 @@ function verdictBucket(score) {
   return 'mild';
 }
 
+// "15.4k real (82%)" framing — matches the Chrome extension badge.
 function verdictLabel(bucket, score) {
-  switch (bucket) {
-    case 'high':
-      return `${score.fakePercent}% bought · likely fake`;
-    case 'medium':
-      return `${score.fakePercent}% bought · suspicious`;
-    case 'mild':
-      return `${score.fakePercent}% bought · borderline`;
-    case 'low':
-      return `${score.fakePercent}% bought · looks real`;
-    case 'insufficient':
-      return 'too few stars for verdict';
-    default:
-      return 'scoring in progress…';
-  }
+  if (bucket === 'unscored') return 'scoring…';
+  if (bucket === 'insufficient') return 'too small to verdict';
+  const real = score.realStars ?? Math.round(score.totalStars * (1 - score.fakePercent / 100));
+  const realPct = Math.round(100 - score.fakePercent);
+  return `${fmtCompact(real)} real (${realPct}%)`;
+}
+
+const ICON_WARN_SMALL = `<svg aria-hidden="true" height="12" viewBox="0 0 16 16" width="12"><path fill="currentColor" d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>`;
+const ICON_CHECK_SMALL = `<svg aria-hidden="true" height="12" viewBox="0 0 16 16" width="12"><path fill="currentColor" d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path></svg>`;
+
+function previewVerdictIcon(bucket) {
+  return bucket === 'low' ? ICON_CHECK_SMALL : ICON_WARN_SMALL;
 }
 
 function previewCardHtml(r, score) {
@@ -93,10 +100,10 @@ function previewCardHtml(r, score) {
         <p class="repo">${r.repo}</p>
         <p class="today">${today}</p>
       </div>
-      <div class="verdict-row">
-        <span class="verdict-dot"></span>
-        <span class="verdict-text">${verdictLabel(bucket, score)}</span>
-      </div>
+      <span class="verdict-badge verdict-${bucket}">
+        ${previewVerdictIcon(bucket)}
+        ${verdictLabel(bucket, score)}
+      </span>
       <div class="card-foot">
         <span>${r.language ?? ''}</span>
         <span>github.com/trending</span>
