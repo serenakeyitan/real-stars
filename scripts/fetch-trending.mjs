@@ -57,24 +57,70 @@ async function fetchTrending(url) {
 //   </span>
 function parseTrending(html) {
   const out = [];
-  // Repo URLs in trending pages are clean /owner/repo links inside the headline h2.
-  // We extract by walking each <article class="Box-row"> block.
   const blocks = html.split(/<article class="Box-row[^"]*">/);
   for (let i = 1; i < blocks.length; i++) {
     const block = blocks[i];
+
     // Headline link
     const linkMatch = block.match(/<h2[^>]*>\s*<a[^>]*href="\/([^"\/]+\/[^"\/?]+)"/);
     if (!linkMatch) continue;
     const repo = linkMatch[1].trim();
-    // Language (optional)
+
+    // Description (col-9 color-fg-muted block)
+    const descMatch = block.match(
+      /<p[^>]*class="col-9 color-fg-muted[^"]*"[^>]*>([\s\S]*?)<\/p>/,
+    );
+    const description = descMatch ? decodeHtml(descMatch[1]).trim() : null;
+
+    // Language + color
     const langMatch = block.match(/itemprop="programmingLanguage"[^>]*>([^<]+)</);
     const language = langMatch ? langMatch[1].trim() : null;
-    // Stars today / this week
-    const todayMatch = block.match(/([\d,]+)\s+stars\s+(?:today|this week)/);
+    const langColorMatch = block.match(
+      /repo-language-color[^>]*style="background-color:\s*(#[0-9a-fA-F]+)"/,
+    );
+    const languageColor = langColorMatch ? langColorMatch[1] : null;
+
+    // Total stars and forks
+    const starsMatch = block.match(/\/stargazers[^>]*>\s*<svg[^>]*>[\s\S]*?<\/svg>\s*([\d,]+)/);
+    const totalStars = starsMatch ? parseInt(starsMatch[1].replace(/,/g, ''), 10) : null;
+    const forksMatch = block.match(/\/forks[^>]*>\s*<svg[^>]*>[\s\S]*?<\/svg>\s*([\d,]+)/);
+    const forks = forksMatch ? parseInt(forksMatch[1].replace(/,/g, ''), 10) : null;
+
+    // Stars today / this week / this month
+    const todayMatch = block.match(/([\d,]+)\s+stars\s+(?:today|this week|this month)/);
     const todayStars = todayMatch ? parseInt(todayMatch[1].replace(/,/g, ''), 10) : null;
-    out.push({ repo, language, todayStars });
+
+    // Built-by avatars (top contributors GitHub surfaces, not just any contributor)
+    const builtBy = [];
+    const avatarRe =
+      /data-hovercard-type="user"[^>]*data-hovercard-url="\/users\/([^\/]+)\/hovercard"[^>]*href="\/([^"]+)"><img[^>]*src="([^"]+)"/g;
+    let am;
+    while ((am = avatarRe.exec(block)) !== null) {
+      builtBy.push({ login: am[1], avatar: decodeHtml(am[3]) });
+    }
+
+    out.push({
+      repo,
+      description,
+      language,
+      languageColor,
+      totalStars,
+      forks,
+      todayStars,
+      builtBy,
+    });
   }
   return out;
+}
+
+function decodeHtml(s) {
+  return s
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#x27;/g, "'");
 }
 
 console.error('[trending] loading dataset…');
