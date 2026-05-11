@@ -27,7 +27,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = resolve(__dirname, '..', 'artifacts', 'trending-diff');
 mkdirSync(OUT_DIR, { recursive: true });
 
-const LOCAL_URL = process.env.LOCAL_URL ?? 'http://localhost:4567/trending.html';
+const LOCAL_URL = process.env.LOCAL_URL ?? 'http://localhost:4567/';
 
 const browser = await chromium.launch();
 const ctx = await browser.newContext({
