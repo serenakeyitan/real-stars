@@ -27,6 +27,7 @@ const OUT_PATH = resolve(REPO_ROOT, 'site/data/trending.json');
 const TRENDING_URLS = {
   daily: 'https://github.com/trending?since=daily',
   weekly: 'https://github.com/trending?since=weekly',
+  monthly: 'https://github.com/trending?since=monthly',
 };
 
 async function fetchTrending(url) {
@@ -87,6 +88,7 @@ const result = {
   snapshotDate: dataset.snapshotDate,
   daily: [],
   weekly: [],
+  monthly: [],
 };
 
 for (const [period, url] of Object.entries(TRENDING_URLS)) {
@@ -118,9 +120,11 @@ writeFileSync(OUT_PATH, JSON.stringify(result, null, 2));
 const flagged = {
   daily: result.daily.filter((r) => r.inDataset).length,
   weekly: result.weekly.filter((r) => r.inDataset).length,
+  monthly: result.monthly.filter((r) => r.inDataset).length,
 };
 console.error(
   `[trending] wrote ${OUT_PATH}\n` +
-    `[trending]   daily:  ${result.daily.length} trending, ${flagged.daily} in dataset\n` +
-    `[trending]   weekly: ${result.weekly.length} trending, ${flagged.weekly} in dataset`,
+    `[trending]   daily:   ${result.daily.length} trending, ${flagged.daily} in dataset\n` +
+    `[trending]   weekly:  ${result.weekly.length} trending, ${flagged.weekly} in dataset\n` +
+    `[trending]   monthly: ${result.monthly.length} trending, ${flagged.monthly} in dataset`,
 );

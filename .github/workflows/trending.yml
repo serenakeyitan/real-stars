@@ -1,13 +1,18 @@
 name: refresh-trending
 
-# Scrape github.com/trending every 6 hours and cross-reference against the
-# StarScout dataset. Commits site/data/trending.json if it changed; the
-# Cloudflare Pages integration redeploys on push.
+# Every 6 hours:
+#   1. Scrape github.com/trending (Today/Week/Month)
+#   2. Score each repo with the full real-stars algorithm
+#   3. Commit + push trending.json + trending-scored.json
+# Cloudflare Pages auto-redeploys on push.
+#
+# The user-score cache is persisted in Actions cache (not git) — keeps
+# history slim while still amortizing API costs across runs.
 
 on:
   schedule:
     - cron: '17 */6 * * *' # 6-hourly at :17 (off-peak)
-  workflow_dispatch: # manual trigger from Actions tab
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,21 +20,38 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: fetch trending
+
+      - name: restore user-score cache
+        uses: actions/cache@v4
+        with:
+          path: scripts/.user-cache.json
+          key: user-cache-${{ github.run_id }}
+          restore-keys: |
+            user-cache-
+
+      - name: fetch trending (Today/Week/Month)
         run: node scripts/fetch-trending.mjs
-      - name: commit if changed
+
+      - name: score each trending repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/score-trending.mjs
+
+      - name: commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [[ -n "$(git status --porcelain site/data/trending.json)" ]]; then
-            git add site/data/trending.json
+          changed=$(git status --porcelain site/data/trending.json site/data/trending-scored.json)
+          if [[ -n "$changed" ]]; then
+            git add site/data/trending.json site/data/trending-scored.json
             git commit -m "data(trending): refresh $(date -u +%FT%TZ)"
             git push
           else
-            echo "no trending changes"
+            echo "no changes to commit"
           fi
