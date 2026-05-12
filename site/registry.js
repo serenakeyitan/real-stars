@@ -48,7 +48,8 @@ function renderTombstones(rows) {
 
 // ─────────── SEARCH TABLE ───────────
 function pctClass(pct) {
-  if (pct >= 30) return '';
+  // Mirror the dashboard verdict thresholds (20% red, 10% yellow, <10% muted).
+  if (pct >= 20) return '';
   if (pct >= 10) return 'medium';
   return 'low';
 }

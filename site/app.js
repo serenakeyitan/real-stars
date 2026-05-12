@@ -53,7 +53,10 @@ function verdictBucket(score) {
   if (!score) return 'unscored';
   if (score.insufficientData) return 'insufficient';
   const pct = score.fakePercent;
-  if (pct >= 30) return 'high';
+  // Thresholds tightened 2026-05-11 (was 30/10/5) — most trending repos
+  // cluster between 5–20% bought, so the 30% red threshold was empty in
+  // practice. 20% is the new "suspicious" line.
+  if (pct >= 20) return 'high';
   if (pct >= 10) return 'medium';
   if (pct < 5) return 'low';
   return 'mild';

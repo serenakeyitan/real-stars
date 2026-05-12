@@ -14,8 +14,10 @@ export const MIN_STAR_COUNT = 30;
 /** Fallback growth threshold (%) for tiny repos */
 export const MIN_STARS_GROWTH_PERCENT = 300;
 
-/** Burst classification thresholds for the simplified v1 score */
-export const RISK_HIGH_THRESHOLD = 0.3;
+/** Verdict bucket thresholds.
+ *  Tightened 2026-05-11 (was 0.3 → 0.2 for high) — most real-world repos
+ *  cluster between 5–20% bought, so 30% was empty in practice. */
+export const RISK_HIGH_THRESHOLD = 0.2;
 export const RISK_MEDIUM_THRESHOLD = 0.1;
 
 /** GitHub API */

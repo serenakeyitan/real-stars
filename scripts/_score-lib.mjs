@@ -44,7 +44,9 @@ export const MAD_THRESHOLD = 3.0 * 1.48;
 export const WINDOW_SIZE = 28;
 export const MIN_STAR_COUNT = 30;
 export const MIN_STARS_GROWTH_PERCENT = 300;
-export const RISK_HIGH_THRESHOLD = 0.3;
+// Tightened 2026-05-11 — 0.3 produced an empty "high" bucket on trending
+// data (real-world trending repos cluster 5–20% bought).
+export const RISK_HIGH_THRESHOLD = 0.2;
 export const RISK_MEDIUM_THRESHOLD = 0.1;
 
 // ─── file-system user cache ──────────────────────────────────────────────
