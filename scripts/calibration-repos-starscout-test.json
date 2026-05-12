@@ -1,0 +1,94 @@
+[
+  {
+    "repo": "HKUDS/LightRAG",
+    "expectedFakePercent": 69.3,
+    "expectedTotalStars": 10956,
+    "expectedBoughtStars": 7596,
+    "tier": "high",
+    "starscoutFlags": [
+      "low-activity",
+      "lockstep"
+    ]
+  },
+  {
+    "repo": "ComposioHQ/composio",
+    "expectedFakePercent": 44.8,
+    "expectedTotalStars": 15088,
+    "expectedBoughtStars": 6759,
+    "tier": "high",
+    "starscoutFlags": [
+      "low-activity",
+      "lockstep"
+    ]
+  },
+  {
+    "repo": "anoma/anoma",
+    "expectedFakePercent": 35.3,
+    "expectedTotalStars": 20854,
+    "expectedBoughtStars": 7362,
+    "tier": "high",
+    "starscoutFlags": [
+      "low-activity",
+      "lockstep"
+    ]
+  },
+  {
+    "repo": "subquery/subql",
+    "expectedFakePercent": 26.5,
+    "expectedTotalStars": 18559,
+    "expectedBoughtStars": 4915,
+    "tier": "mid",
+    "starscoutFlags": [
+      "low-activity"
+    ]
+  },
+  {
+    "repo": "sismo-core/sismo-protocol",
+    "expectedFakePercent": 25,
+    "expectedTotalStars": 19113,
+    "expectedBoughtStars": 4778,
+    "tier": "mid",
+    "starscoutFlags": [
+      "low-activity"
+    ]
+  },
+  {
+    "repo": "Cinnamon/kotaemon",
+    "expectedFakePercent": 24.6,
+    "expectedTotalStars": 17725,
+    "expectedBoughtStars": 4354,
+    "tier": "mid",
+    "starscoutFlags": [
+      "low-activity",
+      "lockstep"
+    ]
+  },
+  {
+    "repo": "skyline-emu/skyline",
+    "expectedFakePercent": 24.2,
+    "expectedTotalStars": 14627,
+    "expectedBoughtStars": 3542,
+    "tier": "mid",
+    "starscoutFlags": [
+      "low-activity"
+    ]
+  },
+  {
+    "repo": "torvalds/linux",
+    "expectedFakePercent": 1,
+    "reason": "Linux kernel",
+    "tier": "clean"
+  },
+  {
+    "repo": "microsoft/vscode",
+    "expectedFakePercent": 1.5,
+    "reason": "VS Code",
+    "tier": "clean"
+  },
+  {
+    "repo": "facebook/react",
+    "expectedFakePercent": 2,
+    "reason": "React",
+    "tier": "clean"
+  }
+]
