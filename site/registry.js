@@ -56,7 +56,7 @@ function pctClass(pct) {
 function tableRowHtml(r) {
   return `
     <tr>
-      <td><a href="${ghUrl(r.repo)}" target="_blank" rel="noopener">${r.repo}</a></td>
+      <td><a href="${ghUrl(r.repo)}" target="_blank" rel="noopener" title="${r.repo}">${r.repo}</a></td>
       <td class="num">${fmt(r.totalStars)}</td>
       <td class="num">${fmt(r.fakeStars)}</td>
       <td class="num pct-cell ${pctClass(r.fakePercent)}">${r.fakePercent}%</td>

@@ -79,6 +79,8 @@ a:hover {
   font-weight: 500;
   font-size: 14px;
   color: var(--fg);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .brand:hover {
   color: var(--fg);
@@ -260,6 +262,7 @@ a:hover {
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.12s;
+  white-space: nowrap;
 }
 .tab:hover {
   color: var(--fg);
@@ -738,5 +741,120 @@ td a:hover {
   }
   .tombstone .pct {
     font-size: 20px;
+  }
+}
+
+/* Phone widths: stack the row layout so the 180px verdict rail doesn't
+   collide with the repo title. Verdict + today's-stars drop below the
+   body as a left-aligned footer row. */
+@media (max-width: 560px) {
+  .container {
+    padding: 0 14px;
+  }
+
+  /* Site header: still side-by-side, but tighter gap and smaller nav */
+  .site-header .container {
+    gap: 8px;
+  }
+  .nav-link {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+  .nav-cta {
+    padding: 5px 10px;
+  }
+
+  /* Trending toolbar: tabs scroll horizontally if needed instead of wrapping */
+  .trending-toolbar {
+    padding: 10px 14px;
+    flex-wrap: wrap;
+  }
+  .tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    min-width: 0;
+  }
+  .freshness {
+    font-size: 11px;
+    flex: 1 1 100%;
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  /* Row: stack vertically, verdict + today drop below the body */
+  .trending-row {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px;
+  }
+  .row-rank {
+    width: 20px;
+    padding-top: 2px;
+  }
+  .row-body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .row-verdict {
+    width: 100%;
+    flex: 1 1 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding-top: 0;
+    padding-left: 28px; /* align under row-body (past the rank column) */
+  }
+  .row-today {
+    margin-left: auto;
+  }
+  .verdict-badge {
+    font-size: 11px;
+    padding: 3px 9px;
+  }
+
+  /* Smaller meta row: built-by avatars are big, hide them under 560px */
+  .built-by {
+    display: none;
+  }
+
+  /* Page head row stacks (icons under the headline) */
+  .page-head-row {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .page-head {
+    margin: 20px 0 14px;
+  }
+  .page-head h1 {
+    font-size: 22px;
+  }
+  .platform-icons {
+    padding-top: 0;
+  }
+
+  /* Search table on mobile:
+     • tighten cell padding
+     • hide the derived "Shame" column (redundant with %)
+     • cap Repository column to keep the numeric columns visible without
+       horizontal scroll; long names ellipsis with title-attribute tooltip */
+  th, td {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+  th:nth-child(5), td:nth-child(5) {
+    display: none;
+  }
+  th:first-child, td:first-child {
+    max-width: 170px;
+  }
+  td:first-child a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
   }
 }
