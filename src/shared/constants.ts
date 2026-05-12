@@ -56,8 +56,12 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  *      analysis on burst stargazers (StarGuard's user-scoring approach)
  *   5: USER_SAMPLE_SIZE 200 → 400 (±5% → ±3.5% binomial CI); cache TTL
  *      7d → 30d. Results from v4 may differ enough on edge cases to mislead.
+ *   6: REVERT — restored 200 / 7d after StarScout benchmark showed the
+ *      change moved verdicts by ≤2pp (no real signal, just variance).
+ *      Invalidates all v5 cached results so users see fresh 200-sample
+ *      verdicts on next visit.
  */
-export const CACHE_SCHEMA_VERSION = 5;
+export const CACHE_SCHEMA_VERSION = 6;
 
 /**
  * GitHub OAuth App Client ID. Sourced from build-time env so dev and prod
@@ -75,8 +79,21 @@ export const CACHE_SCHEMA_VERSION = 5;
  * Production code paths that actually use these values get a loud error
  * if they're missing.
  */
+// Safe accessor — works in both Vite (where import.meta.env is defined)
+// AND raw node (where it's undefined). Scripts like calibrate.ts and
+// _score-lib.mjs that import from src/shared/* shouldn't crash just
+// because they don't go through a Vite build.
+function envVar(name: string): string {
+  try {
+    const env = (import.meta as unknown as { env?: Record<string, string | undefined> }).env;
+    return env?.[name] ?? '';
+  } catch {
+    return '';
+  }
+}
+
 function requireEnv(name: 'VITE_GITHUB_CLIENT_ID' | 'VITE_OAUTH_EXCHANGE_URL'): string {
-  const v = import.meta.env[name];
+  const v = envVar(name);
   if (!v || v.includes('__DEV_CLIENT_ID__')) {
     throw new Error(
       `${name} is not set or still a placeholder. ` +
@@ -88,7 +105,7 @@ function requireEnv(name: 'VITE_GITHUB_CLIENT_ID' | 'VITE_OAUTH_EXCHANGE_URL'): 
   return v;
 }
 
-export const GITHUB_CLIENT_ID = (import.meta.env.VITE_GITHUB_CLIENT_ID ?? '') as string;
+export const GITHUB_CLIENT_ID = envVar('VITE_GITHUB_CLIENT_ID');
 
 /**
  * URL of the deployed Cloudflare Worker that exchanges OAuth codes for
@@ -96,7 +113,7 @@ export const GITHUB_CLIENT_ID = (import.meta.env.VITE_GITHUB_CLIENT_ID ?? '') as
  * separate dev worker holding the dev OAuth app's client_secret.
  * See worker/README.md.
  */
-export const OAUTH_EXCHANGE_URL = (import.meta.env.VITE_OAUTH_EXCHANGE_URL ?? '') as string;
+export const OAUTH_EXCHANGE_URL = envVar('VITE_OAUTH_EXCHANGE_URL');
 
 /**
  * Validate the env values are real (not placeholder/undefined). Call this

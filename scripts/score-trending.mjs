@@ -31,10 +31,10 @@ const REPO_ROOT = resolve(__dirname, '..');
 const TRENDING_PATH = resolve(REPO_ROOT, 'site/data/trending.json');
 const SCORED_PATH = resolve(REPO_ROOT, 'site/data/trending-scored.json');
 
-// 12h TTL aligns refresh cadence with our "updated every six hours" promise:
-// every other cron re-scores any given repo, so on average a verdict you see
-// is ≤9h old (was up to 24h+). Cache-warm runs make this affordable.
-const SCORE_TTL_HOURS = 12;
+// Reverted to 24h on 2026-05-12 alongside the n=400→200 revert. The 12h
+// TTL was paired with the doubled sample size; without that, 24h keeps
+// each run cheap and well within the 5000/hr rate limit.
+const SCORE_TTL_HOURS = 24;
 const MAX_API_BUDGET = 4500; // soft cap per run — leaves buffer under 5000/hr
 
 const token = process.env.GITHUB_TOKEN;

@@ -22,13 +22,16 @@ import { fileURLToPath } from 'node:url';
 import { detectBursts } from '../src/shared/mad';
 import { validateBurst } from '../src/shared/validation';
 import { fetchStargazers as fetchStargazersFromSrc } from '../src/background/github';
-import {
-  GITHUB_API_BASE,
-  DEFAULT_STARGAZER_LIMIT,
-  RISK_HIGH_THRESHOLD,
-  RISK_MEDIUM_THRESHOLD,
-} from '../src/shared/constants';
 import type { ForkPoint, ReferrerSnapshot } from '../src/shared/types';
+
+// Inline the algorithm constants we need (rather than import from
+// src/shared/constants.ts, which now reads import.meta.env and only works
+// inside a Vite build). These must stay in sync with constants.ts — they
+// rarely change, and the calibration report includes the values used.
+const GITHUB_API_BASE = 'https://api.github.com';
+const DEFAULT_STARGAZER_LIMIT = 5000;
+const RISK_HIGH_THRESHOLD = 0.2; // synced 2026-05-11
+const RISK_MEDIUM_THRESHOLD = 0.1;
 
 // Re-implement userScore inline for the calibration script — chrome.storage
 // caching from src/background/userScore.ts requires a chrome environment
@@ -36,7 +39,10 @@ import type { ForkPoint, ReferrerSnapshot } from '../src/shared/types';
 
 const USER_SUSPICIOUS_THRESHOLD = 4.0;
 const USER_FETCH_CONCURRENCY = 6;
-const USER_SAMPLE_SIZE = 200;
+// Synced to production — must match src/background/userScore.ts +
+// scripts/_score-lib.mjs. Drift here will give misleading calibration numbers.
+// Overridable via $USER_SAMPLE_SIZE env var for ad-hoc A/B testing.
+const USER_SAMPLE_SIZE = parseInt(process.env.USER_SAMPLE_SIZE ?? '200', 10);
 
 interface UserScoreLite {
   login: string;

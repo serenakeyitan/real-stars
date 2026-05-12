@@ -34,18 +34,22 @@ export const USER_SUSPICIOUS_THRESHOLD = 4.0;
 /**
  * Stargazers sampled per burst for per-user analysis.
  *
- * Statistically: sample of 400 with binomial proportion gives ±3.5% at 95%
- * confidence (was ±5% at 200). The tighter interval matters for edge-case
- * verdicts that sit near a bucket boundary (e.g. 10% / 30% fake thresholds).
+ * Statistically: sample of 200 with binomial proportion gives ±5% at 95%
+ * confidence — tight enough that "60% suspicious" reliably means the burst
+ * is dominated by throwaway accounts.
  *
- * Cost: 400 GitHub /users/{login} calls per burst, 30-day cached. 6-way
- * parallel → ~14s per burst. The 30-day TTL means real-world re-runs hit
- * cache for >95% of users (profiles barely change month-to-month), so
- * doubling sample size doesn't double API spend.
+ * Cost: 200 GitHub /users/{login} calls per burst, 7-day cached. 6-way
+ * parallel → ~7s per burst. A typical repo has 1-3 bursts so total user-
+ * analysis time is ~10-30s. Stays well under the 5000/hr rate limit.
+ *
+ * (Reverted from 400 / 30d on 2026-05-12 after benchmark vs StarScout
+ * showed the 200→400 change moved verdicts by ≤2 pp on the same repos
+ * — pure variance, not real signal. The structural gap with StarScout
+ * is the stargazer-window, not sample size.)
  */
-export const USER_SAMPLE_SIZE = 400;
+export const USER_SAMPLE_SIZE = 200;
 export const USER_FETCH_CONCURRENCY = 6;
-export const USER_CACHE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+export const USER_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const USER_CACHE_PREFIX = 'real-stars:user:';
 
 interface RawUser {

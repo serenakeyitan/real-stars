@@ -30,12 +30,13 @@ export const GITHUB_API_BASE = 'https://api.github.com';
 export const STARGAZERS_PER_PAGE = 100;
 export const DEFAULT_STARGAZER_LIMIT = 5000;
 export const MIN_STARS_FOR_VERDICT = 1000;
-// Statistically: 400 samples → ±3.5% at 95% binomial CI (was ±5% at 200).
-// Doubling the sample is cheap thanks to the 30-day cache (was 7d): in
-// steady state, >95% of users on trending repos are already cached.
-export const USER_SAMPLE_SIZE = 400;
+// Reverted 2026-05-12: bumping 200→400 + cache TTL 7d→30d moved verdicts
+// by ≤2 percentage points on the StarScout benchmark — pure variance, no
+// real signal. The structural gap (~50pp on repos like HKUDS/LightRAG) is
+// the stargazer-window, not the sample size.
+export const USER_SAMPLE_SIZE = 200;
 export const USER_FETCH_CONCURRENCY = 6;
-export const USER_CACHE_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+export const USER_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 export const USER_SUSPICIOUS_THRESHOLD = 4.0;
 export const STARGAZER_FETCH_CONCURRENCY = 6;
 
