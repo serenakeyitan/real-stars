@@ -183,6 +183,12 @@ a:hover {
   }
 }
 
+.page-sub strong {
+  color: var(--red-bright);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
 .page-head h1 strong {
   color: var(--red-bright);
   font-weight: 600;
@@ -695,6 +701,14 @@ td a:hover {
 
 .site-footer p + p {
   margin-top: 4px;
+}
+
+.site-footer .footer-brand {
+  font-weight: 600;
+  color: var(--fg-mute);
+  font-size: 13px;
+  margin-bottom: 8px;
+  letter-spacing: -0.005em;
 }
 
 .site-footer .footer-author {
