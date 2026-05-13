@@ -556,23 +556,93 @@ export async function scoreRepo(owner, repo, token, cache) {
     validation: validateBurst(b, forkSeries, []),
   }));
 
-  // BURST-ONLY algorithm (May 8 2026 shape). No per-user account
-  // analysis at all. See src/background/analyze.ts for the full
-  // rationale.
-  const validatedBursts = initialValidated;
+  // Global per-user sampling on the whole stargazer slice
+  const allUsers = stargazers.map((s) => s.username);
+  const globalSample = sampleUsers(allUsers, USER_SAMPLE_SIZE, `${owner}/${repo}`);
+  const globalScores = await scoreUsers(globalSample, token, cache);
+  const globalSuspCount = globalScores.filter((s) => s.suspicious).length;
+  const globalUserAnalysis = {
+    sampled: globalScores.length,
+    suspicious: globalSuspCount,
+    suspiciousRatio: globalScores.length > 0 ? globalSuspCount / globalScores.length : 0,
+    examples: globalScores
+      .filter((s) => s.suspicious)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10)
+      .map(({ login, score, reasons }) => ({ login, score, reasons })),
+  };
 
-  const suspiciousStars = validatedBursts
+  // Per-burst user analysis (reuses global cache)
+  const globalScoreByLogin = new Map(globalScores.map((s) => [s.login.toLowerCase(), s]));
+  const userAnalyses = new Map();
+  for (const b of initialValidated.filter((b) => b.users.length > 0)) {
+    const burstSample = sampleUsers(b.users, USER_SAMPLE_SIZE, b.startDate);
+    const fromCache = burstSample
+      .map((u) => globalScoreByLogin.get(u.toLowerCase()))
+      .filter((s) => s !== undefined);
+    const missing = burstSample.filter((u) => !globalScoreByLogin.has(u.toLowerCase()));
+    const fresh = await scoreUsers(missing, token, cache);
+    for (const s of fresh) globalScoreByLogin.set(s.login.toLowerCase(), s);
+    const allScores = [...fromCache, ...fresh];
+    const suspCount = allScores.filter((s) => s.suspicious).length;
+    userAnalyses.set(`${b.startDate}|${b.endDate}`, {
+      sampled: allScores.length,
+      suspicious: suspCount,
+      suspiciousRatio: allScores.length > 0 ? suspCount / allScores.length : 0,
+      examples: allScores
+        .filter((s) => s.suspicious)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10)
+        .map(({ login, score, reasons }) => ({ login, score, reasons })),
+    });
+  }
+
+  // Upgrade verdicts based on per-user evidence
+  const validatedBursts = initialValidated.map((b) => {
+    const ua = userAnalyses.get(`${b.startDate}|${b.endDate}`);
+    let upgraded = b.validation;
+    if (ua && ua.sampled >= 10) {
+      if (ua.suspiciousRatio >= 0.6) {
+        upgraded = { ...b.validation, verdict: 'fake', confidence: Math.max(b.validation.confidence, 0.85) };
+      } else if (ua.suspiciousRatio <= 0.1) {
+        upgraded = { ...b.validation, verdict: 'organic', confidence: Math.max(b.validation.confidence, 0.85) };
+      }
+    }
+    return { ...b, validation: upgraded, userAnalysis: ua };
+  });
+
+  // suspiciousStars = max(burst signal, global signal)
+  const burstSusp = validatedBursts
     .filter((b) => b.validation.verdict !== 'organic')
-    .reduce((sum, b) => sum + b.stars, 0);
+    .reduce((sum, b) => {
+      if (b.userAnalysis && b.userAnalysis.sampled >= 10) {
+        return sum + Math.round(b.stars * b.userAnalysis.suspiciousRatio);
+      }
+      return sum + b.stars;
+    }, 0);
 
+  const globalSusp =
+    globalUserAnalysis.sampled >= 10
+      ? Math.round(stargazers.length * globalUserAnalysis.suspiciousRatio)
+      : 0;
+  const suspiciousStars = Math.max(burstSusp, globalSusp);
+
+  // Same denominator rule as extension
   const fakePercent =
-    meta.stargazers_count > 0 ? (suspiciousStars / meta.stargazers_count) * 100 : 0;
+    globalUserAnalysis.sampled >= 10
+      ? globalUserAnalysis.suspiciousRatio * 100
+      : meta.stargazers_count > 0
+        ? (suspiciousStars / meta.stargazers_count) * 100
+        : 0;
 
   let riskLevel = 'low';
   if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
   else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
 
-  const realStars = Math.max(0, meta.stargazers_count - suspiciousStars);
+  const realStars =
+    globalUserAnalysis.sampled >= 10
+      ? Math.round(meta.stargazers_count * (1 - globalUserAnalysis.suspiciousRatio))
+      : Math.max(0, meta.stargazers_count - suspiciousStars);
 
   return {
     owner,
@@ -585,12 +655,18 @@ export async function scoreRepo(owner, repo, token, cache) {
     realStars,
     fakePercent: +fakePercent.toFixed(1),
     riskLevel,
+    globalUserAnalysis: {
+      sampled: globalUserAnalysis.sampled,
+      suspicious: globalUserAnalysis.suspicious,
+      suspiciousRatio: +globalUserAnalysis.suspiciousRatio.toFixed(3),
+    },
     burstVerdicts: validatedBursts.map((b) => ({
       startDate: b.startDate,
       endDate: b.endDate,
       stars: b.stars,
       verdict: b.validation.verdict,
       confidence: b.validation.confidence,
+      suspiciousRatio: b.userAnalysis?.suspiciousRatio ?? null,
     })),
     analyzedAt: Date.now(),
   };

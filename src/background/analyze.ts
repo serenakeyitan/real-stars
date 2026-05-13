@@ -7,6 +7,8 @@ import {
 import { detectBursts } from '@/shared/mad';
 import { validateBurst } from '@/shared/validation';
 import { getAuthToken } from './auth';
+import { scoreUsers, sampleUsers, USER_SAMPLE_SIZE } from './userScore';
+import type { UserScoreSummary } from '@/shared/types';
 import {
   CACHE_SCHEMA_VERSION,
   CACHE_TTL_MS,
@@ -149,41 +151,153 @@ export async function handleAnalyzeRepo(payload: {
       validation: validateBurst(b, forkSeries, referrers),
     }));
 
-    // BURST-ONLY algorithm (May 8 2026 shape).
+    // Per-user analysis on the WHOLE stargazer slice (not just bursts).
+    // This is the live equivalent of StarScout's low-activity heuristic —
+    // we look for throwaway-account fingerprints (new account, no
+    // followers, no repos, default avatar) across all stargazers.
     //
-    // We deliberately do NOT run per-user account analysis at all — not
-    // global, not per-burst. The per-user heuristic (account age, follower
-    // count, public repos, default avatar) was tried in two forms (commits
-    // f4ecfe5 + 59ba84a, May 9) and produced false positives on legitimate
-    // non-developer-audience repos. Curated lists, prompt collections, and
-    // AI-tool-for-product-people repos attract real stargazers whose
-    // profiles look profile-identical to bought-fake accounts: newly
-    // registered, no followers, no public repos, default avatar. Profile
-    // shape cannot reliably tell a real new user from a fake one.
+    // Critical: bought-star episodes that DON'T form a tight time-series
+    // burst (e.g. spread evenly over weeks) are invisible to MAD detection
+    // but very visible at the user-level — every account is empty.
+    // Sampling at the global level catches these. LupusLeaks/EasyFN is
+    // exactly this case: 92% of stargazers are completely empty accounts
+    // but only some form burst spikes.
     //
-    // Behavioral signals — when stars spiked, did forks spike too, did
-    // traffic referrers correlate — are much harder to fake and don't
-    // share that false-positive class. We rely on those.
-    //
-    // Tradeoff: misses "drip-fed" buying patterns where stars come in
-    // evenly with no time-spike. In practice these are rare — most
-    // bought-star services batch-deliver and leave a clear burst.
-    const validatedBursts: Array<Burst & { validation: CrossValidation }> = initialValidated;
+    // Cost: USER_SAMPLE_SIZE GitHub API calls (one per sampled stargazer),
+    // 7-day cached. ~7s with 6-way parallelism. We pay this once per repo
+    // analysis, not per burst.
+    const allUsers = stargazers.map((s) => s.username);
+    const globalSample = sampleUsers(allUsers, USER_SAMPLE_SIZE, `${owner}/${repo}`);
+    const globalScores = await scoreUsers(globalSample, token);
+    const globalSuspiciousCount = globalScores.filter((s) => s.suspicious).length;
+    const globalUserAnalysis: UserScoreSummary = {
+      sampled: globalScores.length,
+      suspicious: globalSuspiciousCount,
+      suspiciousRatio: globalScores.length > 0 ? globalSuspiciousCount / globalScores.length : 0,
+      examples: globalScores
+        .filter((s) => s.suspicious)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10)
+        .map(({ login, score, reasons }) => ({ login, score, reasons })),
+    };
 
-    const suspiciousStars = validatedBursts
+    // Per-burst analysis: re-use the global cache (those user scores are
+    // already in chrome.storage.local). For each burst, just look up which
+    // of its users we already scored and tally.
+    const globalScoreByLogin = new Map(globalScores.map((s) => [s.login.toLowerCase(), s]));
+    const userAnalyses = new Map<string, UserScoreSummary>();
+    for (const b of initialValidated.filter((b) => b.users.length > 0)) {
+      // Sample the burst's users and look them up in global; for users
+      // we haven't scored yet, fetch (cheap because cached if already
+      // scored elsewhere).
+      const burstSample = sampleUsers(b.users, USER_SAMPLE_SIZE, b.startDate);
+      const fromCache = burstSample
+        .map((u) => globalScoreByLogin.get(u.toLowerCase()))
+        .filter((s): s is NonNullable<typeof s> => s !== undefined);
+      const missing = burstSample.filter((u) => !globalScoreByLogin.has(u.toLowerCase()));
+      const fresh = await scoreUsers(missing, token);
+      for (const s of fresh) globalScoreByLogin.set(s.login.toLowerCase(), s);
+      const allScores = [...fromCache, ...fresh];
+      const suspiciousCount = allScores.filter((s) => s.suspicious).length;
+      const summary: UserScoreSummary = {
+        sampled: allScores.length,
+        suspicious: suspiciousCount,
+        suspiciousRatio: allScores.length > 0 ? suspiciousCount / allScores.length : 0,
+        examples: allScores
+          .filter((s) => s.suspicious)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 10)
+          .map(({ login, score, reasons }) => ({ login, score, reasons })),
+      };
+      userAnalyses.set(`${b.startDate}|${b.endDate}`, summary);
+    }
+
+    const validatedBursts: Array<
+      Burst & { validation: CrossValidation; userAnalysis?: UserScoreSummary }
+    > = initialValidated.map((b) => {
+      const ua = userAnalyses.get(`${b.startDate}|${b.endDate}`);
+      // Per-user data overrides the verdict in either direction:
+      //   ≥60% suspicious → 'fake' (strongest evidence we have)
+      //   ≤10% suspicious → 'organic' (real user spike, even if fork-ratio
+      //                                 was ambiguous)
+      let upgradedValidation = b.validation;
+      if (ua && ua.sampled >= 10) {
+        if (ua.suspiciousRatio >= 0.6) {
+          upgradedValidation = {
+            ...b.validation,
+            verdict: 'fake',
+            confidence: Math.max(b.validation.confidence, 0.85),
+          };
+        } else if (ua.suspiciousRatio <= 0.1) {
+          upgradedValidation = {
+            ...b.validation,
+            verdict: 'organic',
+            confidence: Math.max(b.validation.confidence, 0.85),
+          };
+        }
+      }
+      return { ...b, validation: upgradedValidation, userAnalysis: ua };
+    });
+
+    // The fake-star estimate has two signals:
+    //
+    //   (a) BURST signal: stars that fell inside a detected non-organic
+    //       burst, scaled by that burst's per-user ratio when known.
+    //   (b) GLOBAL signal: total_stars × global_user_suspicious_ratio.
+    //
+    // Take the MAX. A repo that buys "evenly" (no burst spike) but where
+    // 90% of stargazers are empty accounts deserves to be called out — the
+    // global signal catches this. A repo with a sharp burst of mostly real
+    // accounts but one bad cluster gets caught by the burst signal.
+    //
+    // Either signal alone misses cases the other catches; their max is the
+    // best lower-bound estimate of fake stars.
+    const burstSuspiciousStars = validatedBursts
       .filter((b) => b.validation.verdict !== 'organic')
-      .reduce((sum: number, b) => sum + b.stars, 0);
+      .reduce((sum: number, b) => {
+        if (b.userAnalysis && b.userAnalysis.sampled >= 10) {
+          return sum + Math.round(b.stars * b.userAnalysis.suspiciousRatio);
+        }
+        return sum + b.stars;
+      }, 0);
+
+    // Global signal: the global user-analysis is sampled from the analyzed
+    // slice (last 5000 stars), not the whole repo. So we apply the ratio
+    // to analyzedStars, not totalStars — gives a calibrated estimate that
+    // matches what we actually inspected.
+    const globalSuspiciousStars =
+      globalUserAnalysis.sampled >= 10
+        ? Math.round(stargazers.length * globalUserAnalysis.suspiciousRatio)
+        : 0;
+
+    const suspiciousStars = Math.max(burstSuspiciousStars, globalSuspiciousStars);
 
     const analyzedTotal = stargazers.length;
     const realStars = Math.max(0, meta.stargazers_count - suspiciousStars);
+    // Denominator: when we have a global per-user signal, we trust that
+    // ratio applies to the WHOLE repo (not just the analyzed slice). This
+    // is the StarScout-style assumption — fake-star contamination is
+    // usually a property of the repo's stargazer pool overall, not just a
+    // recent slice. When global analysis is unavailable, fall back to true
+    // total stars as the denominator (preserves the "vscode 0.8% fake"
+    // behavior when no bursts/users are flagged).
     const fakePercent =
-      meta.stargazers_count > 0 ? (suspiciousStars / meta.stargazers_count) * 100 : 0;
+      globalUserAnalysis.sampled >= 10
+        ? globalUserAnalysis.suspiciousRatio * 100
+        : meta.stargazers_count > 0
+          ? (suspiciousStars / meta.stargazers_count) * 100
+          : 0;
 
     let riskLevel: 'low' | 'medium' | 'high' = 'low';
     if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
     else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
 
-    const realStarsForDisplay = realStars;
+    // For the displayed `realStars`, use the global ratio applied to the
+    // TRUE repo total (so vscode shows "184k real" not "5k real").
+    const realStarsForDisplay =
+      globalUserAnalysis.sampled >= 10
+        ? Math.round(meta.stargazers_count * (1 - globalUserAnalysis.suspiciousRatio))
+        : realStars;
 
     const result: AnalysisResult = {
       owner,
@@ -196,6 +310,7 @@ export async function handleAnalyzeRepo(payload: {
       realStars: realStarsForDisplay,
       fakePercent,
       riskLevel,
+      globalUserAnalysis,
       analyzedAt: Date.now(),
       warning:
         analyzedTotal === DEFAULT_STARGAZER_LIMIT && meta.stargazers_count > DEFAULT_STARGAZER_LIMIT

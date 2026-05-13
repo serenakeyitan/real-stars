@@ -74,8 +74,17 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  *      can't distinguish real-new-users from bought-fake accounts;
  *      we rely entirely on behavioral signals (timing, forks,
  *      traffic) that are much harder to fake.
+ *   9: Restored dual-sampling algorithm (matches v0.2.3). Burst-only
+ *      from v8 caught 2 of ~18 StarScout-analyzable repos; dual
+ *      sampling catches 3+ including GaiaNet-AI/gaianet-node at 22.5%
+ *      vs StarScout 19.9%. The 1000-star confidence gate
+ *      (MIN_STARS_FOR_VERDICT) handles the small-repo small-sample
+ *      false-positive risk. Profile-shape false-positives on
+ *      non-dev-audience repos remain a known limitation — flagging
+ *      this in the extension copy instead of trying to algorithm
+ *      around it.
  */
-export const CACHE_SCHEMA_VERSION = 8;
+export const CACHE_SCHEMA_VERSION = 9;
 
 /**
  * GitHub OAuth App Client ID. Sourced from build-time env so dev and prod

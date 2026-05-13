@@ -4,6 +4,21 @@ All notable changes to real-stars are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.2.4] — 2026-05-13
+
+### Changed
+
+- **Algorithm: restored dual-sampling (matches v0.2.3 shipped behavior).**
+  Briefly reverted to a burst-only algorithm during a v0.2.3 false-positive
+  investigation. Benchmarking against 20 stratified StarScout repos showed
+  burst-only caught only ~2 of 18 analyzable repos while dual-sampling
+  caught 3+ including GaiaNet-AI/gaianet-node at 22.5% (matching
+  StarScout's published 19.9%). Dual-sampling's known false-positive class
+  on curated-list repos with non-developer audiences is documented as a
+  limitation rather than algorithmically fixed.
+- **Cache schema bumped to v9** to invalidate cached burst-only results.
+  Users will see fresh dual-sampling verdicts on next visit.
+
 ## [0.2.3] — 2026-05-12
 
 ### Changed
