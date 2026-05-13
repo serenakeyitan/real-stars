@@ -23,8 +23,8 @@
     "site:fetch-trending": "node scripts/fetch-trending.mjs",
     "site:dev": "cd site && python3 -m http.server 4567",
     "site:deploy": "cd worker && pnpm wrangler pages deploy ../site --project-name=real-stars-hall-of-shame --commit-dirty=true",
-    "calibrate": "tsx scripts/calibrate.ts",
-    "calibrate:build-seeds": "tsx scripts/build-starscout-seeds.ts"
+    "bench": "tsx scripts/bench-repo.ts",
+    "diagnose": "tsx scripts/diagnose-repo.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
