@@ -4,6 +4,27 @@ All notable changes to real-stars are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.2.3] — 2026-05-12
+
+### Changed
+
+- **Worker subdomain renamed** from `peer-claw.workers.dev` to
+  `serenatan.workers.dev`. The OAuth-exchange Worker now lives at
+  `https://real-stars-oauth.serenatan.workers.dev/exchange`. Updated:
+  `.env.production`, `.env.development`, `public/manifest.json`
+  (`host_permissions`), and the docs reference in `CHROME-WEB-STORE.md`.
+  Without this version bump installed users would lose sign-in capability
+  (Cloudflare returns errors on the old subdomain).
+
+## [0.2.2] — 2026-05-11
+
+### Changed
+
+- Brand identity polish (new gold-star icon across extension + website),
+  dashboard `/trending` and `/registry` pages went live, verdict pill
+  framing aligned with the extension badge ("X.Xk real (NN%)").
+  No algorithm changes — same v0.2.0 detection pipeline.
+
 ## [0.2.1] — 2026-05-09
 
 ### Fixed

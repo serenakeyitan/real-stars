@@ -134,7 +134,7 @@ and display the estimated real star count.
 - **identity**: chrome.identity.launchWebAuthFlow for the OAuth sign-in
 - **host: github.com**: content script injects the badge on repo pages
 - **host: api.github.com**: reads public repo metadata (stargazers, forks, traffic)
-- **host: real-stars-oauth.peer-claw.workers.dev**: posts the OAuth code to the specific Cloudflare Worker that holds the client_secret. Narrow URL (not a wildcard) to avoid triggering Chrome Web Store's in-depth review for broad host permissions.
+- **host: real-stars-oauth.serenatan.workers.dev**: posts the OAuth code to the specific Cloudflare Worker that holds the client_secret. Narrow URL (not a wildcard) to avoid triggering Chrome Web Store's in-depth review for broad host permissions.
 
 **Remote code use**: select "I am not using remote code"
 

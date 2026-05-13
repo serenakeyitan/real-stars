@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
   "name": "real-stars",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Exposes fake stars on GitHub repositories using statistical anomaly detection.",
   "permissions": ["storage", "identity"],
   "host_permissions": [
     "https://github.com/*",
     "https://api.github.com/*",
-    "https://real-stars-oauth.peer-claw.workers.dev/*"
+    "https://real-stars-oauth.serenatan.workers.dev/*"
   ],
   "background": {
     "service_worker": "background.js",
