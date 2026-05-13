@@ -165,7 +165,10 @@ const reposArg = takeOpt(args, '--repos');
 const seedsArg = takeOpt(args, '--seeds');
 const outArg = takeOpt(args, '--out');
 const limitArg = takeOpt(args, '--limit');
+const strategyArg = takeOpt(args, '--strategy'); // 'recent' (default) | 'random' | 'hybrid'
 const stargazerLimit = limitArg ? parseInt(limitArg, 10) : DEFAULT_STARGAZER_LIMIT;
+const samplingStrategy: 'recent' | 'random' | 'hybrid' =
+  strategyArg === 'random' ? 'random' : strategyArg === 'hybrid' ? 'hybrid' : 'recent';
 
 // Always load the canonical seeds file so we have expected labels available
 // even when --repos is used to subset the run. Default seeds path lives at
@@ -189,7 +192,7 @@ if (reposArg) {
 }
 
 console.error(
-  `[calibrate] running against ${seeds.length} repo(s), stargazer limit=${stargazerLimit}…`,
+  `[calibrate] running against ${seeds.length} repo(s), strategy=${samplingStrategy}, stargazer limit=${stargazerLimit}…`,
 );
 
 const results: RepoResult[] = [];
@@ -197,7 +200,7 @@ for (const seed of seeds) {
   const t0 = Date.now();
   console.error(`[calibrate] → ${seed.repo} (expected: ${seed.expected})`);
   try {
-    const result = await analyzeOne(seed, stargazerLimit);
+    const result = await analyzeOne(seed, stargazerLimit, samplingStrategy);
     results.push({ ...result, durationMs: Date.now() - t0 });
     console.error(
       `   analyzed=${result.analyzedStars}, bursts=${result.bursts}, fake%=${result.fakePercent.toFixed(1)}, risk=${result.riskLevel}, match=${result.match}`,
@@ -235,12 +238,16 @@ console.log(reportMd);
 
 // ────────────────────────────────────────────────────────────────────────
 
-async function analyzeOne(seed: SeedEntry, limit: number): Promise<Omit<RepoResult, 'durationMs'>> {
+async function analyzeOne(
+  seed: SeedEntry,
+  limit: number,
+  strategy: 'recent' | 'random' | 'hybrid' = 'recent',
+): Promise<Omit<RepoResult, 'durationMs'>> {
   const [owner, name] = seed.repo.split('/');
   if (!owner || !name) throw new Error(`invalid repo: ${seed.repo}`);
 
   const meta = await fetchRepoMetadata(owner, name);
-  const stargazers = await fetchStargazersFromSrc(owner, name, TOKEN!, limit);
+  const stargazers = await fetchStargazersFromSrc(owner, name, TOKEN!, limit, strategy);
   const bursts = detectBursts(stargazers);
 
   let forkSeries: ForkPoint[] = [];

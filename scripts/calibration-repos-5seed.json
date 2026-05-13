@@ -1,0 +1,37 @@
+[
+  {
+    "repo": "HKUDS/LightRAG",
+    "expectedFakePercent": 69.3,
+    "tier": "high",
+    "starscoutFlags": ["low-activity", "lockstep"],
+    "note": "Highest known-fake — biggest test signal"
+  },
+  {
+    "repo": "anoma/anoma",
+    "expectedFakePercent": 35.3,
+    "tier": "high",
+    "starscoutFlags": ["low-activity", "lockstep"],
+    "note": "Mid-high fake"
+  },
+  {
+    "repo": "subquery/subql",
+    "expectedFakePercent": 26.5,
+    "tier": "mid",
+    "starscoutFlags": ["low-activity", "lockstep"],
+    "note": "Real-stars over-scored here at 40% — interesting control"
+  },
+  {
+    "repo": "Cinnamon/kotaemon",
+    "expectedFakePercent": 24.6,
+    "tier": "mid",
+    "starscoutFlags": ["low-activity", "lockstep"],
+    "note": "Mid-range fake"
+  },
+  {
+    "repo": "torvalds/linux",
+    "expectedFakePercent": 1.0,
+    "tier": "clean",
+    "starscoutFlags": [],
+    "note": "Clean control — must stay near 0% across all strategies"
+  }
+]

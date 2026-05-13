@@ -44,7 +44,7 @@ async function gh(
  * enough (33 pages in ~1s vs ~7s serial). */
 const STARGAZER_FETCH_CONCURRENCY = 6;
 
-export type StargazerSamplingStrategy = 'recent' | 'random';
+export type StargazerSamplingStrategy = 'recent' | 'random' | 'hybrid';
 
 /**
  * Fetch stargazer timestamps. The `Accept: application/vnd.github.v3.star+json`
@@ -106,6 +106,29 @@ export async function fetchStargazers(
     pagesToFetch = [];
     for (let p = Math.max(startPage, 2); p <= lastPage; p++) pagesToFetch.push(p);
     needFirstPage = startPage === 1;
+  } else if (strategy === 'hybrid') {
+    // Hybrid: 20% of the budget on the most-recent pages (preserves a
+    // contiguous tail so MAD burst detection works on current activity),
+    // 80% spread across older history (catches historical bought-star
+    // episodes that pure 'recent' mode misses on big repos like LightRAG).
+    //
+    // For LightRAG (lastPage≈350, pagesNeeded=50):
+    //   • 10 pages contiguous at the tail (last 1000 stars)
+    //   • 40 pages evenly spaced across pages [1..lastPage-10] (4000 stars
+    //     spanning the repo's lifetime, including the 2024 bought-star
+    //     bursts the 'recent' window misses)
+    const recentChunk = Math.max(5, Math.floor(pagesNeeded * 0.2));
+    const recentStart = Math.max(2, lastPage - recentChunk + 1);
+    const recentPages: number[] = [];
+    for (let p = recentStart; p <= lastPage; p++) recentPages.push(p);
+
+    const historicalNeeded = pagesNeeded - recentChunk;
+    const historicalCap = Math.max(1, recentStart - 1); // pages [1..recentStart-1]
+    const seed = hashStringToSeed(`${owner}/${repo}`);
+    const historicalSample = pickEvenlySpacedPages(historicalCap, historicalNeeded, seed);
+
+    pagesToFetch = [...historicalSample.filter((p) => p !== 1), ...recentPages];
+    needFirstPage = historicalSample.includes(1);
   } else {
     // Random uniform-ish sample across the full page range, anchored on
     // page 1 + lastPage. We use a deterministic PRNG seeded on the repo
