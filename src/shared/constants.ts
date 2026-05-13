@@ -60,8 +60,22 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  *      change moved verdicts by ≤2pp (no real signal, just variance).
  *      Invalidates all v5 cached results so users see fresh 200-sample
  *      verdicts on next visit.
+ *   7: Removed global per-user sampling on the whole stargazer pool
+ *      (added in v4, was the dominant signal). It over-flagged repos
+ *      with non-developer audiences (curated lists, prompt collections,
+ *      AI-tool-for-product-people) because their real stargazers look
+ *      profile-identical to bought-fake accounts. Algorithm now relies
+ *      on burst detection + per-burst per-user analysis only — same
+ *      shape that shipped before commit 59ba84a on May 9.
+ *   8: Removed per-burst per-user analysis too. Algorithm is now
+ *      burst-detection + fork-ratio + traffic-referrer cross-validation
+ *      only — same shape that shipped on May 8 (commit 9c5ee18) before
+ *      per-user heuristics were introduced. Profile-shape signals
+ *      can't distinguish real-new-users from bought-fake accounts;
+ *      we rely entirely on behavioral signals (timing, forks,
+ *      traffic) that are much harder to fake.
  */
-export const CACHE_SCHEMA_VERSION = 6;
+export const CACHE_SCHEMA_VERSION = 8;
 
 /**
  * GitHub OAuth App Client ID. Sourced from build-time env so dev and prod
