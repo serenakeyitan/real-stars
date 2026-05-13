@@ -83,8 +83,18 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  *      non-dev-audience repos remain a known limitation — flagging
  *      this in the extension copy instead of trying to algorithm
  *      around it.
+ *  10: Audience-aware gate added. When ≥2 sizable bursts (≥20 stars
+ *      each) have an average fork-ratio ≥5%, the global per-user
+ *      signal is suppressed. Discriminator rationale: bought-fake
+ *      accounts never fork, so a repo with consistent multi-percent
+ *      fork ratios across its bursts has real active developers in
+ *      its audience. Fixes profile-shape false-positives on
+ *      curated-list repos (awesome-notebookLM-prompts 18% MED → 0.2%
+ *      LOW) while preserving recall on bought-star repos
+ *      (LupusLeaks/EasyFN 86.5% HIGH, GaiaNet-AI/gaianet-node 22.5%
+ *      HIGH — both have <5% burst fork-ratios).
  */
-export const CACHE_SCHEMA_VERSION = 9;
+export const CACHE_SCHEMA_VERSION = 10;
 
 /**
  * GitHub OAuth App Client ID. Sourced from build-time env so dev and prod

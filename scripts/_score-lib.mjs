@@ -625,11 +625,23 @@ export async function scoreRepo(owner, repo, token, cache) {
     globalUserAnalysis.sampled >= 10
       ? Math.round(stargazers.length * globalUserAnalysis.suspiciousRatio)
       : 0;
-  const suspiciousStars = Math.max(burstSusp, globalSusp);
 
-  // Same denominator rule as extension
+  // Audience-aware gate: if ≥2 sizable bursts have avg fork-ratio ≥5%,
+  // the audience contains real active developers — suppress the global
+  // signal which over-flags non-developer audiences. See analyze.ts for
+  // the full rationale.
+  const sizableBursts = validatedBursts.filter((b) => b.stars >= 20);
+  const avgBurstForkRatio =
+    sizableBursts.length > 0
+      ? sizableBursts.reduce((s, b) => s + b.validation.forkRatio, 0) / sizableBursts.length
+      : 0;
+  const audienceLikelyReal = sizableBursts.length >= 2 && avgBurstForkRatio >= 0.05;
+  const gatedGlobalSusp = audienceLikelyReal ? 0 : globalSusp;
+  const suspiciousStars = Math.max(burstSusp, gatedGlobalSusp);
+
+  // Denominator rule: use global ratio only when gate didn't fire
   const fakePercent =
-    globalUserAnalysis.sampled >= 10
+    globalUserAnalysis.sampled >= 10 && !audienceLikelyReal
       ? globalUserAnalysis.suspiciousRatio * 100
       : meta.stargazers_count > 0
         ? (suspiciousStars / meta.stargazers_count) * 100
@@ -640,7 +652,7 @@ export async function scoreRepo(owner, repo, token, cache) {
   else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
 
   const realStars =
-    globalUserAnalysis.sampled >= 10
+    globalUserAnalysis.sampled >= 10 && !audienceLikelyReal
       ? Math.round(meta.stargazers_count * (1 - globalUserAnalysis.suspiciousRatio))
       : Math.max(0, meta.stargazers_count - suspiciousStars);
 

@@ -270,19 +270,47 @@ export async function handleAnalyzeRepo(payload: {
         ? Math.round(stargazers.length * globalUserAnalysis.suspiciousRatio)
         : 0;
 
-    const suspiciousStars = Math.max(burstSuspiciousStars, globalSuspiciousStars);
+    // ─── Audience-aware gate ────────────────────────────────────────────
+    // The global per-user signal over-flags repos with non-developer
+    // audiences (curated lists, prompt collections) because real users
+    // who only star — never code — look profile-identical to bought-fake
+    // accounts (zero followers, zero repos, default avatar).
+    //
+    // Discriminator: real-developer audiences fork the repos they star.
+    // Bought-fake accounts never fork.
+    //
+    // If at least 2 sizable bursts (≥20 stars each) have an average
+    // fork-ratio ≥5%, we have strong evidence the audience contains real
+    // active developers, and we suppress the global signal.
+    //
+    // This preserves recall on actual bought-star repos:
+    //   - LupusLeaks/EasyFN: avg burst fork-ratio 3.1% → gate doesn't fire
+    //   - GaiaNet-AI/gaianet-node: 3.7% → gate doesn't fire
+    //   - microsoft/vscode, torvalds/linux: only 1 burst → gate doesn't fire
+    //
+    // And it fixes the curated-list false positives:
+    //   - awesome-notebookLM-prompts: 5 bursts, avg fork-ratio 14.9%
+    //     → gate fires, 18% MEDIUM → 0.2% LOW
+    const sizableBursts = validatedBursts.filter((b) => b.stars >= 20);
+    const avgBurstForkRatio =
+      sizableBursts.length > 0
+        ? sizableBursts.reduce((s, b) => s + b.validation.forkRatio, 0) / sizableBursts.length
+        : 0;
+    const audienceLikelyReal =
+      sizableBursts.length >= 2 && avgBurstForkRatio >= 0.05;
+    const gatedGlobalSuspiciousStars = audienceLikelyReal ? 0 : globalSuspiciousStars;
+
+    const suspiciousStars = Math.max(burstSuspiciousStars, gatedGlobalSuspiciousStars);
 
     const analyzedTotal = stargazers.length;
     const realStars = Math.max(0, meta.stargazers_count - suspiciousStars);
-    // Denominator: when we have a global per-user signal, we trust that
-    // ratio applies to the WHOLE repo (not just the analyzed slice). This
-    // is the StarScout-style assumption — fake-star contamination is
-    // usually a property of the repo's stargazer pool overall, not just a
-    // recent slice. When global analysis is unavailable, fall back to true
-    // total stars as the denominator (preserves the "vscode 0.8% fake"
-    // behavior when no bursts/users are flagged).
+    // Denominator: when we have a global per-user signal AND the audience
+    // gate didn't fire, we trust that ratio applies to the WHOLE repo
+    // (not just the analyzed slice). When the gate fires, the global
+    // signal is unreliable for this audience type, so fall back to the
+    // burst-only fakePercent.
     const fakePercent =
-      globalUserAnalysis.sampled >= 10
+      globalUserAnalysis.sampled >= 10 && !audienceLikelyReal
         ? globalUserAnalysis.suspiciousRatio * 100
         : meta.stargazers_count > 0
           ? (suspiciousStars / meta.stargazers_count) * 100
@@ -293,9 +321,11 @@ export async function handleAnalyzeRepo(payload: {
     else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
 
     // For the displayed `realStars`, use the global ratio applied to the
-    // TRUE repo total (so vscode shows "184k real" not "5k real").
+    // TRUE repo total (so vscode shows "184k real" not "5k real"). When
+    // the audience gate fires, use the burst-only suspiciousStars subtracted
+    // from total instead.
     const realStarsForDisplay =
-      globalUserAnalysis.sampled >= 10
+      globalUserAnalysis.sampled >= 10 && !audienceLikelyReal
         ? Math.round(meta.stargazers_count * (1 - globalUserAnalysis.suspiciousRatio))
         : realStars;
 
