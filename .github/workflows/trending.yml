@@ -4,10 +4,18 @@ name: refresh-trending
 #   1. Scrape github.com/trending (Today/Week/Month)
 #   2. Score each repo with the full real-stars algorithm
 #   3. Commit + push trending.json + trending-scored.json
-# Cloudflare Pages auto-redeploys on push.
+#   4. Deploy refreshed site/ to Cloudflare Pages
 #
 # The user-score cache is persisted in Actions cache (not git) — keeps
 # history slim while still amortizing API costs across runs.
+#
+# Required GitHub Actions secrets:
+#   CLOUDFLARE_API_TOKEN  — Pages:Edit token (Cloudflare dashboard →
+#                            My Profile → API Tokens → Create Token →
+#                            "Edit Cloudflare Workers" template, or a
+#                            custom token with Account.Cloudflare Pages:Edit)
+#   CLOUDFLARE_ACCOUNT_ID — 6b67f38611a3643755e71b5b02d0ffcb (not secret,
+#                            but stored as a secret for convenience)
 
 on:
   schedule:
@@ -44,6 +52,7 @@ jobs:
         run: node scripts/score-trending.mjs
 
       - name: commit changes
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -52,6 +61,19 @@ jobs:
             git add site/data/trending.json site/data/trending-scored.json
             git commit -m "data(trending): refresh $(date -u +%FT%TZ)"
             git push
+            echo "deployed=true" >> "$GITHUB_OUTPUT"
           else
             echo "no changes to commit"
+            echo "deployed=false" >> "$GITHUB_OUTPUT"
           fi
+
+      # Cloudflare Pages doesn't auto-deploy on git push for this project
+      # (it's a CLI-based project, not Git-integration-based). Push the
+      # static site directly via wrangler so the live site matches the repo.
+      - name: deploy site to Cloudflare Pages
+        if: steps.commit.outputs.deployed == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=real-stars-hall-of-shame --commit-dirty=true --branch=main
