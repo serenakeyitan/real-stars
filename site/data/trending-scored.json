@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-05-15T13:02:37.083Z",
+  "scoredAt": "2026-05-15T18:54:20.007Z",
   "ttlHours": 24,
-  "totalScored": 37,
-  "cacheSize": 46792,
+  "totalScored": 38,
+  "cacheSize": 44530,
   "scores": {
     "tinyhumansai/openhuman": {
       "repo": "tinyhumansai/openhuman",
@@ -1081,12 +1081,127 @@
     },
     "ruvnet/ruview": {
       "repo": "ruvnet/RuView",
-      "totalStars": 55112,
+      "totalStars": 57258,
       "analyzedStars": 5000,
+      "fakePercent": 8,
+      "riskLevel": "low",
+      "suspiciousStars": 400,
+      "realStars": 52677,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.08,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1778871200455
+    },
+    "nvidia-ai-blueprints/video-search-and-summarization": {
+      "repo": "NVIDIA-AI-Blueprints/video-search-and-summarization",
+      "totalStars": 1090,
+      "analyzedStars": 1090,
+      "fakePercent": 0.5,
+      "riskLevel": "low",
+      "suspiciousStars": 5,
+      "realStars": 1085,
+      "insufficientData": false,
+      "bursts": 10,
+      "validatedBursts": 10,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.085,
+      "burstVerdicts": [
+        {
+          "startDate": "2025-05-19",
+          "endDate": "2025-05-20",
+          "stars": 19,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.05263157894736842
+        },
+        {
+          "startDate": "2025-07-24",
+          "endDate": "2025-07-25",
+          "stars": 21,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2025-11-18",
+          "endDate": "2025-11-18",
+          "stars": 7,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-01-14",
+          "endDate": "2026-01-14",
+          "stars": 4,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-03-02",
+          "endDate": "2026-03-02",
+          "stars": 5,
+          "verdict": "suspicious",
+          "confidence": 0.5,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-03-17",
+          "endDate": "2026-03-17",
+          "stars": 9,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-03-27",
+          "endDate": "2026-03-27",
+          "stars": 6,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-04-01",
+          "endDate": "2026-04-02",
+          "stars": 59,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.06779661016949153
+        },
+        {
+          "startDate": "2026-04-06",
+          "endDate": "2026-04-08",
+          "stars": 35,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.02857142857142857
+        },
+        {
+          "startDate": "2026-05-13",
+          "endDate": "2026-05-15",
+          "stars": 450,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0.115
+        }
+      ],
+      "warning": null,
+      "scoredAt": 1778871218875
+    },
+    "zilliztech/claude-context": {
+      "repo": "zilliztech/claude-context",
+      "totalStars": 11121,
+      "analyzedStars": 4921,
       "fakePercent": 9.5,
       "riskLevel": "low",
-      "suspiciousStars": 475,
-      "realStars": 49876,
+      "suspiciousStars": 467,
+      "realStars": 10065,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
@@ -1094,41 +1209,7 @@
       "suspiciousSampleRatio": 0.095,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778763516190
-    },
-    "nvidia-ai-blueprints/video-search-and-summarization": {
-      "repo": "NVIDIA-AI-Blueprints/video-search-and-summarization",
-      "totalStars": 699,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 699,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1778763618258
-    },
-    "zilliztech/claude-context": {
-      "repo": "zilliztech/claude-context",
-      "totalStars": 11029,
-      "analyzedStars": 4929,
-      "fakePercent": 7,
-      "riskLevel": "low",
-      "suspiciousStars": 345,
-      "realStars": 10257,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.07,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1778763662548
+      "scoredAt": 1778871239294
     },
     "anthropics/skills": {
       "repo": "anthropics/skills",
@@ -1311,6 +1392,23 @@
       ],
       "warning": null,
       "scoredAt": 1778850008504
+    },
+    "hugohe3/ppt-master": {
+      "repo": "hugohe3/ppt-master",
+      "totalStars": 16803,
+      "analyzedStars": 4903,
+      "fakePercent": 21.5,
+      "riskLevel": "high",
+      "suspiciousStars": 1054,
+      "realStars": 13190,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.215,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1778871259937
     }
   }
 }
