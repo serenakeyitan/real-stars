@@ -3,6 +3,10 @@ import * as path from 'node:path';
 import * as http from 'node:http';
 import * as fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
+// Pull the live schema version so pre-seeded cache fixtures are never
+// rejected as stale when CACHE_SCHEMA_VERSION is bumped. Hardcoding it
+// (was `4`) silently broke these tests every time the algorithm changed.
+import { CACHE_SCHEMA_VERSION } from '../../src/shared/constants';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -121,7 +125,7 @@ test('cache pre-seeding round-trips through chrome.storage', async () => {
     riskLevel: 'medium' as const,
     analyzedAt: Date.now(),
     cachedAt: Date.now(),
-    schemaVersion: 4,
+    schemaVersion: CACHE_SCHEMA_VERSION,
     ttlMs: 7 * 24 * 60 * 60 * 1000,
   };
 
@@ -217,7 +221,7 @@ test('analyze-repo returns insufficientData verdict for small repos', async () =
     analyzedAt: Date.now(),
     warning: 'real-stars only issues verdicts for repos with at least 1,000 stars.',
     cachedAt: Date.now(),
-    schemaVersion: 4,
+    schemaVersion: CACHE_SCHEMA_VERSION,
     ttlMs: 7 * 24 * 60 * 60 * 1000,
   };
 
