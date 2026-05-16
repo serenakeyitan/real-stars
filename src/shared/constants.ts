@@ -93,6 +93,12 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  *      LOW) while preserving recall on bought-star repos
  *      (LupusLeaks/EasyFN 86.5% HIGH, GaiaNet-AI/gaianet-node 22.5%
  *      HIGH — both have <5% burst fork-ratios).
+ *
+ * ⚠️  MIRRORED in scripts/_score-lib.mjs as CACHE_SCHEMA_VERSION. The
+ *     trending cron uses it to invalidate stale per-user scores AND
+ *     stale per-repo verdicts on every algorithm change — otherwise the
+ *     weekly/monthly Hall of Shame numbers stay a mix of old + new
+ *     scoring for up to 7 days. BUMP BOTH when scoring logic changes.
  */
 export const CACHE_SCHEMA_VERSION = 10;
 

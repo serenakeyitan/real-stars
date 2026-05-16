@@ -40,6 +40,15 @@ export const USER_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 export const USER_SUSPICIOUS_THRESHOLD = 4.0;
 export const STARGAZER_FETCH_CONCURRENCY = 6;
 
+// Mirrors CACHE_SCHEMA_VERSION in src/shared/constants.ts. Bumped on EVERY
+// algorithm change. Used to invalidate cached per-user scores AND cached
+// per-repo trending verdicts whenever scoring logic changes — without this,
+// stale scores from an old algorithm survived up to 7 days (user cache) or
+// indefinitely (repo verdicts skipped by the 24h fresh-check), making the
+// weekly/monthly Hall of Shame numbers a mix of old + new algorithm output.
+// KEEP IN SYNC with src/shared/constants.ts CACHE_SCHEMA_VERSION.
+export const CACHE_SCHEMA_VERSION = 10;
+
 // MAD detection constants
 export const MAD_THRESHOLD = 3.0 * 1.48;
 export const WINDOW_SIZE = 28;
@@ -70,16 +79,28 @@ export class FileSystemCache {
       const obj = JSON.parse(readFileSync(this.path, 'utf8'));
       const now = Date.now();
       let kept = 0,
-        dropped = 0;
+        droppedExpired = 0,
+        droppedStaleAlgo = 0;
       for (const [k, v] of Object.entries(obj)) {
         if (v.expiresAt && now > v.expiresAt) {
-          dropped++;
+          droppedExpired++;
+          continue;
+        }
+        // Algorithm-version guard: a score computed under an older
+        // algorithm is invalid even if not time-expired. Without this,
+        // bumping the algorithm left up-to-7-day-old per-user scores in
+        // the cache, polluting weekly/monthly verdicts with a mix of old
+        // and new scoring until natural TTL expiry.
+        if (v.algoVersion !== CACHE_SCHEMA_VERSION) {
+          droppedStaleAlgo++;
           continue;
         }
         this.entries.set(k, v);
         kept++;
       }
-      console.error(`[cache] loaded ${kept} entries (dropped ${dropped} expired)`);
+      console.error(
+        `[cache] loaded ${kept} entries (dropped ${droppedExpired} expired, ${droppedStaleAlgo} stale-algo)`,
+      );
     } catch (err) {
       console.error(`[cache] load failed (${err.message}); starting empty`);
     }
@@ -102,6 +123,7 @@ export class FileSystemCache {
     this.entries.set(login.toLowerCase(), {
       ...score,
       expiresAt: Date.now() + USER_CACHE_TTL_MS,
+      algoVersion: CACHE_SCHEMA_VERSION,
     });
     this.dirty = true;
   }

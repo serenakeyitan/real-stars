@@ -23,7 +23,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { FileSystemCache, scoreRepo } from './_score-lib.mjs';
+import { FileSystemCache, scoreRepo, CACHE_SCHEMA_VERSION } from './_score-lib.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, '..');
@@ -87,17 +87,28 @@ const TTL_MS = SCORE_TTL_HOURS * 60 * 60 * 1000;
 
 const toScore = [];
 let freshSkipped = 0;
+let staleAlgoRescored = 0;
 for (const r of allTrending) {
   const key = r.repo.toLowerCase();
   const existing = prior.scores[key];
+  // A repo is "fresh" (skip re-scoring) ONLY if it was scored recently
+  // AND under the current algorithm. The algoVersion check is what stops
+  // weekly/monthly repos — which stay on the trending list for weeks but
+  // aren't on the daily list — from keeping a verdict computed under an
+  // old algorithm forever. Without it, the 24h time-check alone meant
+  // those repos were never re-scored after an algorithm change.
   if (existing && now - existing.scoredAt < TTL_MS) {
-    freshSkipped++;
-    continue;
+    if (existing.algoVersion === CACHE_SCHEMA_VERSION) {
+      freshSkipped++;
+      continue;
+    }
+    staleAlgoRescored++;
   }
   toScore.push(r);
 }
 console.error(
-  `[score-trending] ${freshSkipped} fresh (<${SCORE_TTL_HOURS}h), ${toScore.length} to score`,
+  `[score-trending] ${freshSkipped} fresh (<${SCORE_TTL_HOURS}h), ` +
+    `${staleAlgoRescored} stale-algo re-score, ${toScore.length} to score`,
 );
 
 let scoredCount = 0,
@@ -142,6 +153,7 @@ for (const r of toScore) {
       burstVerdicts: result.burstVerdicts ?? [],
       warning: result.warning ?? null,
       scoredAt: Date.now(),
+      algoVersion: CACHE_SCHEMA_VERSION,
     };
     scoredCount++;
     const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
@@ -162,6 +174,7 @@ for (const r of toScore) {
         repo: r.repo,
         deleted: true,
         scoredAt: Date.now(),
+        algoVersion: CACHE_SCHEMA_VERSION,
       };
       console.error(`[score-trending]   ✗ 404 (deleted)`);
       errorCount++;
