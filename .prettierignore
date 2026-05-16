@@ -8,3 +8,11 @@ coverage/
 playwright-report/
 test-results/
 node_modules/
+
+# Cron-generated data files — written by scripts/score-trending.mjs via
+# JSON.stringify, not prettier. The 6-hourly refresh-trending workflow
+# rewrites these every run, so formatting them just breaks CI on the
+# next cron push. Excluded so `pnpm format:check` stays green.
+site/data/trending.json
+site/data/trending-scored.json
+site/data/hall-of-shame.json

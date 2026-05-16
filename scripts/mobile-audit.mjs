@@ -63,9 +63,7 @@ for (const w of widths) {
       overflow: document.documentElement.scrollWidth > window.innerWidth,
     }));
     if (scrollInfo.overflow) {
-      console.error(
-        `  ⚠ HORIZONTAL OVERFLOW: docW=${scrollInfo.docW} vs vpW=${scrollInfo.vpW}`,
-      );
+      console.error(`  ⚠ HORIZONTAL OVERFLOW: docW=${scrollInfo.docW} vs vpW=${scrollInfo.vpW}`);
     }
   }
   await ctx.close();

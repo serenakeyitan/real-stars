@@ -96,7 +96,9 @@ for (const r of allTrending) {
   }
   toScore.push(r);
 }
-console.error(`[score-trending] ${freshSkipped} fresh (<${SCORE_TTL_HOURS}h), ${toScore.length} to score`);
+console.error(
+  `[score-trending] ${freshSkipped} fresh (<${SCORE_TTL_HOURS}h), ${toScore.length} to score`,
+);
 
 let scoredCount = 0,
   errorCount = 0,

@@ -296,8 +296,7 @@ export async function handleAnalyzeRepo(payload: {
       sizableBursts.length > 0
         ? sizableBursts.reduce((s, b) => s + b.validation.forkRatio, 0) / sizableBursts.length
         : 0;
-    const audienceLikelyReal =
-      sizableBursts.length >= 2 && avgBurstForkRatio >= 0.05;
+    const audienceLikelyReal = sizableBursts.length >= 2 && avgBurstForkRatio >= 0.05;
     const gatedGlobalSuspiciousStars = audienceLikelyReal ? 0 : globalSuspiciousStars;
 
     const suspiciousStars = Math.max(burstSuspiciousStars, gatedGlobalSuspiciousStars);

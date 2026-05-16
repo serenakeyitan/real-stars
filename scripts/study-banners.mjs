@@ -43,7 +43,10 @@ for (const { url, name } of sites) {
     await page.waitForLoadState('load', { timeout: 12_000 }).catch(() => {});
     await page.waitForTimeout(1500);
     // Top 600px of the page — that's where announcement banners live
-    await page.screenshot({ path: resolve(OUT, `${name}.png`), clip: { x: 0, y: 0, width: 1280, height: 600 } });
+    await page.screenshot({
+      path: resolve(OUT, `${name}.png`),
+      clip: { x: 0, y: 0, width: 1280, height: 600 },
+    });
     console.error(`  → ${name}.png`);
   } catch (e) {
     console.error(`  ✗ ${e.message}`);

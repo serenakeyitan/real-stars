@@ -198,6 +198,7 @@ The mode flag determines which `.env.*` file is read:
 - `--mode production` → `.env.production` → prod OAuth app + prod worker
 
 The mode also flips:
+
 - Manifest `name` → `real-stars (dev)` vs `real-stars`
 - Manifest `version` → `0.2.2.99` vs `0.2.2`
 - Manifest `host_permissions` worker URL → dev worker vs prod worker

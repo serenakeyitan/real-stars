@@ -77,9 +77,7 @@ async function fetchForkTimeseries(maxForks = 1000) {
   const meta = await fetchRepoMetadata();
   console.log(`  total stars: ${meta.stargazers_count}`);
   console.log(`  total forks: ${meta.forks_count}`);
-  console.log(
-    `  fork ratio:  ${((meta.forks_count / meta.stargazers_count) * 100).toFixed(1)}%`,
-  );
+  console.log(`  fork ratio:  ${((meta.forks_count / meta.stargazers_count) * 100).toFixed(1)}%`);
 
   console.log(`\n▶ fetching stargazers (limit ${DEFAULT_STARGAZER_LIMIT})…`);
   const stargazers = await fetchStargazers(owner, repo, TOKEN!, DEFAULT_STARGAZER_LIMIT);
@@ -103,11 +101,8 @@ async function fetchForkTimeseries(maxForks = 1000) {
   for (let i = 0; i < bursts.length; i++) {
     const b = bursts[i];
     const v = validateBurst(b, forkSeries, []);
-    const symbol =
-      v.verdict === 'organic' ? '✓' : v.verdict === 'fake' ? '🚨' : '⚠';
-    console.log(
-      `${symbol} Burst #${i + 1}: ${b.startDate} → ${b.endDate} (${b.days} days)`,
-    );
+    const symbol = v.verdict === 'organic' ? '✓' : v.verdict === 'fake' ? '🚨' : '⚠';
+    console.log(`${symbol} Burst #${i + 1}: ${b.startDate} → ${b.endDate} (${b.days} days)`);
     console.log(`    stars:        ${b.stars}`);
     console.log(`    median(prev): ${b.median.toFixed(1)}`);
     console.log(`    MAD:          ${b.mad.toFixed(1)}`);
@@ -115,7 +110,9 @@ async function fetchForkTimeseries(maxForks = 1000) {
     console.log(`    forkDelta:    ${v.forkDelta} (in burst window)`);
     console.log(`    forkRatio:    ${(v.forkRatio * 100).toFixed(2)}% (forks/stars in this burst)`);
     console.log(`    referrers:    ${v.hasReferrerEvidence ? v.topReferrers.join(', ') : 'none'}`);
-    console.log(`    VERDICT:      ${v.verdict.toUpperCase()} (confidence ${v.confidence.toFixed(2)})`);
+    console.log(
+      `    VERDICT:      ${v.verdict.toUpperCase()} (confidence ${v.confidence.toFixed(2)})`,
+    );
     if (v.verdict !== 'organic') totalSuspiciousStars += b.stars;
     console.log();
   }

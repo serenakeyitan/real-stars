@@ -603,9 +603,17 @@ export async function scoreRepo(owner, repo, token, cache) {
     let upgraded = b.validation;
     if (ua && ua.sampled >= 10) {
       if (ua.suspiciousRatio >= 0.6) {
-        upgraded = { ...b.validation, verdict: 'fake', confidence: Math.max(b.validation.confidence, 0.85) };
+        upgraded = {
+          ...b.validation,
+          verdict: 'fake',
+          confidence: Math.max(b.validation.confidence, 0.85),
+        };
       } else if (ua.suspiciousRatio <= 0.1) {
-        upgraded = { ...b.validation, verdict: 'organic', confidence: Math.max(b.validation.confidence, 0.85) };
+        upgraded = {
+          ...b.validation,
+          verdict: 'organic',
+          confidence: Math.max(b.validation.confidence, 0.85),
+        };
       }
     }
     return { ...b, validation: upgraded, userAnalysis: ua };

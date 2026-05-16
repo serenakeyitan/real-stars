@@ -16,12 +16,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   of those stargazers look "empty" by profile-shape signals
   (curated lists pull non-developer audiences who star but never code).
   Fixes the profile-shape false-positive class:
-    - `awesome-notebookLM-prompts`: 13.5% MEDIUM → **0.2% LOW**
-  Preserves recall on bought-star repos (their burst fork-ratios are
-  ~3%, well under threshold):
-    - `LupusLeaks/EasyFN`: **86.5% HIGH** (unchanged)
-    - `GaiaNet-AI/gaianet-node`: **22.5% HIGH** (unchanged)
-  Also unchanged on clean giants: vscode 3.5%, linux 1.5%, react 1.5%.
+  - `awesome-notebookLM-prompts`: 13.5% MEDIUM → **0.2% LOW**
+    Preserves recall on bought-star repos (their burst fork-ratios are
+    ~3%, well under threshold):
+  - `LupusLeaks/EasyFN`: **86.5% HIGH** (unchanged)
+  - `GaiaNet-AI/gaianet-node`: **22.5% HIGH** (unchanged)
+    Also unchanged on clean giants: vscode 3.5%, linux 1.5%, react 1.5%.
 - **Cache schema bumped to v10** to invalidate cached pre-gate verdicts.
   Users will see fresh audience-gated verdicts on next visit.
 

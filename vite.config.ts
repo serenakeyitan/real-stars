@@ -1,13 +1,6 @@
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import { resolve } from 'node:path';
-import {
-  cpSync,
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-  existsSync,
-  rmSync,
-} from 'node:fs';
+import { cpSync, mkdirSync, readFileSync, writeFileSync, existsSync, rmSync } from 'node:fs';
 
 /**
  * Custom plugin to:

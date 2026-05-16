@@ -67,9 +67,7 @@ function parseTrending(html) {
     const repo = linkMatch[1].trim();
 
     // Description (col-9 color-fg-muted block)
-    const descMatch = block.match(
-      /<p[^>]*class="col-9 color-fg-muted[^"]*"[^>]*>([\s\S]*?)<\/p>/,
-    );
+    const descMatch = block.match(/<p[^>]*class="col-9 color-fg-muted[^"]*"[^>]*>([\s\S]*?)<\/p>/);
     const description = descMatch ? decodeHtml(descMatch[1]).trim() : null;
 
     // Language + color
@@ -143,7 +141,9 @@ for (const [period, url] of Object.entries(TRENDING_URLS)) {
   const parsed = parseTrending(html);
   console.error(`[trending] ${period}: parsed ${parsed.length} repos`);
   if (parsed.length === 0) {
-    throw new Error(`[trending] parse failed for ${period} — got 0 repos, HTML structure may have changed`);
+    throw new Error(
+      `[trending] parse failed for ${period} — got 0 repos, HTML structure may have changed`,
+    );
   }
   for (const p of parsed) {
     const hit = index.get(p.repo.toLowerCase());

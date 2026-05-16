@@ -16,9 +16,7 @@ let period = 'daily';
 
   const fresh = $('#leaderboardFreshness');
   if (fresh) {
-    fresh.textContent = SCORED.scoredAt
-      ? `Last refreshed ${relative(SCORED.scoredAt)}`
-      : '';
+    fresh.textContent = SCORED.scoredAt ? `Last refreshed ${relative(SCORED.scoredAt)}` : '';
   }
 
   wireTabs();
