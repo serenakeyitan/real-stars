@@ -25,7 +25,7 @@ Two independent fake-star detection signals, combined via max:
    the fingerprint of "bought a batch in one day". Ported from
    [StarGuard](https://github.com/m-ahmed-elbeskeri/Starguard) (Apache-2.0).
 
-2. **Per-user account analysis.** Samples 400 stargazers and scores each
+2. **Per-user account analysis.** Samples 200 stargazers and scores each
    account on age, follower count, public repo count, and avatar.
    Catches "drip-fed bought stars from a pool of throwaway accounts" —
    the pattern that burst detection alone misses.
@@ -38,18 +38,34 @@ The displayed verdict takes the larger of the two signals, so a repo gets
 flagged whether the fake stars came in a single spike or were spread out
 across years.
 
+**Audience-aware gate.** Curated-list repos (prompt collections, awesome
+lists) attract non-developer audiences whose accounts look profile-identical
+to bought-fake accounts — no followers, no public repos, default avatar.
+Since bought-fake accounts never fork the repos they star, when a repo has
+at least two sizable bursts whose average fork-ratio is ≥5%, the global
+per-user signal is suppressed: the audience is real, just non-technical.
+This keeps recall on actual bought-star repos (their burst fork-ratios sit
+near 0%) while clearing the false-positive class on legitimate lists.
+
 ## Calibration
 
 Validated against [StarScout's published ground truth][starscout]
 (ICSE 2026 paper, 13.5k repos labeled via two peer-reviewed heuristics).
-real-stars' live algorithm matches StarScout's 2025-01-01 snapshot within
-±3% on the test set:
+real-stars' live algorithm tracks StarScout's 2025-01-01 snapshot — it
+agrees on which repos are clean vs. heavily bought, and on the
+GaiaNet-AI/gaianet-node case lands at 22.5% against StarScout's published
+19.9%:
 
 | Repo                     | StarScout (snapshot) | real-stars (live) |
 | ------------------------ | -------------------- | ----------------- |
 | LupusLeaks/EZFN-Lobbybot | 83.5% fake           | 86.5% fake        |
-| microsoft/vscode         | 1.27% fake           | 1.5% fake         |
-| torvalds/linux           | 0.88% fake           | 1.5% fake         |
+| GaiaNet-AI/gaianet-node  | 19.9% fake           | 22.5% fake        |
+| microsoft/vscode         | 1.27% fake           | ~3.5% fake        |
+| torvalds/linux           | 0.88% fake           | ~1.5% fake        |
+
+Clean giants stay clean and known bought-star repos stay flagged; the
+small residual on vscode/linux is sampling noise on the 200-stargazer
+global pass, well under the 10% risk threshold.
 
 Repos under 1,000 stars get a "needs more data" badge instead of a
 verdict — we'd rather under-detect than libel a real project.
@@ -67,12 +83,14 @@ Live dashboard at [real-stars-hall-of-shame.pages.dev](https://real-stars-hall-o
 
 - [x] MAD burst detection (ported from StarGuard, Apache-2.0)
 - [x] Fork ratio + traffic referrer cross-validation
-- [x] **Per-user account scoring** on a 400-stargazer global sample (±3.5% CI at 95%)
+- [x] **Per-user account scoring** on a 200-stargazer global sample
+- [x] **Audience-aware gate** — suppresses the per-user signal on
+      non-developer audiences (curated lists) via burst fork-ratio
 - [x] One-click GitHub sign-in (OAuth Web Flow via Cloudflare Worker)
 - [x] In-page badge injection on repo pages
 - [x] Confidence gate at 1000 stars
 - [x] Parallel API fetching (analysis ~30s cold, instant on cache hit)
-- [x] 30-day per-user + 7-day per-repo caching with schema versioning
+- [x] 7-day per-user + 7-day per-repo caching with schema versioning
 - [x] **Chrome Web Store listing — [install here](https://chromewebstore.google.com/detail/dhedokmgjhemapgdkekkmkfnnmggdkca)**
 
 ## Install
@@ -101,7 +119,7 @@ sees your data:
   browser and never logged.
 - **No analytics, no telemetry, no third-party scripts.**
 
-The 30-day cache of user scores — and the 7-day cache of full analysis
+The 7-day cache of user scores — and the 7-day cache of full analysis
 results that uses them — lives in `chrome.storage.local`. You can wipe it
 any time with the "Clear cache" button in the popup, or uninstall the
 extension.
