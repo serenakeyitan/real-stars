@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-05-16T18:43:10.198Z",
+  "scoredAt": "2026-05-16T20:59:19.224Z",
   "ttlHours": 24,
   "totalScored": 34,
-  "cacheSize": 47245,
+  "cacheSize": 43998,
   "scores": {
     "tinyhumansai/openhuman": {
       "repo": "tinyhumansai/openhuman",
@@ -764,29 +764,29 @@
     },
     "ruvnet/ruview": {
       "repo": "ruvnet/RuView",
-      "totalStars": 57258,
+      "totalStars": 58240,
       "analyzedStars": 5000,
-      "fakePercent": 8,
-      "riskLevel": "low",
-      "suspiciousStars": 400,
-      "realStars": 52677,
+      "fakePercent": 10.5,
+      "riskLevel": "medium",
+      "suspiciousStars": 525,
+      "realStars": 52125,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.08,
+      "suspiciousSampleRatio": 0.105,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778871200455
+      "scoredAt": 1778965142577
     },
     "zilliztech/claude-context": {
       "repo": "zilliztech/claude-context",
-      "totalStars": 11121,
-      "analyzedStars": 4921,
+      "totalStars": 11198,
+      "analyzedStars": 4998,
       "fakePercent": 9.5,
       "riskLevel": "low",
-      "suspiciousStars": 467,
-      "realStars": 10065,
+      "suspiciousStars": 475,
+      "realStars": 10134,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
@@ -794,7 +794,7 @@
       "suspiciousSampleRatio": 0.095,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778871239294
+      "scoredAt": 1778965159162
     },
     "oven-sh/bun": {
       "repo": "oven-sh/bun",
