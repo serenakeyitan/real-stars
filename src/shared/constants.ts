@@ -94,11 +94,12 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  *      (LupusLeaks/EasyFN 86.5% HIGH, GaiaNet-AI/gaianet-node 22.5%
  *      HIGH — both have <5% burst fork-ratios).
  *
- * ⚠️  MIRRORED in scripts/_score-lib.mjs as CACHE_SCHEMA_VERSION. The
- *     trending cron uses it to invalidate stale per-user scores AND
- *     stale per-repo verdicts on every algorithm change — otherwise the
- *     weekly/monthly Hall of Shame numbers stay a mix of old + new
- *     scoring for up to 7 days. BUMP BOTH when scoring logic changes.
+ * SINGLE SOURCE OF TRUTH. scripts/_score-lib.ts re-exports this exact
+ * constant (no mirror to keep in sync). The trending cron uses it to
+ * invalidate stale per-user scores AND stale per-repo verdicts on every
+ * algorithm change — otherwise the weekly/monthly Hall of Shame numbers
+ * stay a mix of old + new scoring for up to 7 days. Bump it here whenever
+ * scoring logic changes.
  */
 export const CACHE_SCHEMA_VERSION = 10;
 
@@ -119,8 +120,8 @@ export const CACHE_SCHEMA_VERSION = 10;
  * if they're missing.
  */
 // Safe accessor — works in both Vite (where import.meta.env is defined)
-// AND raw node (where it's undefined). Scripts like calibrate.ts and
-// _score-lib.mjs that import from src/shared/* shouldn't crash just
+// AND tsx/raw node (where it's undefined). Scripts like bench-repo.ts and
+// _score-lib.ts that import from src/shared/* shouldn't crash just
 // because they don't go through a Vite build.
 function envVar(name: string): string {
   try {

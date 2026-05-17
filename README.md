@@ -83,11 +83,14 @@ algorithm**:
    that pre-scores GitHub Trending so you can browse verdicts with no
    install.
 
-The extension's algorithm lives in `src/background/` + `src/shared/`; the
-dashboard's batch scorer (`scripts/_score-lib.mjs`) is a hand-maintained
-mirror of it (Node can't import the Chrome-API TypeScript directly). They
-must stay in sync — see [ARCHITECTURE.md](ARCHITECTURE.md#two-products-one-algorithm)
-for the mirror discipline and why it matters.
+The fake-star algorithm lives in exactly one place — `src/shared/*` plus
+the pure `scoreFromProfile`/`sampleUsers` in `src/background/userScore.ts`.
+The dashboard's batch scorer (`scripts/_score-lib.ts`) imports those
+directly under `tsx` and adds only its own cache + fetch IO — there is no
+algorithm mirror to keep in sync. See
+[ARCHITECTURE.md](ARCHITECTURE.md#two-products-one-algorithm) and the
+parity test (`tests/unit/parity.test.ts`) that guards against
+re-introducing a copy.
 
 ## Dashboard
 

@@ -46,9 +46,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
+        with:
+          # Pin to packageManager (package.json: pnpm@9.15.0). An
+          # unpinned action-setup previously resolved a different pnpm
+          # major in this workflow and broke the lockfile install — keep
+          # this in lockstep with ci.yml / release.yml.
+          version: 9.15.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: pnpm
+
+      # score-trending.ts runs under tsx (same proven pattern as the
+      # bench/diagnose scripts) so the scoring algorithm lives ONCE in
+      # src/ instead of a hand-maintained Node mirror. tsx is a
+      # devDependency, so the cron now needs the dependencies installed.
+      - name: install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: restore user-score cache
         uses: actions/cache@v4
@@ -64,7 +78,7 @@ jobs:
       - name: score each trending repo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/score-trending.mjs
+        run: pnpm score-trending
 
       - name: commit changes
         id: commit

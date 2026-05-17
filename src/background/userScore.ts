@@ -52,7 +52,7 @@ export const USER_FETCH_CONCURRENCY = 6;
 export const USER_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const USER_CACHE_PREFIX = 'real-stars:user:';
 
-interface RawUser {
+export interface RawUser {
   login: string;
   created_at: string;
   followers: number;
@@ -102,7 +102,14 @@ async function writeCache(score: UserScore): Promise<void> {
   }
 }
 
-function scoreFromProfile(user: RawUser): UserScore {
+/**
+ * Pure profile→score function. Exported so the dashboard's batch scorer
+ * (scripts/_score-lib.ts) reuses the EXACT scoring logic instead of
+ * maintaining a hand-copied mirror that drifts. The parity test
+ * (tests/unit/parity.test.ts) feeds a profile matrix through both call
+ * sites and asserts byte-identical UserScore output.
+ */
+export function scoreFromProfile(user: RawUser): UserScore {
   const reasons: string[] = [];
   let score = 0;
 

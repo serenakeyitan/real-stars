@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S npx tsx
 /**
  * Score each trending repo with the full real-stars algorithm.
  *
@@ -17,13 +17,15 @@
  *   • Catches rate-limit errors and stops cleanly (preserves partial progress)
  *   • Cache is persisted between runs via GitHub Actions cache (out of band)
  *
- * Run from repo root:  node scripts/score-trending.mjs
+ * Run from repo root via tsx:  npx tsx scripts/score-trending.ts
+ * (the algorithm lives ONCE in src/; this just orchestrates the batch —
+ * see scripts/_score-lib.ts)
  */
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { FileSystemCache, scoreRepo, CACHE_SCHEMA_VERSION } from './_score-lib.mjs';
+import { FileSystemCache, scoreRepo, CACHE_SCHEMA_VERSION } from './_score-lib';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, '..');
@@ -43,22 +45,37 @@ if (!token) {
   process.exit(1);
 }
 
-console.error('[score-trending] loading inputs…');
-const trending = JSON.parse(readFileSync(TRENDING_PATH, 'utf8'));
+interface TrendingRepo {
+  repo: string;
+}
+interface ScoredEntry {
+  scoredAt: number;
+  algoVersion: number;
+  [k: string]: unknown;
+}
+interface PriorScores {
+  scores: Record<string, ScoredEntry>;
+  scoredAt: string | null;
+}
 
-let prior = { scores: {}, scoredAt: null };
+console.error('[score-trending] loading inputs…');
+const trending = JSON.parse(readFileSync(TRENDING_PATH, 'utf8')) as Record<string, TrendingRepo[]>;
+
+let prior: PriorScores = { scores: {}, scoredAt: null };
 if (existsSync(SCORED_PATH)) {
   try {
-    prior = JSON.parse(readFileSync(SCORED_PATH, 'utf8'));
+    prior = JSON.parse(readFileSync(SCORED_PATH, 'utf8')) as PriorScores;
     if (!prior.scores) prior.scores = {};
   } catch (err) {
-    console.error(`[score-trending] previous results unreadable (${err.message}); starting fresh`);
+    console.error(
+      `[score-trending] previous results unreadable (${(err as Error).message}); starting fresh`,
+    );
   }
 }
 
 // Dedup the trending list across daily/weekly/monthly
-const allTrending = [];
-const seen = new Set();
+const allTrending: TrendingRepo[] = [];
+const seen = new Set<string>();
 for (const period of ['daily', 'weekly', 'monthly']) {
   for (const r of trending[period] ?? []) {
     const key = r.repo.toLowerCase();
@@ -85,7 +102,7 @@ console.error(`[score-trending] rate limit at start: ${startApi.remaining}/${sta
 const now = Date.now();
 const TTL_MS = SCORE_TTL_HOURS * 60 * 60 * 1000;
 
-const toScore = [];
+const toScore: TrendingRepo[] = [];
 let freshSkipped = 0;
 let staleAlgoRescored = 0;
 for (const r of allTrending) {
@@ -163,12 +180,13 @@ for (const r of toScore) {
     console.error(`[score-trending]   ✓ ${verdict} in ${elapsed}s`);
     if (result.insufficientData) insufficientCount++;
   } catch (err) {
-    if (err.isRateLimit) {
+    const e = err as { isRateLimit?: boolean; is404?: boolean; message?: string };
+    if (e.isRateLimit) {
       console.error(`[score-trending] ⚠ rate-limited mid-batch; saving progress and exiting`);
       budgetExhausted = true;
       break;
     }
-    if (err.is404) {
+    if (e.is404) {
       // Repo deleted between scrape and score. Mark and skip.
       prior.scores[r.repo.toLowerCase()] = {
         repo: r.repo,
@@ -180,7 +198,7 @@ for (const r of toScore) {
       errorCount++;
       continue;
     }
-    console.error(`[score-trending]   ✗ ${err.message}`);
+    console.error(`[score-trending]   ✗ ${e.message}`);
     errorCount++;
   }
 }
@@ -200,7 +218,7 @@ console.error(
   `[score-trending] summary: scored=${scoredCount} fresh=${freshSkipped} errors=${errorCount} insufficient=${insufficientCount} budgetExhausted=${budgetExhausted}`,
 );
 
-async function currentRateLimit(token) {
+async function currentRateLimit(token: string): Promise<{ remaining: number; limit: number }> {
   try {
     const resp = await fetch('https://api.github.com/rate_limit', {
       headers: {
@@ -210,7 +228,7 @@ async function currentRateLimit(token) {
       },
     });
     if (!resp.ok) return { remaining: 5000, limit: 5000 };
-    const data = await resp.json();
+    const data = (await resp.json()) as { rate: { remaining: number; limit: number } };
     return { remaining: data.rate.remaining, limit: data.rate.limit };
   } catch {
     return { remaining: 5000, limit: 5000 };

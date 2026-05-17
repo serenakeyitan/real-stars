@@ -23,27 +23,29 @@ detection algorithm**:
    commits the JSON, and deploys to Cloudflare Pages. This is the
    discovery/marketing surface — no install required.
 
-**The shared algorithm — and the mirror you must keep in sync.** The
-extension's algorithm lives in `src/background/analyze.ts` +
-`src/background/userScore.ts` + `src/shared/*` (TypeScript, depends on
-`chrome.*` APIs). The dashboard's batch scorer can't import those — it
-runs in plain Node with no Chrome APIs — so `scripts/_score-lib.mjs` is
-a **hand-maintained mirror** of that algorithm. The two differ _only_ in
-their cache layer (extension: `chrome.storage.local`; script:
-`scripts/.user-cache.json`). They must stay behaviourally identical:
+**One algorithm, two cache adapters.** The fake-star algorithm lives in
+exactly ONE place — the extension's pure modules: `src/shared/constants.ts`,
+`src/shared/mad.ts`, `src/shared/validation.ts`, and the pure
+`scoreFromProfile` / `sampleUsers` in `src/background/userScore.ts`. None
+of these depend on `chrome.*`, so the dashboard's batch scorer
+(`scripts/_score-lib.ts`) imports them directly under `tsx` — the same
+proven pattern `scripts/bench-repo.ts` already uses.
 
-> ⚠️ **Any change to scoring weights, sample sizes, thresholds, or
-> verdict gates must be made in BOTH `src/background/analyze.ts`/
-> `userScore.ts` AND `scripts/_score-lib.mjs`, and `CACHE_SCHEMA_VERSION`
-> must be bumped in BOTH `src/shared/constants.ts` AND
-> `scripts/_score-lib.mjs`.** A drift between them means the badge and
-> the dashboard disagree on the same repo. The schema-version stamp is
-> what forces stale cross-product scores to recompute on the next cron
-> run (see [Caching](#caching)).
+`scripts/_score-lib.ts` adds ONLY the dashboard-specific IO the extension
+doesn't need: a `FileSystemCache` (the extension caches in
+`chrome.storage.local` instead), a rate-limit-aware fetch wrapper so the
+cron aborts cleanly on a 403, and the `scoreRepo` batch orchestrator.
 
-A future refactor could collapse the mirror by compiling `src/shared/`
-to a Node-importable module; until then, the mirror discipline is
-load-bearing and is the single most common source of bugs in this repo.
+> ⚠️ **There is no algorithm mirror to keep in sync.** Change scoring
+> weights / thresholds / sample sizes once, in `src/shared/*` or
+> `src/background/userScore.ts`, and bump `CACHE_SCHEMA_VERSION` once, in
+> `src/shared/constants.ts`. Both products pick it up automatically. The
+> parity test (`tests/unit/parity.test.ts`) feeds identical fixtures
+> through the extension imports and the `scripts/_score-lib.ts`
+> re-exports and asserts byte-identical output — it now guards against
+> _re-introducing_ a copy. The schema-version stamp still forces stale
+> cross-product scores to recompute on the next cron run (see
+> [Caching](#caching)).
 
 ---
 
@@ -340,8 +342,8 @@ site/               Static site, deployed to Cloudflare Pages.
 
 scripts/            Node batch jobs (run by GitHub Actions, not shipped).
 ├── fetch-trending.mjs   Scrape github.com/trending → trending.json
-├── score-trending.mjs   Score each repo → trending-scored.json
-├── _score-lib.mjs       ⚠️ MIRROR of analyze.ts + userScore.ts
+├── score-trending.ts    Score each repo → trending-scored.json (tsx)
+├── _score-lib.ts        Dashboard IO over the shared src/ algorithm (tsx)
 ├── bench-repo.ts        Local benchmark tool (pnpm bench)
 └── diagnose-repo.ts     Single-repo burst diagnostic (pnpm diagnose)
 

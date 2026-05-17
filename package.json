@@ -24,7 +24,8 @@
     "site:dev": "cd site && python3 -m http.server 4567",
     "site:deploy": "cd worker && pnpm wrangler pages deploy ../site --project-name=real-stars-hall-of-shame --commit-dirty=true",
     "bench": "tsx scripts/bench-repo.ts",
-    "diagnose": "tsx scripts/diagnose-repo.ts"
+    "diagnose": "tsx scripts/diagnose-repo.ts",
+    "score-trending": "tsx scripts/score-trending.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
