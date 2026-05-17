@@ -208,6 +208,12 @@ cache.save();
 const out = {
   scoredAt: new Date().toISOString(),
   ttlHours: SCORE_TTL_HOURS,
+  // The algorithm version THIS file was written under. The dashboard
+  // compares each entry's algoVersion against this and renders any
+  // mismatch as "scoring…" instead of a stale (misleading) verdict —
+  // so a schema bump never publishes old-algorithm numbers as current
+  // while the cron converges over subsequent runs.
+  currentAlgoVersion: CACHE_SCHEMA_VERSION,
   totalScored: Object.keys(prior.scores).length,
   cacheSize: cache.size(),
   scores: prior.scores,

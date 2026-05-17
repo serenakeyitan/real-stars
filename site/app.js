@@ -68,6 +68,13 @@ function relative(iso) {
 
 function verdictBucket(score) {
   if (!score) return 'unscored';
+  // Stale-algorithm guard: after a CACHE_SCHEMA_VERSION bump the cron
+  // re-scores repos over several runs. Until an entry is recomputed
+  // under the current algorithm, show it as still-scoring rather than
+  // publish an old-algorithm verdict that would be misleading. (No
+  // currentAlgoVersion in the file → pre-guard data; don't penalize.)
+  const current = SCORED && SCORED.currentAlgoVersion;
+  if (current != null && score.algoVersion !== current) return 'unscored';
   if (score.insufficientData) return 'insufficient';
   const pct = score.fakePercent;
   // Thresholds tightened 2026-05-11 (was 30/10/5) — most trending repos
