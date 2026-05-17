@@ -113,10 +113,21 @@ export function scoreFromProfile(user: RawUser): UserScore {
   const reasons: string[] = [];
   let score = 0;
 
-  const ageDays = (Date.now() - new Date(user.created_at).getTime()) / 86400000;
-  if (ageDays < 30) {
+  // A missing/garbled created_at must NOT silently pass the age check:
+  // `new Date(undefined).getTime()` is NaN and `NaN < 30` is false, so a
+  // throwaway account with a bad date would dodge the +2.0 new-account
+  // penalty entirely (under-counting the exact accounts we want to flag).
+  // Treat an unparseable creation date as itself a strong signal.
+  const createdMs = new Date(user.created_at).getTime();
+  if (!Number.isFinite(createdMs)) {
     score += 2.0;
-    reasons.push(`new account (${Math.floor(ageDays)} days old)`);
+    reasons.push('account creation date missing or unparseable');
+  } else {
+    const ageDays = (Date.now() - createdMs) / 86400000;
+    if (ageDays < 30) {
+      score += 2.0;
+      reasons.push(`new account (${Math.floor(ageDays)} days old)`);
+    }
   }
 
   // Followers — increasingly suspicious as it approaches zero.
@@ -202,7 +213,17 @@ async function fetchAndScore(login: string, token: string): Promise<UserScore | 
 
   if (!resp.ok) return null;
 
-  const user = (await resp.json()) as RawUser;
+  // A truncated/malformed body makes resp.json() throw. Without this
+  // catch the rejection propagates to Promise.allSettled in scoreUsers
+  // and the user is dropped via the UNINTENDED rejection path rather than
+  // the intentional `return null` one — indistinguishable from a network
+  // failure and untraceable. Catch it explicitly as a controlled drop.
+  let user: RawUser;
+  try {
+    user = (await resp.json()) as RawUser;
+  } catch {
+    return null;
+  }
   const score = scoreFromProfile(user);
   await writeCache(score);
   return score;

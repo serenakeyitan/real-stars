@@ -2,8 +2,15 @@
 // (https://github.com/m-ahmed-elbeskeri/Starguard, Apache-2.0)
 // starguard/analyzers/constants.py
 
-/** MAD threshold: 3.0 * 1.4826 ≈ 3 sigma equivalent under normal distribution */
-export const MAD_THRESHOLD = 3.0 * 1.48;
+/**
+ * MAD threshold: 3.0 * 1.4826 ≈ 3-sigma equivalent under a normal
+ * distribution. 1.4826 = 1/Φ⁻¹(0.75) is the consistency factor that makes
+ * MAD a consistent estimator of σ — it is the value StarGuard uses and the
+ * value every comment/doc here always cited. Was erroneously 3.0 * 1.48
+ * (a rounding mistake) through schema v10, making the detector 0.18% more
+ * sensitive than the calibrated port. Corrected in schema v11.
+ */
+export const MAD_THRESHOLD = 3.0 * 1.4826;
 
 /** Sliding window size in days for MAD computation */
 export const WINDOW_SIZE = 28;
@@ -115,6 +122,15 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  *      LOW) while preserving recall on bought-star repos
  *      (LupusLeaks/EasyFN 86.5% HIGH, GaiaNet-AI/gaianet-node 22.5%
  *      HIGH — both have <5% burst fork-ratios).
+ *  11: Two correctness fixes that change verdicts on edge cases:
+ *      (a) MAD_THRESHOLD corrected 3.0*1.48 → 3.0*1.4826 (the
+ *      statistically correct StarGuard consistency factor; was a
+ *      rounding error making the detector 0.18% over-sensitive).
+ *      (b) scoreFromProfile: an unparseable created_at now scores
+ *      +2.0 ("creation date missing") instead of silently passing
+ *      the age check (NaN < 30 === false) — previously under-counted
+ *      throwaway accounts with malformed profiles. Schema bump forces
+ *      a clean recompute under the corrected detector + scorer.
  *
  * SINGLE SOURCE OF TRUTH. scripts/_score-lib.ts re-exports this exact
  * constant (no mirror to keep in sync). The trending cron uses it to
@@ -123,7 +139,7 @@ export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
  * stay a mix of old + new scoring for up to 7 days. Bump it here whenever
  * scoring logic changes.
  */
-export const CACHE_SCHEMA_VERSION = 10;
+export const CACHE_SCHEMA_VERSION = 11;
 
 /**
  * GitHub OAuth App Client ID. Sourced from build-time env so dev and prod

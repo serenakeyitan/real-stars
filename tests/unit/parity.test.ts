@@ -163,6 +163,16 @@ describe('parity: scoreFromProfile — extension vs dashboard', () => {
       gravatar_id: '',
       avatar_url: 'https://avatars.githubusercontent.com/u/1?v=4',
     },
+    // schema v11 regression guard: an unparseable created_at must score
+    // +2.0 ("creation date missing"), not silently pass the age check.
+    'malformed created_at': {
+      login: 'baddate',
+      created_at: 'not-a-date',
+      followers: 0,
+      public_repos: 0,
+      gravatar_id: '',
+      avatar_url: 'https://avatars.githubusercontent.com/u/9?v=4',
+    },
     'zero everything': {
       login: 'empty',
       created_at: new Date(now - 800 * DAY).toISOString(),
