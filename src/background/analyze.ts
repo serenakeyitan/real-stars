@@ -6,7 +6,7 @@ import {
 } from './github';
 import { detectBursts } from '@/shared/mad';
 import { validateBurst } from '@/shared/validation';
-import { evaluateAudienceGate } from '@/shared/audienceGate';
+import { computeVerdict } from '@/shared/verdict';
 import { getAuthToken } from './auth';
 import { scoreUsers, sampleUsers, USER_SAMPLE_SIZE } from './userScore';
 import type { UserScoreSummary } from '@/shared/types';
@@ -16,8 +16,6 @@ import {
   STORAGE_KEY_CACHE_PREFIX,
   DEFAULT_STARGAZER_LIMIT,
   MIN_STARS_FOR_VERDICT,
-  RISK_HIGH_THRESHOLD,
-  RISK_MEDIUM_THRESHOLD,
 } from '@/shared/constants';
 import type { AnalysisResult, Burst, CachedAnalysis, CrossValidation } from '@/shared/types';
 
@@ -240,73 +238,17 @@ export async function handleAnalyzeRepo(payload: {
       return { ...b, validation: upgradedValidation, userAnalysis: ua };
     });
 
-    // The fake-star estimate has two signals:
-    //
-    //   (a) BURST signal: stars that fell inside a detected non-organic
-    //       burst, scaled by that burst's per-user ratio when known.
-    //   (b) GLOBAL signal: total_stars × global_user_suspicious_ratio.
-    //
-    // Take the MAX. A repo that buys "evenly" (no burst spike) but where
-    // 90% of stargazers are empty accounts deserves to be called out — the
-    // global signal catches this. A repo with a sharp burst of mostly real
-    // accounts but one bad cluster gets caught by the burst signal.
-    //
-    // Either signal alone misses cases the other catches; their max is the
-    // best lower-bound estimate of fake stars.
-    const burstSuspiciousStars = validatedBursts
-      .filter((b) => b.validation.verdict !== 'organic')
-      .reduce((sum: number, b) => {
-        if (b.userAnalysis && b.userAnalysis.sampled >= 10) {
-          return sum + Math.round(b.stars * b.userAnalysis.suspiciousRatio);
-        }
-        return sum + b.stars;
-      }, 0);
-
-    // Global signal: the global user-analysis is sampled from the analyzed
-    // slice (last 5000 stars), not the whole repo. So we apply the ratio
-    // to analyzedStars, not totalStars — gives a calibrated estimate that
-    // matches what we actually inspected.
-    const globalSuspiciousStars =
-      globalUserAnalysis.sampled >= 10
-        ? Math.round(stargazers.length * globalUserAnalysis.suspiciousRatio)
-        : 0;
-
-    // Audience-aware gate — see src/shared/audienceGate.ts + constants.ts.
-    // Suppresses the global per-user signal for repos whose burst
-    // fork-ratios show a real-developer audience (curated-list repos
-    // over-flag because non-coder stargazers look fake by profile shape).
-    const audienceGate = evaluateAudienceGate(validatedBursts);
-    const audienceLikelyReal = audienceGate.suppressGlobalSignal;
-    const gatedGlobalSuspiciousStars = audienceLikelyReal ? 0 : globalSuspiciousStars;
-
-    const suspiciousStars = Math.max(burstSuspiciousStars, gatedGlobalSuspiciousStars);
-
+    // Final verdict math — single definition in src/shared/verdict.ts
+    // (pure, unit-tested, shared with the dashboard scorer). Combines the
+    // burst + global signals, applies the audience gate, picks the
+    // fakePercent denominator, and bands the risk level.
     const analyzedTotal = stargazers.length;
-    const realStars = Math.max(0, meta.stargazers_count - suspiciousStars);
-    // Denominator: when we have a global per-user signal AND the audience
-    // gate didn't fire, we trust that ratio applies to the WHOLE repo
-    // (not just the analyzed slice). When the gate fires, the global
-    // signal is unreliable for this audience type, so fall back to the
-    // burst-only fakePercent.
-    const fakePercent =
-      globalUserAnalysis.sampled >= 10 && !audienceLikelyReal
-        ? globalUserAnalysis.suspiciousRatio * 100
-        : meta.stargazers_count > 0
-          ? (suspiciousStars / meta.stargazers_count) * 100
-          : 0;
-
-    let riskLevel: 'low' | 'medium' | 'high' = 'low';
-    if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
-    else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
-
-    // For the displayed `realStars`, use the global ratio applied to the
-    // TRUE repo total (so vscode shows "184k real" not "5k real"). When
-    // the audience gate fires, use the burst-only suspiciousStars subtracted
-    // from total instead.
-    const realStarsForDisplay =
-      globalUserAnalysis.sampled >= 10 && !audienceLikelyReal
-        ? Math.round(meta.stargazers_count * (1 - globalUserAnalysis.suspiciousRatio))
-        : realStars;
+    const verdict = computeVerdict({
+      validatedBursts,
+      globalUserAnalysis,
+      analyzedStars: analyzedTotal,
+      totalStars: meta.stargazers_count,
+    });
 
     const result: AnalysisResult = {
       owner,
@@ -315,10 +257,10 @@ export async function handleAnalyzeRepo(payload: {
       analyzedStars: analyzedTotal,
       bursts,
       validatedBursts,
-      suspiciousStars,
-      realStars: realStarsForDisplay,
-      fakePercent,
-      riskLevel,
+      suspiciousStars: verdict.suspiciousStars,
+      realStars: verdict.realStarsForDisplay,
+      fakePercent: verdict.fakePercent,
+      riskLevel: verdict.riskLevel,
       globalUserAnalysis,
       analyzedAt: Date.now(),
       warning:

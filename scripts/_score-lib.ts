@@ -45,7 +45,7 @@ import {
 } from '../src/shared/constants';
 import { median, mad, detectBursts } from '../src/shared/mad';
 import { validateBurst } from '../src/shared/validation';
-import { evaluateAudienceGate } from '../src/shared/audienceGate';
+import { computeVerdict } from '../src/shared/verdict';
 import {
   scoreFromProfile,
   sampleUsers,
@@ -510,44 +510,22 @@ export async function scoreRepo(
     return { ...b, validation: upgraded, userAnalysis: ua };
   });
 
-  // suspiciousStars = max(burst signal, global signal)
-  const burstSusp = validatedBursts
-    .filter((b) => b.validation.verdict !== 'organic')
-    .reduce((sum, b) => {
-      if (b.userAnalysis && b.userAnalysis.sampled >= 10) {
-        return sum + Math.round(b.stars * b.userAnalysis.suspiciousRatio);
-      }
-      return sum + b.stars;
-    }, 0);
-
-  const globalSusp =
-    globalUserAnalysis.sampled >= 10
-      ? Math.round(stargazers.length * globalUserAnalysis.suspiciousRatio)
-      : 0;
-
-  // Audience-aware gate — single definition in src/shared/audienceGate.ts,
-  // imported (not re-implemented) so the dashboard and extension can never
-  // diverge on it.
-  const audienceLikelyReal = evaluateAudienceGate(validatedBursts).suppressGlobalSignal;
-  const gatedGlobalSusp = audienceLikelyReal ? 0 : globalSusp;
-  const suspiciousStars = Math.max(burstSusp, gatedGlobalSusp);
-
-  // Denominator rule: use global ratio only when gate didn't fire
-  const fakePercent =
-    globalUserAnalysis.sampled >= 10 && !audienceLikelyReal
-      ? globalUserAnalysis.suspiciousRatio * 100
-      : meta.stargazers_count > 0
-        ? (suspiciousStars / meta.stargazers_count) * 100
-        : 0;
-
-  let riskLevel: 'low' | 'medium' | 'high' = 'low';
-  if (fakePercent / 100 >= RISK_HIGH_THRESHOLD) riskLevel = 'high';
-  else if (fakePercent / 100 >= RISK_MEDIUM_THRESHOLD) riskLevel = 'medium';
-
-  const realStars =
-    globalUserAnalysis.sampled >= 10 && !audienceLikelyReal
-      ? Math.round(meta.stargazers_count * (1 - globalUserAnalysis.suspiciousRatio))
-      : Math.max(0, meta.stargazers_count - suspiciousStars);
+  // Final verdict math — single definition in src/shared/verdict.ts,
+  // shared with the extension (analyze.ts). The parity test asserts both
+  // call sites produce identical Verdict for identical inputs.
+  const verdict = computeVerdict({
+    validatedBursts,
+    globalUserAnalysis,
+    analyzedStars: stargazers.length,
+    totalStars: meta.stargazers_count,
+  });
+  const suspiciousStars = verdict.suspiciousStars;
+  const riskLevel = verdict.riskLevel;
+  const realStars = verdict.realStarsForDisplay;
+  // The dashboard displays 1-decimal precision; the extension keeps the
+  // raw value. Preserve that long-standing display difference here (it's
+  // a presentation rounding, not an algorithm divergence).
+  const fakePercent = verdict.fakePercent;
 
   return {
     owner,
