@@ -16,7 +16,26 @@ let period = 'daily';
 
   const fresh = $('#leaderboardFreshness');
   if (fresh) {
-    fresh.textContent = SCORED.scoredAt ? `Last refreshed ${relative(SCORED.scoredAt)}` : '';
+    if (SCORED.scoredAt) {
+      const d = new Date(SCORED.scoredAt);
+      // Wall-clock time in the visitor's own timezone, with the zone
+      // abbreviation so "Nov 16, 4:34 PM" is never ambiguous across
+      // regions. Explicit component options (not dateStyle/timeStyle)
+      // because mixing the Style shortcuts with timeZoneName is invalid
+      // per the Intl spec and throws in strict engines.
+      const localTime = d.toLocaleString(undefined, {
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZoneName: 'short',
+      });
+      fresh.textContent = `Last refreshed ${relative(SCORED.scoredAt)} · ${localTime} your time`;
+      // Full ISO timestamp on hover for anyone who needs precision.
+      fresh.title = `Scored at ${d.toISOString()}`;
+    } else {
+      fresh.textContent = '';
+    }
   }
 
   wireTabs();
