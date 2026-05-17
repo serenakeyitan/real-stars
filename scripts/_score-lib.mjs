@@ -376,29 +376,47 @@ export function detectBursts(events) {
 }
 
 // ─── burst cross-validation (mirror of src/shared/validation.ts) ─────────
+// ⚠️ MIRROR of src/shared/validation.ts validateBurst(). Kept BYTE-FOR-BYTE
+// behaviorally identical — a prior drift here (organic threshold 0.03 vs
+// 0.01, missing 'fake' branch, loose referrer check) made the dashboard
+// and the extension badge publish DIFFERENT verdicts for the same repo.
+// The parity test (tests/unit/parity.test.ts) enforces this; do not change
+// one side without the other (or, better, finish the mirror-elimination
+// refactor so this duplicate goes away entirely).
 export function validateBurst(burst, forkSeries, referrers) {
-  // Count forks in the burst window
+  // Fork delta during the burst window. validation.ts parses dates to
+  // timestamps; here the dates are already 'YYYY-MM-DD' strings so a
+  // lexicographic compare is equivalent for the inclusive window.
+  const startTs = Date.parse(`${burst.startDate}T00:00:00Z`);
+  const endTs = Date.parse(`${burst.endDate}T23:59:59Z`);
   let forkDelta = 0;
   for (const f of forkSeries) {
-    if (f.date >= burst.startDate && f.date <= burst.endDate) forkDelta += f.count;
+    const t = Date.parse(`${f.date}T00:00:00Z`);
+    if (t >= startTs && t <= endTs) forkDelta += f.count;
   }
   const forkRatio = burst.stars > 0 ? forkDelta / burst.stars : 0;
 
-  const hasReferrerEvidence = referrers && referrers.length > 0;
-  const topReferrers = (referrers ?? []).slice(0, 3).map((r) => r.referrer);
+  // Referrer evidence: any non-GitHub referrer with ≥5 uniques during a
+  // burst that ended within the traffic API's 14-day window.
+  const burstWithin14d = Date.now() - endTs < 14 * 86400 * 1000;
+  const externalReferrers = (referrers ?? [])
+    .filter((r) => !r.referrer.toLowerCase().includes('github'))
+    .filter((r) => r.uniques >= 5);
+  const hasReferrerEvidence = burstWithin14d && externalReferrers.length > 0;
+  const topReferrers = externalReferrers.slice(0, 5).map((r) => r.referrer);
 
-  // Verdict heuristic (matches src/shared/validation.ts at time of writing):
-  //   - high fork ratio (≥3%) → organic
-  //   - meaningful referrer evidence → organic
-  //   - otherwise → suspicious (per-user analysis upgrades to fake/organic later)
+  // Verdict heuristic — IDENTICAL to validation.ts:
+  //   - fork ratio healthy (≥1%) OR referrer evidence → organic
+  //   - fork ratio near zero (<0.5%) AND sharp spike (>6×) → fake
+  //   - otherwise → suspicious
   let verdict = 'suspicious';
   let confidence = 0.5;
-  if (forkRatio >= 0.03) {
+  if (forkRatio >= 0.01 || hasReferrerEvidence) {
     verdict = 'organic';
     confidence = 0.7;
-  } else if (hasReferrerEvidence) {
-    verdict = 'organic';
-    confidence = 0.6;
+  } else if (forkRatio < 0.005 && burst.spikeRatio > 6) {
+    verdict = 'fake';
+    confidence = 0.75;
   }
   return { forkDelta, forkRatio, hasReferrerEvidence, topReferrers, verdict, confidence };
 }
