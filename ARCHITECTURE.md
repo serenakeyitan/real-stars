@@ -6,6 +6,47 @@ do_.
 
 ---
 
+## Two products, one algorithm
+
+This repo ships **two products** that share a **single fake-star
+detection algorithm**:
+
+1. **The Chrome extension** (`src/`, `worker/`) — injects a "real star
+   count" badge on GitHub repo pages you visit. Published on the Chrome
+   Web Store. This is the user-facing product.
+
+2. **The Hall of Shame dashboard** (`site/`, `scripts/`) — a static site
+   at [real-stars-hall-of-shame.pages.dev](https://real-stars-hall-of-shame.pages.dev/)
+   that pre-scores every repo on GitHub Trending (daily/weekly/monthly)
+   plus a registry of StarScout-flagged repos. A scheduled GitHub Action
+   (`.github/workflows/trending.yml`) scrapes Trending, scores each repo,
+   commits the JSON, and deploys to Cloudflare Pages. This is the
+   discovery/marketing surface — no install required.
+
+**The shared algorithm — and the mirror you must keep in sync.** The
+extension's algorithm lives in `src/background/analyze.ts` +
+`src/background/userScore.ts` + `src/shared/*` (TypeScript, depends on
+`chrome.*` APIs). The dashboard's batch scorer can't import those — it
+runs in plain Node with no Chrome APIs — so `scripts/_score-lib.mjs` is
+a **hand-maintained mirror** of that algorithm. The two differ _only_ in
+their cache layer (extension: `chrome.storage.local`; script:
+`scripts/.user-cache.json`). They must stay behaviourally identical:
+
+> ⚠️ **Any change to scoring weights, sample sizes, thresholds, or
+> verdict gates must be made in BOTH `src/background/analyze.ts`/
+> `userScore.ts` AND `scripts/_score-lib.mjs`, and `CACHE_SCHEMA_VERSION`
+> must be bumped in BOTH `src/shared/constants.ts` AND
+> `scripts/_score-lib.mjs`.** A drift between them means the badge and
+> the dashboard disagree on the same repo. The schema-version stamp is
+> what forces stale cross-product scores to recompute on the next cron
+> run (see [Caching](#caching)).
+
+A future refactor could collapse the mirror by compiling `src/shared/`
+to a Node-importable module; until then, the mirror discipline is
+load-bearing and is the single most common source of bugs in this repo.
+
+---
+
 ## What the extension does (one paragraph)
 
 When you open a GitHub repo page, real-stars pulls the timestamps of the
@@ -284,6 +325,28 @@ worker/             Cloudflare Worker — only server-side piece.
 ├── src/index.ts      OAuth code-to-token exchange endpoint
 ├── wrangler.toml
 └── README.md         Deploy instructions
+
+── Product 2: the Hall of Shame dashboard ──────────────────────────────
+
+site/               Static site, deployed to Cloudflare Pages.
+├── index.html        Trending leaderboard (daily/weekly/monthly)
+├── registry.html     Searchable StarScout-flagged repo registry
+├── app.js            Renders leaderboard from site/data/*.json
+├── style.css
+└── data/
+    ├── trending.json         Scraped Trending lists (cron-written)
+    ├── trending-scored.json  Per-repo verdicts (cron-written)
+    └── *.csv                 StarScout ground-truth datasets
+
+scripts/            Node batch jobs (run by GitHub Actions, not shipped).
+├── fetch-trending.mjs   Scrape github.com/trending → trending.json
+├── score-trending.mjs   Score each repo → trending-scored.json
+├── _score-lib.mjs       ⚠️ MIRROR of analyze.ts + userScore.ts
+├── bench-repo.ts        Local benchmark tool (pnpm bench)
+└── diagnose-repo.ts     Single-repo burst diagnostic (pnpm diagnose)
+
+.github/workflows/
+└── trending.yml      Twice-daily cron: scrape → score → commit → deploy
 ```
 
 ### Why this split
@@ -295,6 +358,13 @@ worker/             Cloudflare Worker — only server-side piece.
   `chrome.runtime.sendMessage`. This avoids the content-script CORS
   restrictions of MV3.
 - **popup/** is independent — talks to background only via messages.
+- **site/ + scripts/** are the dashboard product. `site/` is pure static
+  files (no build step); `scripts/` pre-computes the data the site reads.
+  The site never calls the GitHub API at view time — all scoring happens
+  ahead of time in the cron, so visitors load instantly and we never
+  spend a visitor's rate limit. `site/data/*.json` is cron-generated and
+  is in `.prettierignore` (rewritten every run; formatting it just
+  breaks CI on the next push).
 
 ---
 

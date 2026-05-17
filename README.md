@@ -72,11 +72,28 @@ verdict — we'd rather under-detect than libel a real project.
 
 [starscout]: https://github.com/hehao98/StarScout
 
+## Two products, one algorithm
+
+This repo ships two things that share the **same fake-star detection
+algorithm**:
+
+1. **The Chrome extension** (`src/`, `worker/`) — the badge on every repo
+   page you visit. Install required.
+2. **The Hall of Shame dashboard** (`site/`, `scripts/`) — a static site
+   that pre-scores GitHub Trending so you can browse verdicts with no
+   install.
+
+The extension's algorithm lives in `src/background/` + `src/shared/`; the
+dashboard's batch scorer (`scripts/_score-lib.mjs`) is a hand-maintained
+mirror of it (Node can't import the Chrome-API TypeScript directly). They
+must stay in sync — see [ARCHITECTURE.md](ARCHITECTURE.md#two-products-one-algorithm)
+for the mirror discipline and why it matters.
+
 ## Dashboard
 
-Live dashboard at [real-stars-hall-of-shame.pages.dev](https://real-stars-hall-of-shame.pages.dev/):
+Live at [real-stars-hall-of-shame.pages.dev](https://real-stars-hall-of-shame.pages.dev/):
 
-- **Trending** — every repo on github.com/trending (today / this week / this month), scored with the same algorithm. Updated every six hours.
+- **Trending** — every repo on github.com/trending (today / this week / this month), scored with the same algorithm. Refreshed twice daily, aligned with GitHub's own daily trending update (~11 AM UTC).
 - **Registry** — searchable index of the 13,499 repos flagged by the StarScout paper.
 
 ## Status
