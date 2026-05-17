@@ -31,8 +31,11 @@ jobs:
       - name: Type check
         run: pnpm typecheck
 
-      - name: Unit tests
-        run: pnpm test
+      - name: Unit tests + algorithm-core coverage gate
+        # test:coverage runs the same 86 tests AND fails the build if the
+        # pure algorithm core (mad/validation/audienceGate) regresses
+        # below the coverage thresholds in vitest.config.ts.
+        run: pnpm test:coverage
 
       - name: Build extension
         run: pnpm build
