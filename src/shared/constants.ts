@@ -72,72 +72,20 @@ export const MIN_STARS_FOR_VERDICT = 1000;
 export const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 /**
- * Cache schema version. Bump this whenever the analysis pipeline changes
- * in a way that would invalidate previously-cached results — algorithm
- * tweaks, new fields, fixes that change the verdict on the same input.
+ * Cache schema version. Bump whenever the analysis pipeline changes in a
+ * way that would invalidate previously-cached results (algorithm tweaks,
+ * new fields, verdict-changing fixes). The bump invalidates stale
+ * per-user scores AND per-repo verdicts so the extension badge and the
+ * Hall of Shame dashboard never serve a mix of old + new scoring.
  *
- * History:
- *   1: initial release
- *   2: fakePercent denominator switched from analyzedStars to total stars
- *      (was producing inflated percentages on large repos)
- *   3: StarScout lookup layer added (later removed for staleness reasons)
- *   4: per-user heuristics added — verdicts now incorporate live account
- *      analysis on burst stargazers (StarGuard's user-scoring approach)
- *   5: USER_SAMPLE_SIZE 200 → 400 (±5% → ±3.5% binomial CI); cache TTL
- *      7d → 30d. Results from v4 may differ enough on edge cases to mislead.
- *   6: REVERT — restored 200 / 7d after StarScout benchmark showed the
- *      change moved verdicts by ≤2pp (no real signal, just variance).
- *      Invalidates all v5 cached results so users see fresh 200-sample
- *      verdicts on next visit.
- *   7: Removed global per-user sampling on the whole stargazer pool
- *      (added in v4, was the dominant signal). It over-flagged repos
- *      with non-developer audiences (curated lists, prompt collections,
- *      AI-tool-for-product-people) because their real stargazers look
- *      profile-identical to bought-fake accounts. Algorithm now relies
- *      on burst detection + per-burst per-user analysis only — same
- *      shape that shipped before commit 59ba84a on May 9.
- *   8: Removed per-burst per-user analysis too. Algorithm is now
- *      burst-detection + fork-ratio + traffic-referrer cross-validation
- *      only — same shape that shipped on May 8 (commit 9c5ee18) before
- *      per-user heuristics were introduced. Profile-shape signals
- *      can't distinguish real-new-users from bought-fake accounts;
- *      we rely entirely on behavioral signals (timing, forks,
- *      traffic) that are much harder to fake.
- *   9: Restored dual-sampling algorithm (matches v0.2.3). Burst-only
- *      from v8 caught 2 of ~18 StarScout-analyzable repos; dual
- *      sampling catches 3+ including GaiaNet-AI/gaianet-node at 22.5%
- *      vs StarScout 19.9%. The 1000-star confidence gate
- *      (MIN_STARS_FOR_VERDICT) handles the small-repo small-sample
- *      false-positive risk. Profile-shape false-positives on
- *      non-dev-audience repos remain a known limitation — flagging
- *      this in the extension copy instead of trying to algorithm
- *      around it.
- *  10: Audience-aware gate added. When ≥2 sizable bursts (≥20 stars
- *      each) have an average fork-ratio ≥5%, the global per-user
- *      signal is suppressed. Discriminator rationale: bought-fake
- *      accounts never fork, so a repo with consistent multi-percent
- *      fork ratios across its bursts has real active developers in
- *      its audience. Fixes profile-shape false-positives on
- *      curated-list repos (awesome-notebookLM-prompts 18% MED → 0.2%
- *      LOW) while preserving recall on bought-star repos
- *      (LupusLeaks/EasyFN 86.5% HIGH, GaiaNet-AI/gaianet-node 22.5%
- *      HIGH — both have <5% burst fork-ratios).
- *  11: Two correctness fixes that change verdicts on edge cases:
- *      (a) MAD_THRESHOLD corrected 3.0*1.48 → 3.0*1.4826 (the
- *      statistically correct StarGuard consistency factor; was a
- *      rounding error making the detector 0.18% over-sensitive).
- *      (b) scoreFromProfile: an unparseable created_at now scores
- *      +2.0 ("creation date missing") instead of silently passing
- *      the age check (NaN < 30 === false) — previously under-counted
- *      throwaway accounts with malformed profiles. Schema bump forces
- *      a clean recompute under the corrected detector + scorer.
+ * SINGLE SOURCE OF TRUTH — scripts/_score-lib.ts re-exports this exact
+ * constant (no mirror to keep in sync).
  *
- * SINGLE SOURCE OF TRUTH. scripts/_score-lib.ts re-exports this exact
- * constant (no mirror to keep in sync). The trending cron uses it to
- * invalidate stale per-user scores AND stale per-repo verdicts on every
- * algorithm change — otherwise the weekly/monthly Hall of Shame numbers
- * stay a mix of old + new scoring for up to 7 days. Bump it here whenever
- * scoring logic changes.
+ * Current (v11): dual-sampling (burst MAD + global per-user, combined via
+ * max) + audience-aware gate + corrected MAD constant + NaN-date scoring
+ * fix. Full dated rationale for every version → docs/CACHE-SCHEMA-HISTORY.md
+ * (kept there, not here, so this stays readable). Bump procedure is in
+ * that doc.
  */
 export const CACHE_SCHEMA_VERSION = 11;
 

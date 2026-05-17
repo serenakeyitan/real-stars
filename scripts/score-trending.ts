@@ -231,6 +231,9 @@ async function currentRateLimit(token: string): Promise<{ remaining: number; lim
     const data = (await resp.json()) as { rate: { remaining: number; limit: number } };
     return { remaining: data.rate.remaining, limit: data.rate.limit };
   } catch {
+    // Rate-limit probe failed (network blip). Assume full budget rather
+    // than abort the whole run — the per-repo gh() calls have their own
+    // 403/rate-limit handling that will stop us cleanly if we're wrong.
     return { remaining: 5000, limit: 5000 };
   }
 }

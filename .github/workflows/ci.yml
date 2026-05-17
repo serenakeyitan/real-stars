@@ -31,6 +31,17 @@ jobs:
       - name: Type check
         run: pnpm typecheck
 
+      - name: Type check worker (OAuth — separate runtime/types)
+        # worker/ is a self-contained Cloudflare Worker with its own
+        # tsconfig (@cloudflare/workers-types, no DOM) and lockfile, so
+        # the root typecheck can't cover it. It's the one server-side,
+        # security-sensitive component — it must not be an un-typechecked
+        # island.
+        run: |
+          cd worker
+          pnpm install --frozen-lockfile
+          pnpm typecheck
+
       - name: Unit tests + algorithm-core coverage gate
         # test:coverage runs the same 86 tests AND fails the build if the
         # pure algorithm core (mad/validation/audienceGate) regresses

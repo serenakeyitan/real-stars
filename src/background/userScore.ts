@@ -88,6 +88,8 @@ async function readCache(login: string): Promise<UserScore | null> {
     if (Date.now() > entry.expiresAt) return null;
     return entry;
   } catch {
+    // chrome.storage unavailable/corrupt → treat as cache miss (the
+    // caller will re-fetch). A read failure must never break scoring.
     return null;
   }
 }
@@ -193,6 +195,8 @@ async function fetchAndScore(login: string, token: string): Promise<UserScore | 
       },
     });
   } catch {
+    // Network error reaching the GitHub user API — controlled drop (the
+    // sample shrinks by one; the >=10 sample-size gate handles erosion).
     return null;
   }
 

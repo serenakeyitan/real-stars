@@ -7,7 +7,7 @@ export function parseRepoFromUrl(url: string): { owner: string; name: string } |
   try {
     parsed = new URL(url);
   } catch {
-    return null;
+    return null; // malformed URL → not a repo page, don't inject
   }
   if (parsed.hostname !== 'github.com') return null;
 
