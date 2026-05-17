@@ -1,10 +1,21 @@
 name: refresh-trending
 
-# Every 6 hours:
+# Twice daily:
 #   1. Scrape github.com/trending (Today/Week/Month)
 #   2. Score each repo with the full real-stars algorithm
 #   3. Commit + push trending.json + trending-scored.json
 #   4. Deploy refreshed site/ to Cloudflare Pages
+#
+# Schedule rationale: GitHub's daily trending list refreshes once a day,
+# community-tracked at ~10–11 AM UTC ("before 11 AM", drifts over time;
+# GitHub doesn't officially document it — community/discussions/64295).
+# The 11:30 AM UTC run lands ~30–90 min after that window so we scrape
+# the FRESH daily list, not yesterday's. The 23:30 UTC run is a 12h
+# follow-up that lets weekly/monthly verdicts and stale-algo re-scores
+# (which hit the per-run API budget cap and need multiple passes) catch
+# up without paying for 4 runs/day. :30 past the hour dodges the
+# top-of-hour GitHub Actions scheduler congestion (cron is best-effort
+# and frequently delayed several minutes under load).
 #
 # The user-score cache is persisted in Actions cache (not git) — keeps
 # history slim while still amortizing API costs across runs.
@@ -19,7 +30,10 @@ name: refresh-trending
 
 on:
   schedule:
-    - cron: '17 */6 * * *' # 6-hourly at :17 (off-peak)
+    # 11:30 UTC — ~30–90 min after GitHub's daily trending refresh.
+    - cron: '30 11 * * *'
+    # 23:30 UTC — 12h follow-up for weekly/monthly + stale-algo catch-up.
+    - cron: '30 23 * * *'
   workflow_dispatch:
 
 permissions:
