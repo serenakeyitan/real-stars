@@ -104,7 +104,7 @@ for (const repoPath of repos) {
   console.error(`▶ ${repoPath}…`);
   try {
     const meta = await fetchRepoMetadata(owner, repo);
-    const stargazers = await fetchStargazers(owner, repo, TOKEN!, DEFAULT_STARGAZER_LIMIT);
+    const stargazers = await fetchStargazers(owner, repo, TOKEN, DEFAULT_STARGAZER_LIMIT);
     const forkSeries = await fetchForkTimeseries(owner, repo);
     const bursts = detectBursts(stargazers);
     const validated = bursts.map((b) => ({

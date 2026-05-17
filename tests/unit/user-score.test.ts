@@ -20,7 +20,6 @@ function profile(over: Record<string, unknown> = {}) {
     gravatar_id: '',
     avatar_url: 'https://avatars.githubusercontent.com/u/1?v=4',
     ...over,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any;
 }
 

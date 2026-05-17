@@ -24,7 +24,7 @@ import {
  */
 
 async function getAuth(): Promise<AuthState> {
-  const result = (await chrome.storage.local.get(STORAGE_KEY_AUTH)) as Record<string, AuthState>;
+  const result = await chrome.storage.local.get(STORAGE_KEY_AUTH);
   return result[STORAGE_KEY_AUTH] ?? { status: 'unauthenticated' };
 }
 
