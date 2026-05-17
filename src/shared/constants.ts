@@ -20,6 +20,28 @@ export const MIN_STARS_GROWTH_PERCENT = 300;
 export const RISK_HIGH_THRESHOLD = 0.2;
 export const RISK_MEDIUM_THRESHOLD = 0.1;
 
+/**
+ * Audience-aware gate (schema v10, 2026-05-13). The global per-user signal
+ * over-flags repos with non-developer audiences (curated lists, prompt
+ * collections) — those real-but-non-coder stargazers look profile-
+ * identical to bought-fake accounts. Discriminator: bought-fake accounts
+ * never fork the repos they star, so when a repo has several sizable
+ * bursts with a healthy average fork-ratio, its audience contains real
+ * active developers and the global signal is suppressed.
+ *
+ * Calibration (validated on 11 repos, see ARCHITECTURE.md):
+ *   - awesome-notebookLM-prompts: 5 bursts, 14.9% avg fork → gate fires,
+ *     18% MEDIUM → 0.2% LOW
+ *   - LupusLeaks/EasyFN 3.1%, GaiaNet 3.7% → below ratio, gate doesn't fire
+ *   - vscode/linux: single burst → below burst count, gate doesn't fire
+ *
+ * These are VERDICT GATES — keep named here, never inline as literals
+ * (they were the magic numbers 20/2/0.05 buried in analyze.ts).
+ */
+export const GATE_MIN_BURST_STARS = 20;
+export const GATE_MIN_SIZABLE_BURSTS = 2;
+export const GATE_MIN_AVG_FORK_RATIO = 0.05;
+
 /** GitHub API */
 export const GITHUB_API_BASE = 'https://api.github.com';
 export const STARGAZERS_PER_PAGE = 100;

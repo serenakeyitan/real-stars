@@ -45,6 +45,7 @@ import {
 } from '../src/shared/constants';
 import { median, mad, detectBursts } from '../src/shared/mad';
 import { validateBurst } from '../src/shared/validation';
+import { evaluateAudienceGate } from '../src/shared/audienceGate';
 import {
   scoreFromProfile,
   sampleUsers,
@@ -524,16 +525,10 @@ export async function scoreRepo(
       ? Math.round(stargazers.length * globalUserAnalysis.suspiciousRatio)
       : 0;
 
-  // Audience-aware gate: if ≥2 sizable bursts have avg fork-ratio ≥5%,
-  // the audience contains real active developers — suppress the global
-  // signal which over-flags non-developer audiences. See analyze.ts for
-  // the full rationale.
-  const sizableBursts = validatedBursts.filter((b) => b.stars >= 20);
-  const avgBurstForkRatio =
-    sizableBursts.length > 0
-      ? sizableBursts.reduce((s, b) => s + b.validation.forkRatio, 0) / sizableBursts.length
-      : 0;
-  const audienceLikelyReal = sizableBursts.length >= 2 && avgBurstForkRatio >= 0.05;
+  // Audience-aware gate — single definition in src/shared/audienceGate.ts,
+  // imported (not re-implemented) so the dashboard and extension can never
+  // diverge on it.
+  const audienceLikelyReal = evaluateAudienceGate(validatedBursts).suppressGlobalSignal;
   const gatedGlobalSusp = audienceLikelyReal ? 0 : globalSusp;
   const suspiciousStars = Math.max(burstSusp, gatedGlobalSusp);
 

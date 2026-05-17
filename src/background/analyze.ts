@@ -6,6 +6,7 @@ import {
 } from './github';
 import { detectBursts } from '@/shared/mad';
 import { validateBurst } from '@/shared/validation';
+import { evaluateAudienceGate } from '@/shared/audienceGate';
 import { getAuthToken } from './auth';
 import { scoreUsers, sampleUsers, USER_SAMPLE_SIZE } from './userScore';
 import type { UserScoreSummary } from '@/shared/types';
@@ -270,33 +271,12 @@ export async function handleAnalyzeRepo(payload: {
         ? Math.round(stargazers.length * globalUserAnalysis.suspiciousRatio)
         : 0;
 
-    // ─── Audience-aware gate ────────────────────────────────────────────
-    // The global per-user signal over-flags repos with non-developer
-    // audiences (curated lists, prompt collections) because real users
-    // who only star — never code — look profile-identical to bought-fake
-    // accounts (zero followers, zero repos, default avatar).
-    //
-    // Discriminator: real-developer audiences fork the repos they star.
-    // Bought-fake accounts never fork.
-    //
-    // If at least 2 sizable bursts (≥20 stars each) have an average
-    // fork-ratio ≥5%, we have strong evidence the audience contains real
-    // active developers, and we suppress the global signal.
-    //
-    // This preserves recall on actual bought-star repos:
-    //   - LupusLeaks/EasyFN: avg burst fork-ratio 3.1% → gate doesn't fire
-    //   - GaiaNet-AI/gaianet-node: 3.7% → gate doesn't fire
-    //   - microsoft/vscode, torvalds/linux: only 1 burst → gate doesn't fire
-    //
-    // And it fixes the curated-list false positives:
-    //   - awesome-notebookLM-prompts: 5 bursts, avg fork-ratio 14.9%
-    //     → gate fires, 18% MEDIUM → 0.2% LOW
-    const sizableBursts = validatedBursts.filter((b) => b.stars >= 20);
-    const avgBurstForkRatio =
-      sizableBursts.length > 0
-        ? sizableBursts.reduce((s, b) => s + b.validation.forkRatio, 0) / sizableBursts.length
-        : 0;
-    const audienceLikelyReal = sizableBursts.length >= 2 && avgBurstForkRatio >= 0.05;
+    // Audience-aware gate — see src/shared/audienceGate.ts + constants.ts.
+    // Suppresses the global per-user signal for repos whose burst
+    // fork-ratios show a real-developer audience (curated-list repos
+    // over-flag because non-coder stargazers look fake by profile shape).
+    const audienceGate = evaluateAudienceGate(validatedBursts);
+    const audienceLikelyReal = audienceGate.suppressGlobalSignal;
     const gatedGlobalSuspiciousStars = audienceLikelyReal ? 0 : globalSuspiciousStars;
 
     const suspiciousStars = Math.max(burstSuspiciousStars, gatedGlobalSuspiciousStars);
