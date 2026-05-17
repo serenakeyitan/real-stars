@@ -26,9 +26,9 @@ document.addEventListener('turbo:render', () => {
 
 // Fallback: also re-run on history.pushState/replaceState (some pages don't
 // fire turbo:render).
-const origPushState = history.pushState;
-history.pushState = function (...args) {
-  origPushState.apply(this, args);
+const origPushState = history.pushState.bind(history);
+history.pushState = function (...args: Parameters<typeof history.pushState>) {
+  origPushState(...args);
   run().catch((err) => console.error('[real-stars] pushState run failed:', err));
 };
 window.addEventListener('popstate', () => {

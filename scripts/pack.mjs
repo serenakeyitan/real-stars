@@ -11,7 +11,6 @@ import { execSync } from 'node:child_process';
 import { readFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createWriteStream } from 'node:fs';
 import { readdir, stat } from 'node:fs/promises';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

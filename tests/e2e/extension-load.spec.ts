@@ -82,7 +82,7 @@ test('extension loads with all expected files', async () => {
   const sw = await getServiceWorker(context);
   expect(sw).toBeTruthy();
 
-  const manifest = await sw.evaluate(async () => {
+  const manifest = await sw.evaluate(() => {
     const m = chrome.runtime.getManifest();
     return { name: m.name, version: m.version, mv: m.manifest_version };
   });
@@ -135,14 +135,14 @@ test('cache pre-seeding round-trips through chrome.storage', async () => {
   }, fakeResult);
 
   // analyze-repo should return the cached result without needing auth
-  const response = (await popupPage.evaluate(async () => {
-    return new Promise((resolve) => {
+  const response = await popupPage.evaluate(async () => {
+    return new Promise<Record<string, unknown>>((resolve) => {
       chrome.runtime.sendMessage(
         { type: 'analyze-repo', payload: { owner: 'fake-org', repo: 'fake-repo' } },
-        (r) => resolve(r),
+        (r) => resolve(r as Record<string, unknown>),
       );
     });
-  })) as Record<string, unknown>;
+  });
 
   expect(response.owner).toBe('fake-org');
   expect(response.repo).toBe('fake-repo');
@@ -229,14 +229,14 @@ test('analyze-repo returns insufficientData verdict for small repos', async () =
     await chrome.storage.local.set({ 'real-stars:cache:tiny-org/tiny-repo': data });
   }, small);
 
-  const response = (await popupPage.evaluate(async () => {
-    return new Promise((resolve) => {
+  const response = await popupPage.evaluate(async () => {
+    return new Promise<Record<string, unknown>>((resolve) => {
       chrome.runtime.sendMessage(
         { type: 'analyze-repo', payload: { owner: 'tiny-org', repo: 'tiny-repo' } },
-        (r) => resolve(r),
+        (r) => resolve(r as Record<string, unknown>),
       );
     });
-  })) as Record<string, unknown>;
+  });
 
   expect(response.insufficientData).toBe(true);
   expect(response.totalStars).toBe(42);

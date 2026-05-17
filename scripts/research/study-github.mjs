@@ -33,8 +33,6 @@ const pages = [
   { url: 'https://github.com/search?q=stars&type=repositories', name: 'search' },
 ];
 
-const tokens = {};
-
 for (const { url, name } of pages) {
   console.error(`▶ ${url}`);
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30_000 });
@@ -58,7 +56,6 @@ await page.goto('https://github.com/trending', { waitUntil: 'domcontentloaded' }
 await page.waitForTimeout(1000);
 
 const computed = await page.evaluate(() => {
-  const root = getComputedStyle(document.documentElement);
   const body = getComputedStyle(document.body);
   const row = document.querySelector('article.Box-row');
   const rowS = row ? getComputedStyle(row) : null;

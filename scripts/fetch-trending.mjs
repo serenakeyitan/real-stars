@@ -62,7 +62,7 @@ function parseTrending(html) {
     const block = blocks[i];
 
     // Headline link
-    const linkMatch = block.match(/<h2[^>]*>\s*<a[^>]*href="\/([^"\/]+\/[^"\/?]+)"/);
+    const linkMatch = block.match(/<h2[^>]*>\s*<a[^>]*href="\/([^"/]+\/[^"/?]+)"/);
     if (!linkMatch) continue;
     const repo = linkMatch[1].trim();
 
@@ -91,7 +91,7 @@ function parseTrending(html) {
     // Built-by avatars (top contributors GitHub surfaces, not just any contributor)
     const builtBy = [];
     const avatarRe =
-      /data-hovercard-type="user"[^>]*data-hovercard-url="\/users\/([^\/]+)\/hovercard"[^>]*href="\/([^"]+)"><img[^>]*src="([^"]+)"/g;
+      /data-hovercard-type="user"[^>]*data-hovercard-url="\/users\/([^/]+)\/hovercard"[^>]*href="\/([^"]+)"><img[^>]*src="([^"]+)"/g;
     let am;
     while ((am = avatarRe.exec(block)) !== null) {
       builtBy.push({ login: am[1], avatar: decodeHtml(am[3]) });

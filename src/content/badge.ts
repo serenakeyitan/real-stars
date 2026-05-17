@@ -36,22 +36,24 @@ export async function injectBadge(owner: string, repo: string): Promise<void> {
   if ('error' in response) {
     if (response.error === 'unauthenticated') {
       const signInBadge = renderBadge('unauthenticated');
-      signInBadge.addEventListener('click', async () => {
-        signInBadge.textContent = '⏳ opening GitHub…';
-        try {
-          await new Promise<void>((resolve, reject) => {
-            chrome.runtime.sendMessage({ type: 'sign-in' }, (res) => {
-              if (chrome.runtime.lastError)
-                return reject(new Error(chrome.runtime.lastError.message));
-              if (res?.error) return reject(new Error(res.error));
-              resolve();
+      signInBadge.addEventListener('click', () => {
+        void (async () => {
+          signInBadge.textContent = '⏳ opening GitHub…';
+          try {
+            await new Promise<void>((resolve, reject) => {
+              chrome.runtime.sendMessage({ type: 'sign-in' }, (res) => {
+                if (chrome.runtime.lastError)
+                  return reject(new Error(chrome.runtime.lastError.message));
+                if (res?.error) return reject(new Error(res.error));
+                resolve();
+              });
             });
-          });
-          // After sign-in, restart analysis
-          injectBadge(owner, repo).catch(() => undefined);
-        } catch (err) {
-          signInBadge.replaceWith(renderBadge('error', { message: (err as Error).message }));
-        }
+            // After sign-in, restart analysis
+            await injectBadge(owner, repo);
+          } catch (err) {
+            signInBadge.replaceWith(renderBadge('error', { message: (err as Error).message }));
+          }
+        })();
       });
       badge.replaceWith(signInBadge);
     } else {

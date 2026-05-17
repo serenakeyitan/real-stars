@@ -80,7 +80,7 @@ async function fetchForkTimeseries(maxForks = 1000) {
   console.log(`  fork ratio:  ${((meta.forks_count / meta.stargazers_count) * 100).toFixed(1)}%`);
 
   console.log(`\n▶ fetching stargazers (limit ${DEFAULT_STARGAZER_LIMIT})…`);
-  const stargazers = await fetchStargazers(owner, repo, TOKEN!, DEFAULT_STARGAZER_LIMIT);
+  const stargazers = await fetchStargazers(owner, repo, TOKEN, DEFAULT_STARGAZER_LIMIT);
   console.log(`  fetched ${stargazers.length}`);
   console.log(`  first: ${stargazers[0]?.starredAt.toISOString().slice(0, 10)}`);
   console.log(
@@ -122,4 +122,8 @@ async function fetchForkTimeseries(maxForks = 1000) {
   console.log(`▶ Summary:`);
   console.log(`  total suspicious stars: ${totalSuspiciousStars}`);
   console.log(`  fakePercent:            ${fakePct.toFixed(2)}%\n`);
-})();
+})().catch((err) => {
+  // A diagnostic script must exit non-zero on failure so callers/CI notice.
+  console.error(err);
+  process.exit(1);
+});
