@@ -1,9 +1,9 @@
 {
-  "scoredAt": "2026-05-18T05:27:14.361Z",
+  "scoredAt": "2026-05-18T06:30:22.542Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 45,
-  "cacheSize": 8933,
+  "totalScored": 46,
+  "cacheSize": 9899,
   "scores": {
     "tinyhumansai/openhuman": {
       "repo": "tinyhumansai/openhuman",
@@ -312,20 +312,21 @@
     },
     "addyosmani/agent-skills": {
       "repo": "addyosmani/agent-skills",
-      "totalStars": 42430,
+      "totalStars": 43021,
       "analyzedStars": 5000,
-      "fakePercent": 11.5,
+      "fakePercent": 14.5,
       "riskLevel": "medium",
-      "suspiciousStars": 575,
-      "realStars": 37551,
+      "suspiciousStars": 725,
+      "realStars": 36783,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.115,
+      "suspiciousSampleRatio": 0.145,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778956913367
+      "scoredAt": 1779085727891,
+      "algoVersion": 11
     },
     "hkuds/ai-trader": {
       "repo": "HKUDS/AI-Trader",
@@ -401,20 +402,21 @@
     },
     "nousresearch/hermes-agent": {
       "repo": "NousResearch/hermes-agent",
-      "totalStars": 153184,
+      "totalStars": 155242,
       "analyzedStars": 5000,
-      "fakePercent": 9.5,
+      "fakePercent": 6,
       "riskLevel": "low",
-      "suspiciousStars": 475,
-      "realStars": 138632,
+      "suspiciousStars": 300,
+      "realStars": 145927,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.095,
+      "suspiciousSampleRatio": 0.06,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778956978683
+      "scoredAt": 1779085799764,
+      "algoVersion": 11
     },
     "composiohq/awesome-codex-skills": {
       "repo": "ComposioHQ/awesome-codex-skills",
@@ -505,20 +507,21 @@
     },
     "tauricresearch/tradingagents": {
       "repo": "TauricResearch/TradingAgents",
-      "totalStars": 76106,
+      "totalStars": 76647,
       "analyzedStars": 5000,
-      "fakePercent": 14.5,
+      "fakePercent": 13,
       "riskLevel": "medium",
-      "suspiciousStars": 725,
-      "realStars": 65071,
+      "suspiciousStars": 650,
+      "realStars": 66683,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.145,
+      "suspiciousSampleRatio": 0.13,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778956949212
+      "scoredAt": 1779085755192,
+      "algoVersion": 11
     },
     "anil-matcha/open-generative-ai": {
       "repo": "Anil-matcha/Open-Generative-AI",
@@ -558,12 +561,12 @@
     },
     "zilliztech/claude-context": {
       "repo": "zilliztech/claude-context",
-      "totalStars": 11198,
-      "analyzedStars": 4998,
+      "totalStars": 11335,
+      "analyzedStars": 4935,
       "fakePercent": 9.5,
       "riskLevel": "low",
-      "suspiciousStars": 475,
-      "realStars": 10134,
+      "suspiciousStars": 469,
+      "realStars": 10258,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
@@ -571,7 +574,8 @@
       "suspiciousSampleRatio": 0.095,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778965159162
+      "scoredAt": 1779085778757,
+      "algoVersion": 11
     },
     "oven-sh/bun": {
       "repo": "oven-sh/bun",
@@ -1985,6 +1989,24 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1779081897741,
+      "algoVersion": 11
+    },
+    "ruvnet/ruflo": {
+      "repo": "ruvnet/ruflo",
+      "totalStars": 52481,
+      "analyzedStars": 5000,
+      "fakePercent": 13.5,
+      "riskLevel": "medium",
+      "suspiciousStars": 675,
+      "realStars": 45396,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.135,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1779085822518,
       "algoVersion": 11
     }
   }
