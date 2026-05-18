@@ -1,9 +1,9 @@
 {
-  "scoredAt": "2026-05-18T04:42:05.518Z",
+  "scoredAt": "2026-05-18T05:27:14.361Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 43,
-  "cacheSize": 4428,
+  "totalScored": 45,
+  "cacheSize": 8933,
   "scores": {
     "tinyhumansai/openhuman": {
       "repo": "tinyhumansai/openhuman",
@@ -43,21 +43,21 @@
     },
     "obra/superpowers": {
       "repo": "obra/superpowers",
-      "totalStars": 193962,
+      "totalStars": 195479,
       "analyzedStars": 5000,
-      "fakePercent": 4.5,
+      "fakePercent": 6.5,
       "riskLevel": "low",
-      "suspiciousStars": 225,
-      "realStars": 185234,
+      "suspiciousStars": 325,
+      "realStars": 182773,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.045,
+      "suspiciousSampleRatio": 0.065,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778974303737,
-      "algoVersion": 10
+      "scoredAt": 1779081830776,
+      "algoVersion": 11
     },
     "yikart/aitoearn": {
       "repo": "yikart/AiToEarn",
@@ -258,20 +258,21 @@
     },
     "hmbown/deepseek-tui": {
       "repo": "Hmbown/DeepSeek-TUI",
-      "totalStars": 30205,
-      "analyzedStars": 4905,
-      "fakePercent": 19,
+      "totalStars": 31471,
+      "analyzedStars": 4970,
+      "fakePercent": 14.5,
       "riskLevel": "medium",
-      "suspiciousStars": 932,
-      "realStars": 24466,
+      "suspiciousStars": 721,
+      "realStars": 26908,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.19,
+      "suspiciousSampleRatio": 0.145,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778935489313
+      "scoredAt": 1779081760270,
+      "algoVersion": 11
     },
     "bytedance/ui-tars-desktop": {
       "repo": "bytedance/UI-TARS-desktop",
@@ -293,21 +294,21 @@
     },
     "decolua/9router": {
       "repo": "decolua/9router",
-      "totalStars": 11092,
-      "analyzedStars": 4992,
-      "fakePercent": 11,
+      "totalStars": 11740,
+      "analyzedStars": 4940,
+      "fakePercent": 11.5,
       "riskLevel": "medium",
-      "suspiciousStars": 549,
-      "realStars": 9872,
+      "suspiciousStars": 568,
+      "realStars": 10390,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.11,
+      "suspiciousSampleRatio": 0.115,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778974475020,
-      "algoVersion": 10
+      "scoredAt": 1779081696155,
+      "algoVersion": 11
     },
     "addyosmani/agent-skills": {
       "repo": "addyosmani/agent-skills",
@@ -328,71 +329,75 @@
     },
     "hkuds/ai-trader": {
       "repo": "HKUDS/AI-Trader",
-      "totalStars": 17471,
-      "analyzedStars": 4971,
-      "fakePercent": 14.5,
+      "totalStars": 17949,
+      "analyzedStars": 4949,
+      "fakePercent": 11.5,
       "riskLevel": "medium",
-      "suspiciousStars": 721,
-      "realStars": 14938,
+      "suspiciousStars": 569,
+      "realStars": 15885,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.145,
+      "suspiciousSampleRatio": 0.115,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778935503471
+      "scoredAt": 1779081715125,
+      "algoVersion": 11
     },
     "multica-ai/andrej-karpathy-skills": {
       "repo": "multica-ai/andrej-karpathy-skills",
-      "totalStars": 132270,
+      "totalStars": 134493,
       "analyzedStars": 5000,
-      "fakePercent": 10.5,
+      "fakePercent": 11,
       "riskLevel": "medium",
-      "suspiciousStars": 525,
-      "realStars": 118382,
+      "suspiciousStars": 550,
+      "realStars": 119699,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.105,
+      "suspiciousSampleRatio": 0.11,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778956828439
+      "scoredAt": 1779081875124,
+      "algoVersion": 11
     },
     "alishahryar1/free-claude-code": {
       "repo": "Alishahryar1/free-claude-code",
-      "totalStars": 24982,
-      "analyzedStars": 4982,
-      "fakePercent": 15.5,
+      "totalStars": 25294,
+      "analyzedStars": 4994,
+      "fakePercent": 13.5,
       "riskLevel": "medium",
-      "suspiciousStars": 772,
-      "realStars": 21110,
+      "suspiciousStars": 674,
+      "realStars": 21879,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.155,
+      "suspiciousSampleRatio": 0.135,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778956810968
+      "scoredAt": 1779081851337,
+      "algoVersion": 11
     },
     "aidc-ai/pixelle-video": {
       "repo": "AIDC-AI/Pixelle-Video",
-      "totalStars": 17407,
-      "analyzedStars": 4907,
-      "fakePercent": 17.5,
+      "totalStars": 17838,
+      "analyzedStars": 4938,
+      "fakePercent": 14,
       "riskLevel": "medium",
-      "suspiciousStars": 859,
-      "realStars": 14361,
+      "suspiciousStars": 691,
+      "realStars": 15341,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.175,
+      "suspiciousSampleRatio": 0.14,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778956860144
+      "scoredAt": 1779081918404,
+      "algoVersion": 11
     },
     "nousresearch/hermes-agent": {
       "repo": "NousResearch/hermes-agent",
@@ -413,12 +418,12 @@
     },
     "composiohq/awesome-codex-skills": {
       "repo": "ComposioHQ/awesome-codex-skills",
-      "totalStars": 10019,
-      "analyzedStars": 4919,
+      "totalStars": 10322,
+      "analyzedStars": 4922,
       "fakePercent": 14.5,
       "riskLevel": "medium",
-      "suspiciousStars": 713,
-      "realStars": 8566,
+      "suspiciousStars": 714,
+      "realStars": 8825,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
@@ -426,44 +431,45 @@
       "suspiciousSampleRatio": 0.145,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778956875328
+      "scoredAt": 1779081961411,
+      "algoVersion": 11
     },
     "z4nzu/hackingtool": {
       "repo": "Z4nzu/hackingtool",
-      "totalStars": 74936,
+      "totalStars": 75179,
       "analyzedStars": 5000,
-      "fakePercent": 13.5,
+      "fakePercent": 14,
       "riskLevel": "medium",
-      "suspiciousStars": 675,
-      "realStars": 64820,
+      "suspiciousStars": 700,
+      "realStars": 64654,
       "insufficientData": false,
       "bursts": 4,
       "validatedBursts": 4,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.135,
+      "suspiciousSampleRatio": 0.14,
       "burstVerdicts": [
         {
           "startDate": "2023-09-07",
           "endDate": "2023-10-04",
-          "stars": 2279,
-          "verdict": "suspicious",
-          "confidence": 0.5,
-          "suspiciousRatio": 0.12
+          "stars": 2273,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.085
         },
         {
           "startDate": "2023-10-23",
           "endDate": "2023-10-27",
           "stars": 704,
-          "verdict": "suspicious",
-          "confidence": 0.5,
+          "verdict": "fake",
+          "confidence": 0.75,
           "suspiciousRatio": 0.115
         },
         {
           "startDate": "2023-10-30",
           "endDate": "2023-11-01",
           "stars": 149,
-          "verdict": "suspicious",
-          "confidence": 0.5,
+          "verdict": "fake",
+          "confidence": 0.75,
           "suspiciousRatio": 0.11409395973154363
         },
         {
@@ -476,16 +482,17 @@
         }
       ],
       "warning": null,
-      "scoredAt": 1778956896786
+      "scoredAt": 1779082010622,
+      "algoVersion": 11
     },
     "soxoj/maigret": {
       "repo": "soxoj/maigret",
-      "totalStars": 28967,
-      "analyzedStars": 4967,
+      "totalStars": 29219,
+      "analyzedStars": 4919,
       "fakePercent": 14,
       "riskLevel": "medium",
-      "suspiciousStars": 695,
-      "realStars": 24912,
+      "suspiciousStars": 689,
+      "realStars": 25128,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
@@ -493,7 +500,8 @@
       "suspiciousSampleRatio": 0.14,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778956930847
+      "scoredAt": 1779082034173,
+      "algoVersion": 11
     },
     "tauricresearch/tradingagents": {
       "repo": "TauricResearch/TradingAgents",
@@ -757,54 +765,56 @@
     },
     "millionco/react-doctor": {
       "repo": "millionco/react-doctor",
-      "totalStars": 9713,
-      "analyzedStars": 4912,
-      "fakePercent": 5.5,
+      "totalStars": 10010,
+      "analyzedStars": 4909,
+      "fakePercent": 5,
       "riskLevel": "low",
-      "suspiciousStars": 270,
-      "realStars": 9179,
+      "suspiciousStars": 245,
+      "realStars": 9510,
       "insufficientData": false,
       "bursts": 2,
       "validatedBursts": 2,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.055,
+      "suspiciousSampleRatio": 0.05,
       "burstVerdicts": [
         {
-          "startDate": "2026-02-26",
-          "endDate": "2026-03-25",
-          "stars": 1106,
+          "startDate": "2026-03-02",
+          "endDate": "2026-03-29",
+          "stars": 883,
           "verdict": "organic",
           "confidence": 0.85,
-          "suspiciousRatio": 0.05
+          "suspiciousRatio": 0.025
         },
         {
           "startDate": "2026-05-08",
-          "endDate": "2026-05-16",
-          "stars": 3375,
+          "endDate": "2026-05-18",
+          "stars": 3674,
           "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.045
+          "confidence": 0.7,
+          "suspiciousRatio": 0.125
         }
       ],
       "warning": null,
-      "scoredAt": 1778935541330
+      "scoredAt": 1779081742861,
+      "algoVersion": 11
     },
     "heygen-com/hyperframes": {
       "repo": "heygen-com/hyperframes",
-      "totalStars": 18632,
-      "analyzedStars": 4932,
-      "fakePercent": 9.5,
-      "riskLevel": "low",
-      "suspiciousStars": 469,
-      "realStars": 16862,
+      "totalStars": 19091,
+      "analyzedStars": 4991,
+      "fakePercent": 11,
+      "riskLevel": "medium",
+      "suspiciousStars": 549,
+      "realStars": 16991,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.095,
+      "suspiciousSampleRatio": 0.11,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1778956844221
+      "scoredAt": 1779081937570,
+      "algoVersion": 11
     },
     "hkuds/cli-anything": {
       "repo": "HKUDS/CLI-Anything",
@@ -1850,6 +1860,131 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1779079208086,
+      "algoVersion": 11
+    },
+    "facebook/pyrefly": {
+      "repo": "facebook/pyrefly",
+      "totalStars": 6129,
+      "analyzedStars": 4929,
+      "fakePercent": 2,
+      "riskLevel": "low",
+      "suspiciousStars": 99,
+      "realStars": 6006,
+      "insufficientData": false,
+      "bursts": 11,
+      "validatedBursts": 11,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.02,
+      "burstVerdicts": [
+        {
+          "startDate": "2025-05-20",
+          "endDate": "2025-06-16",
+          "stars": 1623,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2025-08-21",
+          "endDate": "2025-08-21",
+          "stars": 14,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2025-09-05",
+          "endDate": "2025-09-05",
+          "stars": 19,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2025-09-28",
+          "endDate": "2025-09-28",
+          "stars": 25,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2025-10-14",
+          "endDate": "2025-10-17",
+          "stars": 171,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.017543859649122806
+        },
+        {
+          "startDate": "2025-11-04",
+          "endDate": "2025-11-04",
+          "stars": 22,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2025-11-19",
+          "endDate": "2025-11-22",
+          "stars": 330,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.01
+        },
+        {
+          "startDate": "2026-02-12",
+          "endDate": "2026-02-12",
+          "stars": 9,
+          "verdict": "suspicious",
+          "confidence": 0.5,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-02-14",
+          "endDate": "2026-02-15",
+          "stars": 34,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-02-17",
+          "endDate": "2026-02-17",
+          "stars": 11,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-05-13",
+          "endDate": "2026-05-18",
+          "stars": 438,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.04
+        }
+      ],
+      "warning": null,
+      "scoredAt": 1779081807573,
+      "algoVersion": 11
+    },
+    "fincept-corporation/finceptterminal": {
+      "repo": "Fincept-Corporation/FinceptTerminal",
+      "totalStars": 21462,
+      "analyzedStars": 4962,
+      "fakePercent": 17,
+      "riskLevel": "medium",
+      "suspiciousStars": 844,
+      "realStars": 17813,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.17,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1779081897741,
       "algoVersion": 11
     }
   }
