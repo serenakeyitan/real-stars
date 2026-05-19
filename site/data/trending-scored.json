@@ -1,9 +1,9 @@
 {
-  "scoredAt": "2026-05-18T23:52:45.803Z",
+  "scoredAt": "2026-05-19T12:36:31.389Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 39,
-  "cacheSize": 14378,
+  "totalScored": 36,
+  "cacheSize": 19225,
   "scores": {
     "tinyhumansai/openhuman": {
       "repo": "tinyhumansai/openhuman",
@@ -25,20 +25,20 @@
     },
     "rohitg00/agentmemory": {
       "repo": "rohitg00/agentmemory",
-      "totalStars": 11512,
-      "analyzedStars": 4912,
-      "fakePercent": 7.5,
+      "totalStars": 13601,
+      "analyzedStars": 4901,
+      "fakePercent": 8,
       "riskLevel": "low",
-      "suspiciousStars": 368,
-      "realStars": 10649,
+      "suspiciousStars": 392,
+      "realStars": 12513,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.075,
+      "suspiciousSampleRatio": 0.08,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1779079144863,
+      "scoredAt": 1779193876198,
       "algoVersion": 11
     },
     "yikart/aitoearn": {
@@ -59,40 +59,22 @@
       "scoredAt": 1779079169412,
       "algoVersion": 11
     },
-    "k-dense-ai/scientific-agent-skills": {
-      "repo": "K-Dense-AI/scientific-agent-skills",
-      "totalStars": 24375,
-      "analyzedStars": 4975,
-      "fakePercent": 16.5,
-      "riskLevel": "medium",
-      "suspiciousStars": 821,
-      "realStars": 20353,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.165,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1779148344796,
-      "algoVersion": 11
-    },
     "cloakhq/cloakbrowser": {
       "repo": "CloakHQ/CloakBrowser",
-      "totalStars": 14018,
-      "analyzedStars": 4918,
-      "fakePercent": 10.5,
-      "riskLevel": "medium",
-      "suspiciousStars": 516,
-      "realStars": 12546,
+      "totalStars": 16013,
+      "analyzedStars": 4913,
+      "fakePercent": 7,
+      "riskLevel": "low",
+      "suspiciousStars": 344,
+      "realStars": 14892,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.105,
+      "suspiciousSampleRatio": 0.07,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1779079125158,
+      "scoredAt": 1779193897582,
       "algoVersion": 11
     },
     "mattpocock/skills": {
@@ -238,24 +220,6 @@
       "scoredAt": 1779079190857,
       "algoVersion": 11
     },
-    "bytedance/ui-tars-desktop": {
-      "repo": "bytedance/UI-TARS-desktop",
-      "totalStars": 34473,
-      "analyzedStars": 4973,
-      "fakePercent": 9,
-      "riskLevel": "low",
-      "suspiciousStars": 448,
-      "realStars": 31370,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.09,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1779079270129,
-      "algoVersion": 11
-    },
     "decolua/9router": {
       "repo": "decolua/9router",
       "totalStars": 11740,
@@ -294,30 +258,30 @@
     },
     "multica-ai/andrej-karpathy-skills": {
       "repo": "multica-ai/andrej-karpathy-skills",
-      "totalStars": 134493,
+      "totalStars": 137142,
       "analyzedStars": 5000,
-      "fakePercent": 11,
-      "riskLevel": "medium",
-      "suspiciousStars": 550,
-      "realStars": 119699,
+      "fakePercent": 6.5,
+      "riskLevel": "low",
+      "suspiciousStars": 325,
+      "realStars": 128228,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.11,
+      "suspiciousSampleRatio": 0.065,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1779081875124,
+      "scoredAt": 1779193983945,
       "algoVersion": 11
     },
     "alishahryar1/free-claude-code": {
       "repo": "Alishahryar1/free-claude-code",
-      "totalStars": 25294,
-      "analyzedStars": 4994,
+      "totalStars": 25963,
+      "analyzedStars": 4963,
       "fakePercent": 13.5,
       "riskLevel": "medium",
-      "suspiciousStars": 674,
-      "realStars": 21879,
+      "suspiciousStars": 670,
+      "realStars": 22458,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
@@ -325,7 +289,7 @@
       "suspiciousSampleRatio": 0.135,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1779081851337,
+      "scoredAt": 1779194052100,
       "algoVersion": 11
     },
     "aidc-ai/pixelle-video": {
@@ -344,24 +308,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1779081918404,
-      "algoVersion": 11
-    },
-    "nousresearch/hermes-agent": {
-      "repo": "NousResearch/hermes-agent",
-      "totalStars": 155242,
-      "analyzedStars": 5000,
-      "fakePercent": 6,
-      "riskLevel": "low",
-      "suspiciousStars": 300,
-      "realStars": 145927,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.06,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1779085799764,
       "algoVersion": 11
     },
     "z4nzu/hackingtool": {
@@ -487,24 +433,6 @@
       "scoredAt": 1779079248234,
       "algoVersion": 11
     },
-    "zilliztech/claude-context": {
-      "repo": "zilliztech/claude-context",
-      "totalStars": 11335,
-      "analyzedStars": 4935,
-      "fakePercent": 9.5,
-      "riskLevel": "low",
-      "suspiciousStars": 469,
-      "realStars": 10258,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.095,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1779085778757,
-      "algoVersion": 11
-    },
     "oven-sh/bun": {
       "repo": "oven-sh/bun",
       "totalStars": 91889,
@@ -566,133 +494,20 @@
     },
     "colbymchenry/codegraph": {
       "repo": "colbymchenry/codegraph",
-      "totalStars": 3558,
-      "analyzedStars": 3558,
-      "fakePercent": 0.6,
+      "totalStars": 5768,
+      "analyzedStars": 4968,
+      "fakePercent": 7.5,
       "riskLevel": "low",
-      "suspiciousStars": 21,
-      "realStars": 3537,
+      "suspiciousStars": 373,
+      "realStars": 5335,
       "insufficientData": false,
-      "bursts": 14,
-      "validatedBursts": 14,
+      "bursts": 0,
+      "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.06,
-      "burstVerdicts": [
-        {
-          "startDate": "2026-01-27",
-          "endDate": "2026-02-02",
-          "stars": 65,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2026-02-04",
-          "endDate": "2026-02-05",
-          "stars": 14,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2026-02-08",
-          "endDate": "2026-02-08",
-          "stars": 7,
-          "verdict": "fake",
-          "confidence": 0.75,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2026-02-10",
-          "endDate": "2026-02-10",
-          "stars": 6,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0.3333333333333333
-        },
-        {
-          "startDate": "2026-02-12",
-          "endDate": "2026-02-12",
-          "stars": 8,
-          "verdict": "fake",
-          "confidence": 0.75,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2026-02-17",
-          "endDate": "2026-02-17",
-          "stars": 6,
-          "verdict": "suspicious",
-          "confidence": 0.5,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2026-02-25",
-          "endDate": "2026-02-25",
-          "stars": 12,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0.16666666666666666
-        },
-        {
-          "startDate": "2026-03-10",
-          "endDate": "2026-03-10",
-          "stars": 10,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2026-03-28",
-          "endDate": "2026-03-28",
-          "stars": 16,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.0625
-        },
-        {
-          "startDate": "2026-04-10",
-          "endDate": "2026-04-10",
-          "stars": 12,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.08333333333333333
-        },
-        {
-          "startDate": "2026-04-14",
-          "endDate": "2026-04-14",
-          "stars": 14,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.07142857142857142
-        },
-        {
-          "startDate": "2026-04-20",
-          "endDate": "2026-04-20",
-          "stars": 19,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0.10526315789473684
-        },
-        {
-          "startDate": "2026-05-04",
-          "endDate": "2026-05-10",
-          "stars": 548,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.06
-        },
-        {
-          "startDate": "2026-05-12",
-          "endDate": "2026-05-18",
-          "stars": 2320,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.09
-        }
-      ],
+      "suspiciousSampleRatio": 0.075,
+      "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1779079084650,
+      "scoredAt": 1779193958617,
       "algoVersion": 11
     },
     "millionco/react-doctor": {
@@ -825,262 +640,40 @@
       "scoredAt": 1779108474268,
       "algoVersion": 11
     },
-    "tech-leads-club/agent-skills": {
-      "repo": "tech-leads-club/agent-skills",
-      "totalStars": 3821,
-      "analyzedStars": 3821,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 3821,
-      "insufficientData": false,
-      "bursts": 5,
-      "validatedBursts": 5,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.06,
-      "burstVerdicts": [
-        {
-          "startDate": "2026-01-29",
-          "endDate": "2026-02-13",
-          "stars": 1328,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.055
-        },
-        {
-          "startDate": "2026-02-15",
-          "endDate": "2026-02-17",
-          "stars": 31,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.06451612903225806
-        },
-        {
-          "startDate": "2026-02-19",
-          "endDate": "2026-02-21",
-          "stars": 36,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.05555555555555555
-        },
-        {
-          "startDate": "2026-03-30",
-          "endDate": "2026-03-30",
-          "stars": 22,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.045454545454545456
-        },
-        {
-          "startDate": "2026-05-16",
-          "endDate": "2026-05-18",
-          "stars": 1477,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.09
-        }
-      ],
-      "warning": null,
-      "scoredAt": 1779108446099,
-      "algoVersion": 11
-    },
-    "plausible/analytics": {
-      "repo": "plausible/analytics",
-      "totalStars": 25525,
-      "analyzedStars": 4923,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 3,
-      "realStars": 25522,
-      "insufficientData": false,
-      "bursts": 18,
-      "validatedBursts": 18,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.035,
-      "burstVerdicts": [
-        {
-          "startDate": "2024-12-28",
-          "endDate": "2025-01-03",
-          "stars": 68,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.029411764705882353
-        },
-        {
-          "startDate": "2025-01-05",
-          "endDate": "2025-01-10",
-          "stars": 61,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.01639344262295082
-        },
-        {
-          "startDate": "2025-01-12",
-          "endDate": "2025-01-24",
-          "stars": 151,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.013245033112582781
-        },
-        {
-          "startDate": "2025-02-07",
-          "endDate": "2025-02-07",
-          "stars": 21,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-02-12",
-          "endDate": "2025-02-12",
-          "stars": 27,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-02-18",
-          "endDate": "2025-02-18",
-          "stars": 15,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.06666666666666667
-        },
-        {
-          "startDate": "2025-03-07",
-          "endDate": "2025-03-07",
-          "stars": 23,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-03-13",
-          "endDate": "2025-03-13",
-          "stars": 19,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-03-16",
-          "endDate": "2025-03-16",
-          "stars": 19,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-04-11",
-          "endDate": "2025-04-11",
-          "stars": 33,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.030303030303030304
-        },
-        {
-          "startDate": "2025-04-24",
-          "endDate": "2025-04-24",
-          "stars": 29,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-10-16",
-          "endDate": "2025-10-16",
-          "stars": 15,
-          "verdict": "suspicious",
-          "confidence": 0.5,
-          "suspiciousRatio": 0.2
-        },
-        {
-          "startDate": "2025-10-19",
-          "endDate": "2025-10-19",
-          "stars": 19,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-11-14",
-          "endDate": "2025-11-14",
-          "stars": 18,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-12-08",
-          "endDate": "2025-12-09",
-          "stars": 34,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.058823529411764705
-        },
-        {
-          "startDate": "2026-04-27",
-          "endDate": "2026-04-28",
-          "stars": 33,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0.15151515151515152
-        },
-        {
-          "startDate": "2026-05-05",
-          "endDate": "2026-05-06",
-          "stars": 44,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.022727272727272728
-        },
-        {
-          "startDate": "2026-05-16",
-          "endDate": "2026-05-18",
-          "stars": 668,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0.125
-        }
-      ],
-      "warning": null,
-      "scoredAt": 1779079050164,
-      "algoVersion": 11
-    },
     "microsoft/ai-agents-for-beginners": {
       "repo": "microsoft/ai-agents-for-beginners",
-      "totalStars": 62757,
+      "totalStars": 63918,
       "analyzedStars": 5000,
-      "fakePercent": 7.5,
+      "fakePercent": 6.5,
       "riskLevel": "low",
-      "suspiciousStars": 375,
-      "realStars": 58050,
+      "suspiciousStars": 325,
+      "realStars": 59763,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.075,
+      "suspiciousSampleRatio": 0.065,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1779079107403,
+      "scoredAt": 1779194153010,
       "algoVersion": 11
     },
     "imbad0202/academic-research-skills": {
       "repo": "Imbad0202/academic-research-skills",
-      "totalStars": 9636,
-      "analyzedStars": 4936,
-      "fakePercent": 19.5,
+      "totalStars": 13498,
+      "analyzedStars": 4998,
+      "fakePercent": 17,
       "riskLevel": "medium",
-      "suspiciousStars": 963,
-      "realStars": 7757,
+      "suspiciousStars": 850,
+      "realStars": 11203,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.195,
+      "suspiciousSampleRatio": 0.17,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1779079208086,
+      "scoredAt": 1779193805999,
       "algoVersion": 11
     },
     "facebook/pyrefly": {
@@ -1226,51 +819,6 @@
       "scoredAt": 1779085822518,
       "algoVersion": 11
     },
-    "supertone-inc/supertonic": {
-      "repo": "supertone-inc/supertonic",
-      "totalStars": 7999,
-      "analyzedStars": 4999,
-      "fakePercent": 7,
-      "riskLevel": "low",
-      "suspiciousStars": 350,
-      "realStars": 7439,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.07,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1779108402468,
-      "algoVersion": 11
-    },
-    "ggml-org/llama.cpp": {
-      "repo": "ggml-org/llama.cpp",
-      "totalStars": 110767,
-      "analyzedStars": 5000,
-      "fakePercent": 1,
-      "riskLevel": "low",
-      "suspiciousStars": 50,
-      "realStars": 109659,
-      "insufficientData": false,
-      "bursts": 1,
-      "validatedBursts": 1,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.01,
-      "burstVerdicts": [
-        {
-          "startDate": "2023-08-18",
-          "endDate": "2023-09-14",
-          "stars": 2228,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.025
-        }
-      ],
-      "warning": null,
-      "scoredAt": 1779108427980,
-      "algoVersion": 11
-    },
     "humanlayer/12-factor-agents": {
       "repo": "humanlayer/12-factor-agents",
       "totalStars": 20242,
@@ -1354,193 +902,372 @@
       "scoredAt": 1779108516124,
       "algoVersion": 11
     },
-    "nvlabs/sana": {
-      "repo": "NVlabs/Sana",
-      "totalStars": 6314,
-      "analyzedStars": 4914,
-      "fakePercent": 0.6,
+    "obra/superpowers": {
+      "repo": "obra/superpowers",
+      "totalStars": 197734,
+      "analyzedStars": 5000,
+      "fakePercent": 4.5,
       "riskLevel": "low",
-      "suspiciousStars": 37,
-      "realStars": 6277,
+      "suspiciousStars": 225,
+      "realStars": 188836,
       "insufficientData": false,
-      "bursts": 19,
-      "validatedBursts": 19,
+      "bursts": 0,
+      "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.035,
+      "suspiciousSampleRatio": 0.045,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1779193833389,
+      "algoVersion": 11
+    },
+    "anthropics/claude-plugins-official": {
+      "repo": "anthropics/claude-plugins-official",
+      "totalStars": 19826,
+      "analyzedStars": 4926,
+      "fakePercent": 14.5,
+      "riskLevel": "medium",
+      "suspiciousStars": 714,
+      "realStars": 16951,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.145,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1779193855064,
+      "algoVersion": 11
+    },
+    "rtk-ai/rtk": {
+      "repo": "rtk-ai/rtk",
+      "totalStars": 50381,
+      "analyzedStars": 5000,
+      "fakePercent": 9,
+      "riskLevel": "low",
+      "suspiciousStars": 450,
+      "realStars": 45847,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.09,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1779193921492,
+      "algoVersion": 11
+    },
+    "msitarzewski/agency-agents": {
+      "repo": "msitarzewski/agency-agents",
+      "totalStars": 100701,
+      "analyzedStars": 5000,
+      "fakePercent": 9.5,
+      "riskLevel": "low",
+      "suspiciousStars": 475,
+      "realStars": 91134,
+      "insufficientData": false,
+      "bursts": 0,
+      "validatedBursts": 0,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.095,
+      "burstVerdicts": [],
+      "warning": null,
+      "scoredAt": 1779193949118,
+      "algoVersion": 11
+    },
+    "diolinux/photogimp": {
+      "repo": "Diolinux/PhotoGIMP",
+      "totalStars": 10426,
+      "analyzedStars": 4926,
+      "fakePercent": 0.5,
+      "riskLevel": "low",
+      "suspiciousStars": 54,
+      "realStars": 10372,
+      "insufficientData": false,
+      "bursts": 24,
+      "validatedBursts": 24,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.11,
       "burstVerdicts": [
         {
-          "startDate": "2024-12-05",
-          "endDate": "2024-12-16",
-          "stars": 163,
+          "startDate": "2025-07-24",
+          "endDate": "2025-07-24",
+          "stars": 6,
           "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.049079754601226995
-        },
-        {
-          "startDate": "2024-12-18",
-          "endDate": "2024-12-19",
-          "stars": 22,
-          "verdict": "organic",
-          "confidence": 0.85,
+          "confidence": 0.7,
           "suspiciousRatio": 0
         },
         {
-          "startDate": "2024-12-23",
-          "endDate": "2024-12-28",
-          "stars": 88,
+          "startDate": "2025-07-27",
+          "endDate": "2025-07-28",
+          "stars": 22,
           "verdict": "organic",
           "confidence": 0.85,
           "suspiciousRatio": 0.045454545454545456
         },
         {
-          "startDate": "2024-12-30",
-          "endDate": "2024-12-30",
-          "stars": 7,
-          "verdict": "suspicious",
-          "confidence": 0.5,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-01-10",
-          "endDate": "2025-01-17",
-          "stars": 868,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.045
-        },
-        {
-          "startDate": "2025-01-19",
-          "endDate": "2025-01-21",
-          "stars": 242,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.025
-        },
-        {
-          "startDate": "2025-03-14",
-          "endDate": "2025-03-19",
-          "stars": 172,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.040697674418604654
-        },
-        {
-          "startDate": "2025-08-26",
-          "endDate": "2025-08-26",
-          "stars": 7,
-          "verdict": "suspicious",
-          "confidence": 0.5,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-09-05",
-          "endDate": "2025-09-05",
-          "stars": 7,
+          "startDate": "2025-07-30",
+          "endDate": "2025-07-30",
+          "stars": 6,
           "verdict": "organic",
           "confidence": 0.7,
           "suspiciousRatio": 0
         },
         {
-          "startDate": "2025-09-11",
-          "endDate": "2025-09-11",
+          "startDate": "2025-08-01",
+          "endDate": "2025-08-01",
           "stars": 6,
-          "verdict": "suspicious",
-          "confidence": 0.5,
-          "suspiciousRatio": 0
+          "verdict": "fake",
+          "confidence": 0.75,
+          "suspiciousRatio": 0.16666666666666666
         },
         {
-          "startDate": "2025-09-30",
-          "endDate": "2025-09-30",
-          "stars": 10,
+          "startDate": "2025-08-06",
+          "endDate": "2025-08-06",
+          "stars": 9,
+          "verdict": "fake",
+          "confidence": 0.75,
+          "suspiciousRatio": 0.2222222222222222
+        },
+        {
+          "startDate": "2025-08-13",
+          "endDate": "2025-08-14",
+          "stars": 12,
           "verdict": "organic",
           "confidence": 0.85,
-          "suspiciousRatio": 0
+          "suspiciousRatio": 0.08333333333333333
         },
         {
-          "startDate": "2025-10-13",
-          "endDate": "2025-10-13",
-          "stars": 10,
+          "startDate": "2025-08-17",
+          "endDate": "2025-08-19",
+          "stars": 27,
           "verdict": "organic",
           "confidence": 0.85,
-          "suspiciousRatio": 0
+          "suspiciousRatio": 0.07407407407407407
         },
         {
-          "startDate": "2025-10-31",
-          "endDate": "2025-11-03",
-          "stars": 51,
+          "startDate": "2025-08-29",
+          "endDate": "2025-08-29",
+          "stars": 24,
           "verdict": "organic",
           "confidence": 0.85,
-          "suspiciousRatio": 0.0392156862745098
+          "suspiciousRatio": 0.041666666666666664
         },
         {
-          "startDate": "2026-02-12",
-          "endDate": "2026-02-12",
-          "stars": 5,
-          "verdict": "suspicious",
-          "confidence": 0.5,
-          "suspiciousRatio": 0
+          "startDate": "2025-09-22",
+          "endDate": "2025-09-22",
+          "stars": 13,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.07692307692307693
         },
         {
-          "startDate": "2026-02-26",
-          "endDate": "2026-02-26",
-          "stars": 4,
-          "verdict": "suspicious",
-          "confidence": 0.5,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2026-03-17",
-          "endDate": "2026-03-17",
-          "stars": 8,
+          "startDate": "2025-10-07",
+          "endDate": "2025-10-07",
+          "stars": 7,
           "verdict": "fake",
           "confidence": 0.75,
           "suspiciousRatio": 0
         },
         {
-          "startDate": "2026-04-14",
-          "endDate": "2026-04-14",
-          "stars": 7,
+          "startDate": "2025-10-17",
+          "endDate": "2025-10-17",
+          "stars": 9,
+          "verdict": "suspicious",
+          "confidence": 0.5,
+          "suspiciousRatio": 0.1111111111111111
+        },
+        {
+          "startDate": "2025-10-25",
+          "endDate": "2025-10-26",
+          "stars": 20,
+          "verdict": "suspicious",
+          "confidence": 0.5,
+          "suspiciousRatio": 0.3
+        },
+        {
+          "startDate": "2025-12-10",
+          "endDate": "2025-12-12",
+          "stars": 75,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.04
+        },
+        {
+          "startDate": "2025-12-15",
+          "endDate": "2025-12-15",
+          "stars": 14,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-01-15",
+          "endDate": "2026-01-15",
+          "stars": 11,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-01-26",
+          "endDate": "2026-01-27",
+          "stars": 21,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.09523809523809523
+        },
+        {
+          "startDate": "2026-02-10",
+          "endDate": "2026-02-10",
+          "stars": 9,
+          "verdict": "suspicious",
+          "confidence": 0.5,
+          "suspiciousRatio": 0
+        },
+        {
+          "startDate": "2026-03-09",
+          "endDate": "2026-03-09",
+          "stars": 8,
+          "verdict": "suspicious",
+          "confidence": 0.5,
+          "suspiciousRatio": 0.125
+        },
+        {
+          "startDate": "2026-03-15",
+          "endDate": "2026-03-15",
+          "stars": 12,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.08333333333333333
+        },
+        {
+          "startDate": "2026-03-17",
+          "endDate": "2026-03-24",
+          "stars": 1241,
           "verdict": "organic",
           "confidence": 0.7,
-          "suspiciousRatio": 0
+          "suspiciousRatio": 0.13
         },
         {
-          "startDate": "2026-04-16",
-          "endDate": "2026-04-17",
-          "stars": 16,
+          "startDate": "2026-03-29",
+          "endDate": "2026-03-29",
+          "stars": 26,
           "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
+          "confidence": 0.7,
+          "suspiciousRatio": 0.2692307692307692
         },
         {
-          "startDate": "2026-05-15",
-          "endDate": "2026-05-18",
-          "stars": 1180,
+          "startDate": "2026-04-08",
+          "endDate": "2026-04-08",
+          "stars": 143,
           "verdict": "organic",
           "confidence": 0.85,
-          "suspiciousRatio": 0.06
+          "suspiciousRatio": 0.06993006993006994
+        },
+        {
+          "startDate": "2026-05-04",
+          "endDate": "2026-05-06",
+          "stars": 186,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0.12903225806451613
+        },
+        {
+          "startDate": "2026-05-16",
+          "endDate": "2026-05-19",
+          "stars": 1682,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0.12
         }
       ],
       "warning": null,
-      "scoredAt": 1779108554384,
+      "scoredAt": 1779194028562,
       "algoVersion": 11
     },
-    "zhulinsen/daily_stock_analysis": {
-      "repo": "ZhuLinsen/daily_stock_analysis",
-      "totalStars": 36788,
-      "analyzedStars": 4988,
-      "fakePercent": 16.5,
-      "riskLevel": "medium",
-      "suspiciousStars": 823,
-      "realStars": 30718,
+    "pascalorg/editor": {
+      "repo": "pascalorg/editor",
+      "totalStars": 15720,
+      "analyzedStars": 4920,
+      "fakePercent": 9.5,
+      "riskLevel": "low",
+      "suspiciousStars": 467,
+      "realStars": 14227,
       "insufficientData": false,
       "bursts": 0,
       "validatedBursts": 0,
       "sampleSize": 200,
-      "suspiciousSampleRatio": 0.165,
+      "suspiciousSampleRatio": 0.095,
       "burstVerdicts": [],
       "warning": null,
-      "scoredAt": 1779108576620,
+      "scoredAt": 1779194082028,
+      "algoVersion": 11
+    },
+    "frappe/erpnext": {
+      "repo": "frappe/erpnext",
+      "totalStars": 34066,
+      "analyzedStars": 4966,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 5,
+      "realStars": 34061,
+      "insufficientData": false,
+      "bursts": 6,
+      "validatedBursts": 6,
+      "sampleSize": 200,
+      "suspiciousSampleRatio": 0.11,
+      "burstVerdicts": [
+        {
+          "startDate": "2025-10-10",
+          "endDate": "2025-11-06",
+          "stars": 516,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.04
+        },
+        {
+          "startDate": "2026-01-27",
+          "endDate": "2026-01-27",
+          "stars": 38,
+          "verdict": "suspicious",
+          "confidence": 0.5,
+          "suspiciousRatio": 0.13157894736842105
+        },
+        {
+          "startDate": "2026-05-01",
+          "endDate": "2026-05-03",
+          "stars": 198,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.09595959595959595
+        },
+        {
+          "startDate": "2026-05-05",
+          "endDate": "2026-05-05",
+          "stars": 46,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0.10869565217391304
+        },
+        {
+          "startDate": "2026-05-07",
+          "endDate": "2026-05-07",
+          "stars": 50,
+          "verdict": "organic",
+          "confidence": 0.85,
+          "suspiciousRatio": 0.08
+        },
+        {
+          "startDate": "2026-05-18",
+          "endDate": "2026-05-19",
+          "stars": 139,
+          "verdict": "organic",
+          "confidence": 0.7,
+          "suspiciousRatio": 0.10071942446043165
+        }
+      ],
+      "warning": null,
+      "scoredAt": 1779194125058,
       "algoVersion": 11
     }
   }
