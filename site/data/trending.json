@@ -1,297 +1,15 @@
 {
-  "fetchedAt": "2026-06-24T23:52:50.741Z",
+  "fetchedAt": "2026-06-25T12:19:03.666Z",
   "snapshotDate": "2025-01-01",
   "daily": [
-    {
-      "repo": "calesthio/OpenMontage",
-      "description": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio.",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 19271,
-      "forks": 2195,
-      "todayStars": 3703,
-      "builtBy": [
-        {
-          "login": "calesthio",
-          "avatar": "https://avatars.githubusercontent.com/u/213189893?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "itsuzef",
-          "avatar": "https://avatars.githubusercontent.com/u/53057646?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "ZhuLinsen/daily_stock_analysis",
-      "description": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 48449,
-      "forks": 42946,
-      "todayStars": 1461,
-      "builtBy": [
-        {
-          "login": "ZhuLinsen",
-          "avatar": "https://avatars.githubusercontent.com/u/42829555?s=40&v=4"
-        },
-        {
-          "login": "massif-01",
-          "avatar": "https://avatars.githubusercontent.com/u/176381099?s=40&v=4"
-        },
-        {
-          "login": "freesme",
-          "avatar": "https://avatars.githubusercontent.com/u/56824280?s=40&v=4"
-        },
-        {
-          "login": "adminlove520",
-          "avatar": "https://avatars.githubusercontent.com/u/32920883?s=40&v=4"
-        },
-        {
-          "login": "Activer007",
-          "avatar": "https://avatars.githubusercontent.com/u/30621586?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "apple/container",
-      "description": "A tool for creating and running Linux containers using lightweight virtual machines on a Mac. It is written in Swift, and optimized for Apple silicon.",
-      "language": "Swift",
-      "languageColor": "#F05138",
-      "totalStars": 42178,
-      "forks": 1236,
-      "todayStars": 1746,
-      "builtBy": [
-        {
-          "login": "jglogan",
-          "avatar": "https://avatars.githubusercontent.com/u/1019924?s=40&v=4"
-        },
-        {
-          "login": "katiewasnothere",
-          "avatar": "https://avatars.githubusercontent.com/u/14638319?s=40&v=4"
-        },
-        {
-          "login": "dcantah",
-          "avatar": "https://avatars.githubusercontent.com/u/36526702?s=40&v=4"
-        },
-        {
-          "login": "dkovba",
-          "avatar": "https://avatars.githubusercontent.com/u/206787606?s=40&v=4"
-        },
-        {
-          "login": "realrajaryan",
-          "avatar": "https://avatars.githubusercontent.com/u/58954869?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "interviewstreet/hiring-agent",
-      "description": "AI agent to evaluate and score resumes.",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 2132,
-      "forks": 595,
-      "todayStars": 152,
-      "builtBy": [
-        {
-          "login": "sp2hari",
-          "avatar": "https://avatars.githubusercontent.com/u/39041?s=40&v=4"
-        },
-        {
-          "login": "anxkhn-hacker",
-          "avatar": "https://avatars.githubusercontent.com/u/193470987?s=40&v=4"
-        },
-        {
-          "login": "kaushalkrgupta02",
-          "avatar": "https://avatars.githubusercontent.com/u/114843073?s=40&v=4"
-        },
-        {
-          "login": "G26karthik",
-          "avatar": "https://avatars.githubusercontent.com/u/144328549?s=40&v=4"
-        },
-        {
-          "login": "singla-rhydham",
-          "avatar": "https://avatars.githubusercontent.com/u/100041941?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "JCodesMore/ai-website-cloner-template",
-      "description": "Clone any website with one command using AI coding agents",
-      "language": "TypeScript",
-      "languageColor": "#3178c6",
-      "totalStars": 19271,
-      "forks": 2879,
-      "todayStars": 693,
-      "builtBy": [
-        {
-          "login": "JCodesMore",
-          "avatar": "https://avatars.githubusercontent.com/u/182581310?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "oz-agent",
-          "avatar": "https://avatars.githubusercontent.com/u/260729474?s=40&v=4"
-        },
-        {
-          "login": "rishikeshmanohar",
-          "avatar": "https://avatars.githubusercontent.com/u/55550442?s=40&v=4"
-        },
-        {
-          "login": "SABUJ123472",
-          "avatar": "https://avatars.githubusercontent.com/u/132305576?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "revfactory/harness",
-      "description": "A meta-skill that designs domain-specific agent teams, defines specialized agents, and generates the skills they use.",
-      "language": "HTML",
-      "languageColor": "#e34c26",
-      "totalStars": 7716,
-      "forks": 1054,
-      "todayStars": 274,
-      "builtBy": [
-        {
-          "login": "revfactory",
-          "avatar": "https://avatars.githubusercontent.com/u/2889542?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "Mubashirrrr",
-          "avatar": "https://avatars.githubusercontent.com/u/112580905?s=40&v=4"
-        },
-        {
-          "login": "hongsw",
-          "avatar": "https://avatars.githubusercontent.com/u/1100974?s=40&v=4"
-        },
-        {
-          "login": "shaun0927",
-          "avatar": "https://avatars.githubusercontent.com/u/70629228?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "flutter/flutter",
-      "description": "Flutter makes it easy and fast to build beautiful apps for mobile and beyond",
-      "language": "Dart",
-      "languageColor": "#00B4AB",
-      "totalStars": 125256,
-      "forks": 30544,
-      "todayStars": 200,
-      "builtBy": [
-        {
-          "login": "skia-flutter-autoroll",
-          "avatar": "https://avatars.githubusercontent.com/u/37626415?s=40&v=4"
-        },
-        {
-          "login": "engine-flutter-autoroll",
-          "avatar": "https://avatars.githubusercontent.com/u/42042535?s=40&v=4"
-        },
-        {
-          "login": "abarth",
-          "avatar": "https://avatars.githubusercontent.com/u/112007?s=40&v=4"
-        },
-        {
-          "login": "Hixie",
-          "avatar": "https://avatars.githubusercontent.com/u/551196?s=40&v=4"
-        },
-        {
-          "login": "jason-simmons",
-          "avatar": "https://avatars.githubusercontent.com/u/14226037?s=40&v=4"
-        }
-      ],
-      "inDataset": true,
-      "fakeStars": 1945,
-      "fakePercent": 1.6,
-      "detectedBy": [
-        "low-activity",
-        "lockstep"
-      ]
-    },
-    {
-      "repo": "andreknieriem/headunit-revived",
-      "description": "Headunit App for displaying Android Auto",
-      "language": "Kotlin",
-      "languageColor": "#A97BFF",
-      "totalStars": 1408,
-      "forks": 112,
-      "todayStars": 62,
-      "builtBy": [
-        {
-          "login": "andreknieriem",
-          "avatar": "https://avatars.githubusercontent.com/u/4500367?s=40&v=4"
-        },
-        {
-          "login": "andrecuellar",
-          "avatar": "https://avatars.githubusercontent.com/u/7474035?s=40&v=4"
-        },
-        {
-          "login": "tsabaia",
-          "avatar": "https://avatars.githubusercontent.com/u/15067718?s=40&v=4"
-        },
-        {
-          "login": "nicoruy",
-          "avatar": "https://avatars.githubusercontent.com/u/11979039?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "stablyai/orca",
-      "description": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile.",
-      "language": "TypeScript",
-      "languageColor": "#3178c6",
-      "totalStars": 6751,
-      "forks": 489,
-      "todayStars": 387,
-      "builtBy": [
-        {
-          "login": "nwparker",
-          "avatar": "https://avatars.githubusercontent.com/u/4138956?s=40&v=4"
-        },
-        {
-          "login": "AmethystLiang",
-          "avatar": "https://avatars.githubusercontent.com/u/6427696?s=40&v=4"
-        },
-        {
-          "login": "orca-ide",
-          "avatar": "https://avatars.githubusercontent.com/u/277417572?s=40&v=4"
-        },
-        {
-          "login": "Jinwoo-H",
-          "avatar": "https://avatars.githubusercontent.com/u/73622457?s=40&v=4"
-        },
-        {
-          "login": "brennanb2025",
-          "avatar": "https://avatars.githubusercontent.com/u/79079362?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
     {
       "repo": "google-labs-code/design.md",
       "description": "A format specification for describing a visual identity to coding agents. DESIGN.md gives agents a persistent, structured understanding of a design system.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 17293,
-      "forks": 1567,
-      "todayStars": 504,
+      "totalStars": 18083,
+      "forks": 1600,
+      "todayStars": 619,
       "builtBy": [
         {
           "login": "davideast",
@@ -317,112 +35,13 @@
       "inDataset": false
     },
     {
-      "repo": "Flowseal/zapret-discord-youtube",
-      "description": null,
-      "language": "Batchfile",
-      "languageColor": "#C1F12E",
-      "totalStars": 8846,
-      "forks": 2341,
-      "todayStars": 103,
-      "builtBy": [
-        {
-          "login": "Flowseal",
-          "avatar": "https://avatars.githubusercontent.com/u/50780822?s=40&v=4"
-        },
-        {
-          "login": "V3nilla",
-          "avatar": "https://avatars.githubusercontent.com/u/48512277?s=40&v=4"
-        },
-        {
-          "login": "ekungurov",
-          "avatar": "https://avatars.githubusercontent.com/u/8576664?s=40&v=4"
-        },
-        {
-          "login": "fridorin",
-          "avatar": "https://avatars.githubusercontent.com/u/93490920?s=40&v=4"
-        },
-        {
-          "login": "amozebus",
-          "avatar": "https://avatars.githubusercontent.com/u/190386872?s=40&v=4"
-        }
-      ],
-      "inDataset": true,
-      "fakeStars": 1387,
-      "fakePercent": 15.7,
-      "detectedBy": [
-        "low-activity"
-      ]
-    },
-    {
-      "repo": "kunchenguid/no-mistakes",
-      "description": "git push no-mistakes",
-      "language": "Go",
-      "languageColor": "#00ADD8",
-      "totalStars": 2052,
-      "forks": 140,
-      "todayStars": 182,
-      "builtBy": [
-        {
-          "login": "kunchenguid",
-          "avatar": "https://avatars.githubusercontent.com/u/3233006?s=40&v=4"
-        },
-        {
-          "login": "ghyghoo8",
-          "avatar": "https://avatars.githubusercontent.com/u/363129?s=40&v=4"
-        },
-        {
-          "login": "e-jung",
-          "avatar": "https://avatars.githubusercontent.com/u/8334081?s=40&v=4"
-        },
-        {
-          "login": "luojiyin1987",
-          "avatar": "https://avatars.githubusercontent.com/u/6524977?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "NousResearch/hermes-agent",
-      "description": "The agent that grows with you",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 202026,
-      "forks": 36109,
-      "todayStars": 1174,
-      "builtBy": [
-        {
-          "login": "teknium1",
-          "avatar": "https://avatars.githubusercontent.com/u/127238744?s=40&v=4"
-        },
-        {
-          "login": "OutThisLife",
-          "avatar": "https://avatars.githubusercontent.com/u/770929?s=40&v=4"
-        },
-        {
-          "login": "kshitijk4poor",
-          "avatar": "https://avatars.githubusercontent.com/u/82637225?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "benbarclay",
-          "avatar": "https://avatars.githubusercontent.com/u/413810?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    }
-  ],
-  "weekly": [
-    {
       "repo": "calesthio/OpenMontage",
       "description": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 19271,
-      "forks": 2195,
-      "todayStars": 9410,
+      "totalStars": 21279,
+      "forks": 2375,
+      "todayStars": 3719,
       "builtBy": [
         {
           "login": "calesthio",
@@ -435,6 +54,441 @@
         {
           "login": "itsuzef",
           "avatar": "https://avatars.githubusercontent.com/u/53057646?s=40&v=4"
+        },
+        {
+          "login": "CooperSheroy",
+          "avatar": "https://avatars.githubusercontent.com/u/59650384?s=40&v=4"
+        },
+        {
+          "login": "shubham21155102",
+          "avatar": "https://avatars.githubusercontent.com/u/98862179?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "xbtlin/ai-berkshire",
+      "description": "AI 时代的伯克希尔：基于 Claude Code 的价值投资研究框架。巴菲特·芒格·段永平·李录四大师方法论 + 多Agent并行研究。| AI-era Berkshire: a value investing research framework built on Claude Code. 4 masters' methodologies + multi-agent adversarial analysis.",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 1535,
+      "forks": 264,
+      "todayStars": 201,
+      "builtBy": [
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "xbtlin",
+          "avatar": "https://avatars.githubusercontent.com/u/6993203?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "mauriceboe/TREK",
+      "description": "A self-hosted travel/trip planner with real-time collaboration, interactive maps, PWA support, SSO, budgets, packing lists, and more.",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "totalStars": 6174,
+      "forks": 589,
+      "todayStars": 112,
+      "builtBy": [
+        {
+          "login": "mauriceboe",
+          "avatar": "https://avatars.githubusercontent.com/u/61554723?s=40&v=4"
+        },
+        {
+          "login": "jubnl",
+          "avatar": "https://avatars.githubusercontent.com/u/66769052?s=40&v=4"
+        },
+        {
+          "login": "tiquis0290",
+          "avatar": "https://avatars.githubusercontent.com/u/99432678?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "apple/container",
+      "description": "A tool for creating and running Linux containers using lightweight virtual machines on a Mac. It is written in Swift, and optimized for Apple silicon.",
+      "language": "Swift",
+      "languageColor": "#F05138",
+      "totalStars": 42823,
+      "forks": 1258,
+      "todayStars": 1838,
+      "builtBy": [
+        {
+          "login": "jglogan",
+          "avatar": "https://avatars.githubusercontent.com/u/1019924?s=40&v=4"
+        },
+        {
+          "login": "katiewasnothere",
+          "avatar": "https://avatars.githubusercontent.com/u/14638319?s=40&v=4"
+        },
+        {
+          "login": "dcantah",
+          "avatar": "https://avatars.githubusercontent.com/u/36526702?s=40&v=4"
+        },
+        {
+          "login": "dkovba",
+          "avatar": "https://avatars.githubusercontent.com/u/206787606?s=40&v=4"
+        },
+        {
+          "login": "realrajaryan",
+          "avatar": "https://avatars.githubusercontent.com/u/58954869?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "JCodesMore/ai-website-cloner-template",
+      "description": "Clone any website with one command using AI coding agents",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "totalStars": 19932,
+      "forks": 2946,
+      "todayStars": 692,
+      "builtBy": [
+        {
+          "login": "JCodesMore",
+          "avatar": "https://avatars.githubusercontent.com/u/182581310?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "oz-agent",
+          "avatar": "https://avatars.githubusercontent.com/u/260729474?s=40&v=4"
+        },
+        {
+          "login": "rishikeshmanohar",
+          "avatar": "https://avatars.githubusercontent.com/u/55550442?s=40&v=4"
+        },
+        {
+          "login": "SABUJ123472",
+          "avatar": "https://avatars.githubusercontent.com/u/132305576?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "garrytan/gstack",
+      "description": "Use Garry Tan's exact Claude Code setup: 23 opinionated tools that serve as CEO, Designer, Eng Manager, Release Manager, Doc Engineer, and QA",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "totalStars": 115340,
+      "forks": 17095,
+      "todayStars": 922,
+      "builtBy": [
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "garrytan",
+          "avatar": "https://avatars.githubusercontent.com/u/19957?s=40&v=4"
+        },
+        {
+          "login": "jbetala7",
+          "avatar": "https://avatars.githubusercontent.com/u/55358314?s=40&v=4"
+        },
+        {
+          "login": "garagon",
+          "avatar": "https://avatars.githubusercontent.com/u/216552?s=40&v=4"
+        },
+        {
+          "login": "mvanhorn",
+          "avatar": "https://avatars.githubusercontent.com/u/455140?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "aws/agent-toolkit-for-aws",
+      "description": "Official, AWS-supported MCP servers, skills, and plugins to help AI agents build on AWS",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 1012,
+      "forks": 109,
+      "todayStars": 15,
+      "builtBy": [
+        {
+          "login": "arnewouters",
+          "avatar": "https://avatars.githubusercontent.com/u/25950814?s=40&v=4"
+        },
+        {
+          "login": "rshevchuk-git",
+          "avatar": "https://avatars.githubusercontent.com/u/51510790?s=40&v=4"
+        },
+        {
+          "login": "krishmakochhar",
+          "avatar": "https://avatars.githubusercontent.com/u/7801055?s=40&v=4"
+        },
+        {
+          "login": "bfreiberg",
+          "avatar": "https://avatars.githubusercontent.com/u/9841563?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "mukul975/Anthropic-Cybersecurity-Skills",
+      "description": "817 structured cybersecurity skills for AI agents · Mapped to 6 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND, NIST AI RMF & MITRE F3 (Fight Fraud) · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 29 security domains · Apache 2.0",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 20836,
+      "forks": 2411,
+      "todayStars": 1031,
+      "builtBy": [
+        {
+          "login": "mukul975",
+          "avatar": "https://avatars.githubusercontent.com/u/42860185?s=40&v=4"
+        },
+        {
+          "login": "juliosuas",
+          "avatar": "https://avatars.githubusercontent.com/u/5745504?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "andrewibrah",
+          "avatar": "https://avatars.githubusercontent.com/u/157662519?s=40&v=4"
+        },
+        {
+          "login": "Bortlesboat",
+          "avatar": "https://avatars.githubusercontent.com/u/169967362?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "alibaba/page-agent",
+      "description": "JavaScript in-page GUI agent. Control web interfaces with natural language.",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "totalStars": 19597,
+      "forks": 1694,
+      "todayStars": 280,
+      "builtBy": [
+        {
+          "login": "gaomeng1900",
+          "avatar": "https://avatars.githubusercontent.com/u/10131203?s=40&v=4"
+        },
+        {
+          "login": "JasonOA888",
+          "avatar": "https://avatars.githubusercontent.com/u/101583541?s=40&v=4"
+        },
+        {
+          "login": "linked-danis",
+          "avatar": "https://avatars.githubusercontent.com/u/246056357?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "IceWhaleTech/CasaOS",
+      "description": "CasaOS - A simple, easy-to-use, elegant open-source Personal Cloud system.",
+      "language": "Go",
+      "languageColor": "#00ADD8",
+      "totalStars": 27027,
+      "forks": 1977,
+      "todayStars": 174,
+      "builtBy": [
+        {
+          "login": "LinkLeong",
+          "avatar": "https://avatars.githubusercontent.com/u/13556972?s=40&v=4"
+        },
+        {
+          "login": "JohnGuan",
+          "avatar": "https://avatars.githubusercontent.com/u/3358477?s=40&v=4"
+        },
+        {
+          "login": "tigerinus",
+          "avatar": "https://avatars.githubusercontent.com/u/7172560?s=40&v=4"
+        },
+        {
+          "login": "jerrykuku",
+          "avatar": "https://avatars.githubusercontent.com/u/9485680?s=40&v=4"
+        }
+      ],
+      "inDataset": true,
+      "fakeStars": 88,
+      "fakePercent": 0.3,
+      "detectedBy": [
+        "low-activity"
+      ]
+    },
+    {
+      "repo": "opendatalab/MinerU",
+      "description": "Transforms complex documents like PDFs and Office docs into LLM-ready markdown/JSON for your Agentic workflows.",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 21895,
+      "forks": 5839,
+      "todayStars": 524,
+      "builtBy": [
+        {
+          "login": "myhloli",
+          "avatar": "https://avatars.githubusercontent.com/u/11393164?s=40&v=4"
+        },
+        {
+          "login": "Sidney233",
+          "avatar": "https://avatars.githubusercontent.com/u/54933042?s=40&v=4"
+        },
+        {
+          "login": "dt-yy",
+          "avatar": "https://avatars.githubusercontent.com/u/102640628?s=40&v=4"
+        }
+      ],
+      "inDataset": true,
+      "fakeStars": 1956,
+      "fakePercent": 8.9,
+      "detectedBy": [
+        "low-activity",
+        "lockstep"
+      ]
+    },
+    {
+      "repo": "Free-TV/IPTV",
+      "description": "M3U Playlist for free TV channels",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 5283,
+      "forks": 2665,
+      "todayStars": 141,
+      "builtBy": [
+        {
+          "login": "KAMI911",
+          "avatar": "https://avatars.githubusercontent.com/u/5292264?s=40&v=4"
+        },
+        {
+          "login": "freetv332",
+          "avatar": "https://avatars.githubusercontent.com/u/82442641?s=40&v=4"
+        },
+        {
+          "login": "NezbednikSK",
+          "avatar": "https://avatars.githubusercontent.com/u/47603275?s=40&v=4"
+        },
+        {
+          "login": "TVKaista",
+          "avatar": "https://avatars.githubusercontent.com/u/103857112?s=40&v=4"
+        },
+        {
+          "login": "infid0",
+          "avatar": "https://avatars.githubusercontent.com/u/17656192?s=40&v=4"
+        }
+      ],
+      "inDataset": true,
+      "fakeStars": 255,
+      "fakePercent": 4.8,
+      "detectedBy": [
+        "low-activity"
+      ]
+    },
+    {
+      "repo": "shanraisshan/claude-code-best-practice",
+      "description": "from vibe coding to agentic engineering - practice makes claude perfect",
+      "language": "HTML",
+      "languageColor": "#e34c26",
+      "totalStars": 60153,
+      "forks": 6042,
+      "todayStars": 670,
+      "builtBy": [
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "shanraisshan",
+          "avatar": "https://avatars.githubusercontent.com/u/11731897?s=40&v=4"
+        },
+        {
+          "login": "neutmute",
+          "avatar": "https://avatars.githubusercontent.com/u/1303131?s=40&v=4"
+        },
+        {
+          "login": "shayangd",
+          "avatar": "https://avatars.githubusercontent.com/u/192189596?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "NanmiCoder/MediaCrawler",
+      "description": "小红书笔记 | 评论爬虫、抖音视频 | 评论爬虫、快手视频 | 评论爬虫、B 站视频 ｜ 评论爬虫、微博帖子 ｜ 评论爬虫、百度贴吧帖子 ｜ 百度贴吧评论回复爬虫 | 知乎问答文章｜评论爬虫",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 18741,
+      "forks": 10895,
+      "todayStars": 347,
+      "builtBy": [
+        {
+          "login": "NanmiCoder",
+          "avatar": "https://avatars.githubusercontent.com/u/47178017?s=40&v=4"
+        },
+        {
+          "login": "2513502304",
+          "avatar": "https://avatars.githubusercontent.com/u/129171955?s=40&v=4"
+        },
+        {
+          "login": "gaoxiaobei",
+          "avatar": "https://avatars.githubusercontent.com/u/99178334?s=40&v=4"
+        },
+        {
+          "login": "persist-1",
+          "avatar": "https://avatars.githubusercontent.com/u/206997360?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        }
+      ],
+      "inDataset": true,
+      "fakeStars": 387,
+      "fakePercent": 2.1,
+      "detectedBy": [
+        "low-activity"
+      ]
+    }
+  ],
+  "weekly": [
+    {
+      "repo": "calesthio/OpenMontage",
+      "description": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio.",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 21279,
+      "forks": 2375,
+      "todayStars": 12948,
+      "builtBy": [
+        {
+          "login": "calesthio",
+          "avatar": "https://avatars.githubusercontent.com/u/213189893?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "itsuzef",
+          "avatar": "https://avatars.githubusercontent.com/u/53057646?s=40&v=4"
+        },
+        {
+          "login": "CooperSheroy",
+          "avatar": "https://avatars.githubusercontent.com/u/59650384?s=40&v=4"
+        },
+        {
+          "login": "shubham21155102",
+          "avatar": "https://avatars.githubusercontent.com/u/98862179?s=40&v=4"
         }
       ],
       "inDataset": false
@@ -444,9 +498,9 @@
       "description": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies.",
       "language": "C",
       "languageColor": "#555555",
-      "totalStars": 14092,
-      "forks": 1039,
-      "todayStars": 8536,
+      "totalStars": 14513,
+      "forks": 1066,
+      "todayStars": 9589,
       "builtBy": [
         {
           "login": "DeusData",
@@ -472,9 +526,9 @@
       "description": "TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 25444,
-      "forks": 2420,
-      "todayStars": 4376,
+      "totalStars": 25515,
+      "forks": 2426,
+      "todayStars": 3915,
       "builtBy": [
         {
           "login": "rajatsen91",
@@ -500,45 +554,13 @@
       "inDataset": false
     },
     {
-      "repo": "n0-computer/iroh",
-      "description": "IP addresses break, dial keys instead. Modular networking stack in Rust.",
-      "language": "Rust",
-      "languageColor": "#dea584",
-      "totalStars": 10695,
-      "forks": 488,
-      "todayStars": 1531,
-      "builtBy": [
-        {
-          "login": "dignifiedquire",
-          "avatar": "https://avatars.githubusercontent.com/u/790842?s=40&v=4"
-        },
-        {
-          "login": "flub",
-          "avatar": "https://avatars.githubusercontent.com/u/146720?s=40&v=4"
-        },
-        {
-          "login": "rklaehn",
-          "avatar": "https://avatars.githubusercontent.com/u/248257?s=40&v=4"
-        },
-        {
-          "login": "Frando",
-          "avatar": "https://avatars.githubusercontent.com/u/43627?s=40&v=4"
-        },
-        {
-          "login": "ramfox",
-          "avatar": "https://avatars.githubusercontent.com/u/17440142?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
       "repo": "koala73/worldmonitor",
       "description": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 59581,
-      "forks": 9319,
-      "todayStars": 2309,
+      "totalStars": 59718,
+      "forks": 9331,
+      "todayStars": 2899,
       "builtBy": [
         {
           "login": "koala73",
@@ -564,77 +586,13 @@
       "inDataset": false
     },
     {
-      "repo": "asgeirtj/system_prompts_leaks",
-      "description": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly.",
-      "language": "JavaScript",
-      "languageColor": "#f1e05a",
-      "totalStars": 45717,
-      "forks": 7506,
-      "todayStars": 2681,
-      "builtBy": [
-        {
-          "login": "asgeirtj",
-          "avatar": "https://avatars.githubusercontent.com/u/27446620?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "awrreny",
-          "avatar": "https://avatars.githubusercontent.com/u/46632417?s=40&v=4"
-        },
-        {
-          "login": "anonymous619259",
-          "avatar": "https://avatars.githubusercontent.com/u/87837428?s=40&v=4"
-        },
-        {
-          "login": "lcebot",
-          "avatar": "https://avatars.githubusercontent.com/u/117039037?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "Panniantong/Agent-Reach",
-      "description": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees.",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 39637,
-      "forks": 3140,
-      "todayStars": 6915,
-      "builtBy": [
-        {
-          "login": "Panniantong",
-          "avatar": "https://avatars.githubusercontent.com/u/73925474?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "kadaliao",
-          "avatar": "https://avatars.githubusercontent.com/u/7401626?s=40&v=4"
-        },
-        {
-          "login": "hymansun",
-          "avatar": "https://avatars.githubusercontent.com/u/10735997?s=40&v=4"
-        },
-        {
-          "login": "alfred1994",
-          "avatar": "https://avatars.githubusercontent.com/u/12839688?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
       "repo": "penpot/penpot",
       "description": "Penpot: The open-source design tool for design and code collaboration",
       "language": "Clojure",
       "languageColor": "#db5855",
       "totalStars": 32631,
-      "forks": 3443,
-      "todayStars": 3423,
+      "forks": 3454,
+      "todayStars": 3593,
       "builtBy": [
         {
           "login": "niwinz",
@@ -665,45 +623,13 @@
       ]
     },
     {
-      "repo": "withastro/flue",
-      "description": "The sandbox agent framework.",
-      "language": "TypeScript",
-      "languageColor": "#3178c6",
-      "totalStars": 6616,
-      "forks": 370,
-      "todayStars": 1489,
-      "builtBy": [
-        {
-          "login": "FredKSchott",
-          "avatar": "https://avatars.githubusercontent.com/u/622227?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "stainlu",
-          "avatar": "https://avatars.githubusercontent.com/u/109842185?s=40&v=4"
-        },
-        {
-          "login": "cpojer",
-          "avatar": "https://avatars.githubusercontent.com/u/13352?s=40&v=4"
-        },
-        {
-          "login": "ketankhairnar",
-          "avatar": "https://avatars.githubusercontent.com/u/83536?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
       "repo": "jamiepine/voicebox",
       "description": "The open-source AI voice studio. Clone, dictate, create.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 33843,
-      "forks": 4071,
-      "todayStars": 2883,
+      "totalStars": 34054,
+      "forks": 4095,
+      "todayStars": 3583,
       "builtBy": [
         {
           "login": "jamiepine",
@@ -729,46 +655,109 @@
       "inDataset": false
     },
     {
-      "repo": "iptv-org/iptv",
-      "description": "Collection of publicly available IPTV channels from all over the world",
-      "language": "TypeScript",
-      "languageColor": "#3178c6",
-      "totalStars": 90269,
-      "forks": 7064,
-      "todayStars": 4378,
+      "repo": "asgeirtj/system_prompts_leaks",
+      "description": "Extracted system prompts from Anthropic - Claude Fable 5, Opus 4.8, Claude Code, Claude Design. OpenAI - ChatGPT 5.5 Thinking, GPT 5.5 Instant, Codex. Google - Gemini 3.5 Flash, 3.1 Pro, Antigravity. xAI - Grok, Cursor, Copilot, VS Code, Perplexity, and more. Updated regularly.",
+      "language": "JavaScript",
+      "languageColor": "#f1e05a",
+      "totalStars": 45948,
+      "forks": 7535,
+      "todayStars": 2662,
       "builtBy": [
         {
-          "login": "freearhey",
-          "avatar": "https://avatars.githubusercontent.com/u/7253922?s=40&v=4"
+          "login": "asgeirtj",
+          "avatar": "https://avatars.githubusercontent.com/u/27446620?s=40&v=4"
         },
         {
-          "login": "BellezaEmporium",
-          "avatar": "https://avatars.githubusercontent.com/u/30985701?s=40&v=4"
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
         },
         {
-          "login": "Dum4G",
-          "avatar": "https://avatars.githubusercontent.com/u/5430116?s=40&v=4"
+          "login": "awrreny",
+          "avatar": "https://avatars.githubusercontent.com/u/46632417?s=40&v=4"
         },
         {
-          "login": "UltraHDR",
-          "avatar": "https://avatars.githubusercontent.com/u/108294295?s=40&v=4"
+          "login": "anonymous619259",
+          "avatar": "https://avatars.githubusercontent.com/u/87837428?s=40&v=4"
+        },
+        {
+          "login": "lcebot",
+          "avatar": "https://avatars.githubusercontent.com/u/117039037?s=40&v=4"
         }
       ],
-      "inDataset": true,
-      "fakeStars": 2142,
-      "fakePercent": 2.4,
-      "detectedBy": [
-        "low-activity"
-      ]
+      "inDataset": false
+    },
+    {
+      "repo": "Panniantong/Agent-Reach",
+      "description": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees.",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 40677,
+      "forks": 3212,
+      "todayStars": 6752,
+      "builtBy": [
+        {
+          "login": "Panniantong",
+          "avatar": "https://avatars.githubusercontent.com/u/73925474?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "kadaliao",
+          "avatar": "https://avatars.githubusercontent.com/u/7401626?s=40&v=4"
+        },
+        {
+          "login": "hymansun",
+          "avatar": "https://avatars.githubusercontent.com/u/10735997?s=40&v=4"
+        },
+        {
+          "login": "alfred1994",
+          "avatar": "https://avatars.githubusercontent.com/u/12839688?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "ZhuLinsen/daily_stock_analysis",
+      "description": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 49305,
+      "forks": 43341,
+      "todayStars": 5185,
+      "builtBy": [
+        {
+          "login": "ZhuLinsen",
+          "avatar": "https://avatars.githubusercontent.com/u/42829555?s=40&v=4"
+        },
+        {
+          "login": "massif-01",
+          "avatar": "https://avatars.githubusercontent.com/u/176381099?s=40&v=4"
+        },
+        {
+          "login": "freesme",
+          "avatar": "https://avatars.githubusercontent.com/u/56824280?s=40&v=4"
+        },
+        {
+          "login": "adminlove520",
+          "avatar": "https://avatars.githubusercontent.com/u/32920883?s=40&v=4"
+        },
+        {
+          "login": "Activer007",
+          "avatar": "https://avatars.githubusercontent.com/u/30621586?s=40&v=4"
+        }
+      ],
+      "inDataset": false
     },
     {
       "repo": "OpenCut-app/OpenCut",
       "description": "The open-source CapCut alternative",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 59547,
-      "forks": 6472,
-      "todayStars": 3283,
+      "totalStars": 59672,
+      "forks": 6481,
+      "todayStars": 3550,
       "builtBy": [
         {
           "login": "mazeincoding",
@@ -794,13 +783,143 @@
       "inDataset": false
     },
     {
+      "repo": "withastro/flue",
+      "description": "The sandbox agent framework.",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "totalStars": 6661,
+      "forks": 371,
+      "todayStars": 1415,
+      "builtBy": [
+        {
+          "login": "FredKSchott",
+          "avatar": "https://avatars.githubusercontent.com/u/622227?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "stainlu",
+          "avatar": "https://avatars.githubusercontent.com/u/109842185?s=40&v=4"
+        },
+        {
+          "login": "cpojer",
+          "avatar": "https://avatars.githubusercontent.com/u/13352?s=40&v=4"
+        },
+        {
+          "login": "ketankhairnar",
+          "avatar": "https://avatars.githubusercontent.com/u/83536?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "mukul975/Anthropic-Cybersecurity-Skills",
+      "description": "817 structured cybersecurity skills for AI agents · Mapped to 6 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND, NIST AI RMF & MITRE F3 (Fight Fraud) · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 29 security domains · Apache 2.0",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 20836,
+      "forks": 2411,
+      "todayStars": 4304,
+      "builtBy": [
+        {
+          "login": "mukul975",
+          "avatar": "https://avatars.githubusercontent.com/u/42860185?s=40&v=4"
+        },
+        {
+          "login": "juliosuas",
+          "avatar": "https://avatars.githubusercontent.com/u/5745504?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "andrewibrah",
+          "avatar": "https://avatars.githubusercontent.com/u/157662519?s=40&v=4"
+        },
+        {
+          "login": "Bortlesboat",
+          "avatar": "https://avatars.githubusercontent.com/u/169967362?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "Stirling-Tools/Stirling-PDF",
+      "description": "#1 PDF Application on GitHub that lets you edit PDFs on any device anywhere",
+      "language": "Java",
+      "languageColor": "#b07219",
+      "totalStars": 34790,
+      "forks": 7337,
+      "todayStars": 2793,
+      "builtBy": [
+        {
+          "login": "Frooodle",
+          "avatar": "https://avatars.githubusercontent.com/u/77850077?s=40&v=4"
+        },
+        {
+          "login": "Ludy87",
+          "avatar": "https://avatars.githubusercontent.com/u/4592558?s=40&v=4"
+        },
+        {
+          "login": "jbrunton96",
+          "avatar": "https://avatars.githubusercontent.com/u/15197528?s=40&v=4"
+        },
+        {
+          "login": "reecebrowne",
+          "avatar": "https://avatars.githubusercontent.com/u/74901996?s=40&v=4"
+        }
+      ],
+      "inDataset": true,
+      "fakeStars": 634,
+      "fakePercent": 1.8,
+      "detectedBy": [
+        "low-activity",
+        "lockstep"
+      ]
+    },
+    {
+      "repo": "interviewstreet/hiring-agent",
+      "description": "AI agent to evaluate and score resumes.",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 2611,
+      "forks": 633,
+      "todayStars": 902,
+      "builtBy": [
+        {
+          "login": "sp2hari",
+          "avatar": "https://avatars.githubusercontent.com/u/39041?s=40&v=4"
+        },
+        {
+          "login": "anxkhn-hacker",
+          "avatar": "https://avatars.githubusercontent.com/u/193470987?s=40&v=4"
+        },
+        {
+          "login": "kaushalkrgupta02",
+          "avatar": "https://avatars.githubusercontent.com/u/114843073?s=40&v=4"
+        },
+        {
+          "login": "G26karthik",
+          "avatar": "https://avatars.githubusercontent.com/u/144328549?s=40&v=4"
+        },
+        {
+          "login": "singla-rhydham",
+          "avatar": "https://avatars.githubusercontent.com/u/100041941?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
       "repo": "stablyai/orca",
       "description": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop and mobile.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 6751,
-      "forks": 489,
-      "todayStars": 1216,
+      "totalStars": 7184,
+      "forks": 517,
+      "todayStars": 1397,
       "builtBy": [
         {
           "login": "nwparker",
@@ -826,13 +945,82 @@
       "inDataset": false
     },
     {
+      "repo": "n0-computer/iroh",
+      "description": "IP addresses break, dial keys instead. Modular networking stack in Rust.",
+      "language": "Rust",
+      "languageColor": "#dea584",
+      "totalStars": 10735,
+      "forks": 491,
+      "todayStars": 1196,
+      "builtBy": [
+        {
+          "login": "dignifiedquire",
+          "avatar": "https://avatars.githubusercontent.com/u/790842?s=40&v=4"
+        },
+        {
+          "login": "flub",
+          "avatar": "https://avatars.githubusercontent.com/u/146720?s=40&v=4"
+        },
+        {
+          "login": "rklaehn",
+          "avatar": "https://avatars.githubusercontent.com/u/248257?s=40&v=4"
+        },
+        {
+          "login": "Frando",
+          "avatar": "https://avatars.githubusercontent.com/u/43627?s=40&v=4"
+        },
+        {
+          "login": "ramfox",
+          "avatar": "https://avatars.githubusercontent.com/u/17440142?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "Kong/insomnia",
+      "description": "The open-source, cross-platform API client for GraphQL, REST, WebSockets, SSE and gRPC. With Cloud, Local and Git storage.",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "totalStars": 25590,
+      "forks": 2346,
+      "todayStars": 1167,
+      "builtBy": [
+        {
+          "login": "gschier",
+          "avatar": "https://avatars.githubusercontent.com/u/587576?s=40&v=4"
+        },
+        {
+          "login": "jackkav",
+          "avatar": "https://avatars.githubusercontent.com/u/3679927?s=40&v=4"
+        },
+        {
+          "login": "develohpanda",
+          "avatar": "https://avatars.githubusercontent.com/u/4312346?s=40&v=4"
+        },
+        {
+          "login": "gatzjames",
+          "avatar": "https://avatars.githubusercontent.com/u/12115431?s=40&v=4"
+        },
+        {
+          "login": "filfreire",
+          "avatar": "https://avatars.githubusercontent.com/u/11976836?s=40&v=4"
+        }
+      ],
+      "inDataset": true,
+      "fakeStars": 208,
+      "fakePercent": 0.8,
+      "detectedBy": [
+        "low-activity"
+      ]
+    },
+    {
       "repo": "makeplane/plane",
       "description": "🔥🔥🔥 Open-source Jira, Linear, Monday, and ClickUp alternative. Plane is a modern project management platform to manage tasks, sprints, docs, and triage.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
       "totalStars": 30468,
-      "forks": 4715,
-      "todayStars": 1804,
+      "forks": 4724,
+      "todayStars": 1871,
       "builtBy": [
         {
           "login": "anmolsinghbhatia",
@@ -864,200 +1052,53 @@
       ]
     },
     {
-      "repo": "Kong/insomnia",
-      "description": "The open-source, cross-platform API client for GraphQL, REST, WebSockets, SSE and gRPC. With Cloud, Local and Git storage.",
-      "language": "TypeScript",
-      "languageColor": "#3178c6",
-      "totalStars": 25590,
-      "forks": 2347,
-      "todayStars": 1121,
-      "builtBy": [
-        {
-          "login": "gschier",
-          "avatar": "https://avatars.githubusercontent.com/u/587576?s=40&v=4"
-        },
-        {
-          "login": "jackkav",
-          "avatar": "https://avatars.githubusercontent.com/u/3679927?s=40&v=4"
-        },
-        {
-          "login": "develohpanda",
-          "avatar": "https://avatars.githubusercontent.com/u/4312346?s=40&v=4"
-        },
-        {
-          "login": "gatzjames",
-          "avatar": "https://avatars.githubusercontent.com/u/12115431?s=40&v=4"
-        },
-        {
-          "login": "filfreire",
-          "avatar": "https://avatars.githubusercontent.com/u/11976836?s=40&v=4"
-        }
-      ],
-      "inDataset": true,
-      "fakeStars": 208,
-      "fakePercent": 0.8,
-      "detectedBy": [
-        "low-activity"
-      ]
-    },
-    {
-      "repo": "Stirling-Tools/Stirling-PDF",
-      "description": "#1 PDF Application on GitHub that lets you edit PDFs on any device anywhere",
-      "language": "Java",
-      "languageColor": "#b07219",
-      "totalStars": 34790,
-      "forks": 7315,
-      "todayStars": 2491,
-      "builtBy": [
-        {
-          "login": "Frooodle",
-          "avatar": "https://avatars.githubusercontent.com/u/77850077?s=40&v=4"
-        },
-        {
-          "login": "Ludy87",
-          "avatar": "https://avatars.githubusercontent.com/u/4592558?s=40&v=4"
-        },
-        {
-          "login": "jbrunton96",
-          "avatar": "https://avatars.githubusercontent.com/u/15197528?s=40&v=4"
-        },
-        {
-          "login": "reecebrowne",
-          "avatar": "https://avatars.githubusercontent.com/u/74901996?s=40&v=4"
-        }
-      ],
-      "inDataset": true,
-      "fakeStars": 634,
-      "fakePercent": 1.8,
-      "detectedBy": [
-        "low-activity",
-        "lockstep"
-      ]
-    },
-    {
-      "repo": "ZhuLinsen/daily_stock_analysis",
-      "description": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。 LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
+      "repo": "bytedance/deer-flow",
+      "description": "An open-source long-horizon SuperAgent harness that researches, codes, and creates. With the help of sandboxes, memories, tools, skill, subagents and message gateway, it handles different levels of tasks that could take minutes to hours.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 48449,
-      "forks": 42946,
-      "todayStars": 4055,
+      "totalStars": 74587,
+      "forks": 10051,
+      "todayStars": 3068,
       "builtBy": [
         {
-          "login": "ZhuLinsen",
-          "avatar": "https://avatars.githubusercontent.com/u/42829555?s=40&v=4"
+          "login": "MagicCube",
+          "avatar": "https://avatars.githubusercontent.com/u/1003147?s=40&v=4"
         },
         {
-          "login": "massif-01",
-          "avatar": "https://avatars.githubusercontent.com/u/176381099?s=40&v=4"
+          "login": "WillemJiang",
+          "avatar": "https://avatars.githubusercontent.com/u/219644?s=40&v=4"
         },
         {
-          "login": "freesme",
-          "avatar": "https://avatars.githubusercontent.com/u/56824280?s=40&v=4"
-        },
-        {
-          "login": "adminlove520",
-          "avatar": "https://avatars.githubusercontent.com/u/32920883?s=40&v=4"
-        },
-        {
-          "login": "Activer007",
-          "avatar": "https://avatars.githubusercontent.com/u/30621586?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "NVIDIA/SkillSpector",
-      "description": "Security scanner for AI agent skills. Detect vulnerabilities, malicious patterns, and security risks.",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 10343,
-      "forks": 824,
-      "todayStars": 2849,
-      "builtBy": [
-        {
-          "login": "rng1995",
-          "avatar": "https://avatars.githubusercontent.com/u/32655573?s=40&v=4"
-        },
-        {
-          "login": "keshprad",
-          "avatar": "https://avatars.githubusercontent.com/u/32313895?s=40&v=4"
-        },
-        {
-          "login": "mimran-khan",
-          "avatar": "https://avatars.githubusercontent.com/u/37665626?s=40&v=4"
+          "login": "hetaoBackend",
+          "avatar": "https://avatars.githubusercontent.com/u/45447813?s=40&v=4"
         },
         {
           "login": "claude",
           "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
         },
         {
-          "login": "CharmingGroot",
-          "avatar": "https://avatars.githubusercontent.com/u/70020572?s=40&v=4"
+          "login": "henry-byted",
+          "avatar": "https://avatars.githubusercontent.com/u/209858577?s=40&v=4"
         }
       ],
       "inDataset": false
     },
     {
-      "repo": "microsoft/presidio",
-      "description": "An open-source framework for detecting, redacting, masking, and anonymizing sensitive data (PII) across text, images, and structured data. Supports NLP, pattern matching, and customizable pipelines.",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 9588,
-      "forks": 1162,
-      "todayStars": 864,
+      "repo": "mattpocock/skills",
+      "description": "Skills for Real Engineers. Straight from my .claude directory.",
+      "language": "Shell",
+      "languageColor": "#89e051",
+      "totalStars": 145711,
+      "forks": 12606,
+      "todayStars": 11581,
       "builtBy": [
         {
-          "login": "omri374",
-          "avatar": "https://avatars.githubusercontent.com/u/3776619?s=40&v=4"
-        },
-        {
-          "login": "SharonHart",
-          "avatar": "https://avatars.githubusercontent.com/u/15013757?s=40&v=4"
-        },
-        {
-          "login": "shiranr",
-          "avatar": "https://avatars.githubusercontent.com/u/1862328?s=40&v=4"
-        },
-        {
-          "login": "balteravishay",
-          "avatar": "https://avatars.githubusercontent.com/u/12952294?s=40&v=4"
-        },
-        {
-          "login": "navalev",
-          "avatar": "https://avatars.githubusercontent.com/u/13420239?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "mukul975/Anthropic-Cybersecurity-Skills",
-      "description": "817 structured cybersecurity skills for AI agents · Mapped to 6 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND, NIST AI RMF & MITRE F3 (Fight Fraud) · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 29 security domains · Apache 2.0",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 20563,
-      "forks": 2388,
-      "todayStars": 3456,
-      "builtBy": [
-        {
-          "login": "mukul975",
-          "avatar": "https://avatars.githubusercontent.com/u/42860185?s=40&v=4"
-        },
-        {
-          "login": "juliosuas",
-          "avatar": "https://avatars.githubusercontent.com/u/5745504?s=40&v=4"
+          "login": "mattpocock",
+          "avatar": "https://avatars.githubusercontent.com/u/28293365?s=40&v=4"
         },
         {
           "login": "claude",
           "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "andrewibrah",
-          "avatar": "https://avatars.githubusercontent.com/u/157662519?s=40&v=4"
-        },
-        {
-          "login": "Bortlesboat",
-          "avatar": "https://avatars.githubusercontent.com/u/169967362?s=40&v=4"
         }
       ],
       "inDataset": false
@@ -1070,8 +1111,8 @@
       "language": "Python",
       "languageColor": "#3572A5",
       "totalStars": 18717,
-      "forks": 13310,
-      "todayStars": 34657,
+      "forks": 13339,
+      "todayStars": 35076,
       "builtBy": [
         {
           "login": "harry0703",
@@ -1106,9 +1147,9 @@
       "description": "A tool for creating and running Linux containers using lightweight virtual machines on a Mac. It is written in Swift, and optimized for Apple silicon.",
       "language": "Swift",
       "languageColor": "#F05138",
-      "totalStars": 42178,
-      "forks": 1236,
-      "todayStars": 13245,
+      "totalStars": 42823,
+      "forks": 1258,
+      "todayStars": 15056,
       "builtBy": [
         {
           "login": "jglogan",
@@ -1138,9 +1179,9 @@
       "description": "High-performance code intelligence MCP server. Indexes codebases into a persistent knowledge graph — average repo in milliseconds. 158 languages, sub-ms queries, 99% fewer tokens. Single static binary, zero dependencies.",
       "language": "C",
       "languageColor": "#555555",
-      "totalStars": 14092,
-      "forks": 1039,
-      "todayStars": 9877,
+      "totalStars": 14513,
+      "forks": 1066,
+      "todayStars": 11171,
       "builtBy": [
         {
           "login": "DeusData",
@@ -1162,36 +1203,133 @@
       "inDataset": false
     },
     {
-      "repo": "mvanhorn/last30days-skill",
-      "description": "AI agent skill that researches any topic across Reddit, X, YouTube, HN, Polymarket, and the web - then synthesizes a grounded summary",
+      "repo": "calesthio/OpenMontage",
+      "description": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 46399,
-      "forks": 3847,
-      "todayStars": 19931,
+      "totalStars": 21279,
+      "forks": 2375,
+      "todayStars": 13960,
       "builtBy": [
         {
-          "login": "mvanhorn",
-          "avatar": "https://avatars.githubusercontent.com/u/455140?s=40&v=4"
+          "login": "calesthio",
+          "avatar": "https://avatars.githubusercontent.com/u/213189893?s=40&v=4"
         },
         {
           "login": "claude",
           "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
         },
         {
+          "login": "itsuzef",
+          "avatar": "https://avatars.githubusercontent.com/u/53057646?s=40&v=4"
+        },
+        {
+          "login": "CooperSheroy",
+          "avatar": "https://avatars.githubusercontent.com/u/59650384?s=40&v=4"
+        },
+        {
+          "login": "shubham21155102",
+          "avatar": "https://avatars.githubusercontent.com/u/98862179?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "mvanhorn/last30days-skill",
+      "description": "AI agent skill that researches any topic across Reddit, X, YouTube, HN, Polymarket, and the web - then synthesizes a grounded summary",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 46591,
+      "forks": 3862,
+      "todayStars": 20137,
+      "builtBy": [
+        {
+          "login": "mvanhorn",
+          "avatar": "https://avatars.githubusercontent.com/u/455140?s=40&v=4"
+        },
+        {
           "login": "tmchow",
           "avatar": "https://avatars.githubusercontent.com/u/517103?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
         },
         {
           "login": "j-sperling",
           "avatar": "https://avatars.githubusercontent.com/u/17969723?s=40&v=4"
         },
         {
-          "login": "iliaal",
-          "avatar": "https://avatars.githubusercontent.com/u/158724?s=40&v=4"
+          "login": "23241a6749",
+          "avatar": "https://avatars.githubusercontent.com/u/146319052?s=40&v=4"
         }
       ],
       "inDataset": false
+    },
+    {
+      "repo": "Panniantong/Agent-Reach",
+      "description": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees.",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 40677,
+      "forks": 3212,
+      "todayStars": 19348,
+      "builtBy": [
+        {
+          "login": "Panniantong",
+          "avatar": "https://avatars.githubusercontent.com/u/73925474?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "kadaliao",
+          "avatar": "https://avatars.githubusercontent.com/u/7401626?s=40&v=4"
+        },
+        {
+          "login": "hymansun",
+          "avatar": "https://avatars.githubusercontent.com/u/10735997?s=40&v=4"
+        },
+        {
+          "login": "alfred1994",
+          "avatar": "https://avatars.githubusercontent.com/u/12839688?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "iptv-org/iptv",
+      "description": "Collection of publicly available IPTV channels from all over the world",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "totalStars": 90269,
+      "forks": 7072,
+      "todayStars": 12109,
+      "builtBy": [
+        {
+          "login": "freearhey",
+          "avatar": "https://avatars.githubusercontent.com/u/7253922?s=40&v=4"
+        },
+        {
+          "login": "BellezaEmporium",
+          "avatar": "https://avatars.githubusercontent.com/u/30985701?s=40&v=4"
+        },
+        {
+          "login": "Dum4G",
+          "avatar": "https://avatars.githubusercontent.com/u/5430116?s=40&v=4"
+        },
+        {
+          "login": "UltraHDR",
+          "avatar": "https://avatars.githubusercontent.com/u/108294295?s=40&v=4"
+        }
+      ],
+      "inDataset": true,
+      "fakeStars": 2142,
+      "fakePercent": 2.4,
+      "detectedBy": [
+        "low-activity"
+      ]
     },
     {
       "repo": "microsoft/markitdown",
@@ -1199,8 +1337,8 @@
       "language": "Python",
       "languageColor": "#3572A5",
       "totalStars": 28218,
-      "forks": 11094,
-      "todayStars": 33958,
+      "forks": 11122,
+      "todayStars": 34276,
       "builtBy": [
         {
           "login": "afourney",
@@ -1232,258 +1370,13 @@
       ]
     },
     {
-      "repo": "iptv-org/iptv",
-      "description": "Collection of publicly available IPTV channels from all over the world",
-      "language": "TypeScript",
-      "languageColor": "#3178c6",
-      "totalStars": 90269,
-      "forks": 7064,
-      "todayStars": 11820,
-      "builtBy": [
-        {
-          "login": "freearhey",
-          "avatar": "https://avatars.githubusercontent.com/u/7253922?s=40&v=4"
-        },
-        {
-          "login": "BellezaEmporium",
-          "avatar": "https://avatars.githubusercontent.com/u/30985701?s=40&v=4"
-        },
-        {
-          "login": "Dum4G",
-          "avatar": "https://avatars.githubusercontent.com/u/5430116?s=40&v=4"
-        },
-        {
-          "login": "UltraHDR",
-          "avatar": "https://avatars.githubusercontent.com/u/108294295?s=40&v=4"
-        }
-      ],
-      "inDataset": true,
-      "fakeStars": 2142,
-      "fakePercent": 2.4,
-      "detectedBy": [
-        "low-activity"
-      ]
-    },
-    {
-      "repo": "Panniantong/Agent-Reach",
-      "description": "Give your AI agent eyes to see the entire internet. Read & search Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu — one CLI, zero API fees.",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 39637,
-      "forks": 3140,
-      "todayStars": 18432,
-      "builtBy": [
-        {
-          "login": "Panniantong",
-          "avatar": "https://avatars.githubusercontent.com/u/73925474?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "kadaliao",
-          "avatar": "https://avatars.githubusercontent.com/u/7401626?s=40&v=4"
-        },
-        {
-          "login": "hymansun",
-          "avatar": "https://avatars.githubusercontent.com/u/10735997?s=40&v=4"
-        },
-        {
-          "login": "alfred1994",
-          "avatar": "https://avatars.githubusercontent.com/u/12839688?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "microsoft/Webwright",
-      "description": "A simple SWE style browser agent framework that achieves SOTA results on long horizon web tasks.",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 5597,
-      "forks": 354,
-      "todayStars": 5554,
-      "builtBy": [
-        {
-          "login": "adamlu123",
-          "avatar": "https://avatars.githubusercontent.com/u/17594221?s=40&v=4"
-        },
-        {
-          "login": "microsoftopensource",
-          "avatar": "https://avatars.githubusercontent.com/u/22527892?s=40&v=4"
-        },
-        {
-          "login": "xlrrrr",
-          "avatar": "https://avatars.githubusercontent.com/u/151314054?s=40&v=4"
-        },
-        {
-          "login": "Luckz",
-          "avatar": "https://avatars.githubusercontent.com/u/224748?s=40&v=4"
-        },
-        {
-          "login": "mvanhorn",
-          "avatar": "https://avatars.githubusercontent.com/u/455140?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "esengine/DeepSeek-Reasonix",
-      "description": "DeepSeek-native AI coding agent for your terminal. Engineered around prefix-cache stability — leave it running.",
-      "language": "Go",
-      "languageColor": "#00ADD8",
-      "totalStars": 24404,
-      "forks": 1483,
-      "todayStars": 18605,
-      "builtBy": [
-        {
-          "login": "SivanCola",
-          "avatar": "https://avatars.githubusercontent.com/u/32437197?s=40&v=4"
-        },
-        {
-          "login": "esengine",
-          "avatar": "https://avatars.githubusercontent.com/u/18465053?s=40&v=4"
-        },
-        {
-          "login": "lifu963",
-          "avatar": "https://avatars.githubusercontent.com/u/56394323?s=40&v=4"
-        },
-        {
-          "login": "cursoragent",
-          "avatar": "https://avatars.githubusercontent.com/u/199161495?s=40&v=4"
-        },
-        {
-          "login": "ttmouse",
-          "avatar": "https://avatars.githubusercontent.com/u/8982044?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "Egonex-AI/Understand-Anything",
-      "description": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.",
-      "language": "TypeScript",
-      "languageColor": "#3178c6",
-      "totalStars": 67448,
-      "forks": 5591,
-      "todayStars": 47200,
-      "builtBy": [
-        {
-          "login": "Lum1104",
-          "avatar": "https://avatars.githubusercontent.com/u/87774050?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "thejesh23",
-          "avatar": "https://avatars.githubusercontent.com/u/35212698?s=40&v=4"
-        },
-        {
-          "login": "ZebangCheng",
-          "avatar": "https://avatars.githubusercontent.com/u/166844127?s=40&v=4"
-        },
-        {
-          "login": "berkcangumusisik",
-          "avatar": "https://avatars.githubusercontent.com/u/75336900?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "Leonxlnx/taste-skill",
-      "description": "Taste-Skill - gives your AI good taste. stops the AI from generating boring, generic slop",
-      "language": "JavaScript",
-      "languageColor": "#f1e05a",
-      "totalStars": 50286,
-      "forks": 3476,
-      "todayStars": 30994,
-      "builtBy": [
-        {
-          "login": "Leonxlnx",
-          "avatar": "https://avatars.githubusercontent.com/u/219127460?s=40&v=4"
-        },
-        {
-          "login": "cursoragent",
-          "avatar": "https://avatars.githubusercontent.com/u/199161495?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "luojiyin1987",
-          "avatar": "https://avatars.githubusercontent.com/u/6524977?s=40&v=4"
-        },
-        {
-          "login": "jkk442",
-          "avatar": "https://avatars.githubusercontent.com/u/60716205?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "calesthio/OpenMontage",
-      "description": "World's first open-source, agentic video production system. 12 pipelines, 52 tools, 500+ agent skills. Turn your AI coding assistant into a full video production studio.",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 19271,
-      "forks": 2195,
-      "todayStars": 10896,
-      "builtBy": [
-        {
-          "login": "calesthio",
-          "avatar": "https://avatars.githubusercontent.com/u/213189893?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "itsuzef",
-          "avatar": "https://avatars.githubusercontent.com/u/53057646?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "colbymchenry/codegraph",
-      "description": "Pre-indexed code knowledge graph, auto syncs on code changes, for Claude Code, Codex, Gemini, Cursor, OpenCode, AntiGravity, Kiro, and Hermes Agent — fewer tokens, fewer tool calls, 100% local",
-      "language": "TypeScript",
-      "languageColor": "#3178c6",
-      "totalStars": 54167,
-      "forks": 3320,
-      "todayStars": 35847,
-      "builtBy": [
-        {
-          "login": "colbymchenry",
-          "avatar": "https://avatars.githubusercontent.com/u/18431132?s=40&v=4"
-        },
-        {
-          "login": "claude",
-          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
-        },
-        {
-          "login": "omonien",
-          "avatar": "https://avatars.githubusercontent.com/u/1296517?s=40&v=4"
-        },
-        {
-          "login": "andreinknv",
-          "avatar": "https://avatars.githubusercontent.com/u/261684394?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
       "repo": "lfnovo/open-notebook",
       "description": "An Open Source implementation of Notebook LM with more flexibility and features",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 33120,
-      "forks": 3735,
-      "todayStars": 9242,
+      "totalStars": 33249,
+      "forks": 3742,
+      "todayStars": 9484,
       "builtBy": [
         {
           "login": "lfnovo",
@@ -1509,9 +1402,9 @@
       "description": "PM Skills Marketplace: 100+ agentic skills, commands, and plugins — from discovery to strategy, execution, launch, and growth.",
       "language": null,
       "languageColor": null,
-      "totalStars": 20895,
-      "forks": 2123,
-      "todayStars": 9238,
+      "totalStars": 21010,
+      "forks": 2134,
+      "todayStars": 9390,
       "builtBy": [
         {
           "login": "phuryn",
@@ -1525,121 +1418,125 @@
       "inDataset": false
     },
     {
-      "repo": "hardikpandya/stop-slop",
-      "description": "A skill file for removing AI tells from prose",
-      "language": null,
-      "languageColor": null,
-      "totalStars": 12195,
-      "forks": 847,
-      "todayStars": 8277,
+      "repo": "Leonxlnx/taste-skill",
+      "description": "Taste-Skill - gives your AI good taste. stops the AI from generating boring, generic slop",
+      "language": "JavaScript",
+      "languageColor": "#f1e05a",
+      "totalStars": 50709,
+      "forks": 3497,
+      "todayStars": 31423,
       "builtBy": [
         {
-          "login": "hardikpandya",
-          "avatar": "https://avatars.githubusercontent.com/u/591262?s=40&v=4"
+          "login": "Leonxlnx",
+          "avatar": "https://avatars.githubusercontent.com/u/219127460?s=40&v=4"
+        },
+        {
+          "login": "cursoragent",
+          "avatar": "https://avatars.githubusercontent.com/u/199161495?s=40&v=4"
         },
         {
           "login": "claude",
           "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
         },
         {
-          "login": "dctmfoo",
-          "avatar": "https://avatars.githubusercontent.com/u/128729140?s=40&v=4"
+          "login": "luojiyin1987",
+          "avatar": "https://avatars.githubusercontent.com/u/6524977?s=40&v=4"
+        },
+        {
+          "login": "jkk442",
+          "avatar": "https://avatars.githubusercontent.com/u/60716205?s=40&v=4"
         }
       ],
       "inDataset": false
     },
     {
-      "repo": "tashfeenahmed/freellmapi",
-      "description": "OpenAI-compatible proxy that stacks the free tiers of 16 LLM providers (~1.7B tokens/month) behind one /v1 endpoint — plus any custom OpenAI-compatible endpoint. Smart routing, automatic failover, encrypted keys. Personal experimentation only.",
+      "repo": "esengine/DeepSeek-Reasonix",
+      "description": "DeepSeek-native AI coding agent for your terminal. Engineered around prefix-cache stability — leave it running.",
+      "language": "Go",
+      "languageColor": "#00ADD8",
+      "totalStars": 24579,
+      "forks": 1490,
+      "todayStars": 18341,
+      "builtBy": [
+        {
+          "login": "SivanCola",
+          "avatar": "https://avatars.githubusercontent.com/u/32437197?s=40&v=4"
+        },
+        {
+          "login": "esengine",
+          "avatar": "https://avatars.githubusercontent.com/u/18465053?s=40&v=4"
+        },
+        {
+          "login": "lifu963",
+          "avatar": "https://avatars.githubusercontent.com/u/56394323?s=40&v=4"
+        },
+        {
+          "login": "ttmouse",
+          "avatar": "https://avatars.githubusercontent.com/u/8982044?s=40&v=4"
+        },
+        {
+          "login": "cursoragent",
+          "avatar": "https://avatars.githubusercontent.com/u/199161495?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "Egonex-AI/Understand-Anything",
+      "description": "Graphs that teach > graphs that impress. Turn any code into an interactive knowledge graph you can explore, search, and ask questions about. Works with Claude Code, Codex, Cursor, Copilot, Gemini CLI, and more.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 12091,
-      "forks": 1869,
-      "todayStars": 7487,
+      "totalStars": 67772,
+      "forks": 5611,
+      "todayStars": 43940,
       "builtBy": [
         {
-          "login": "tashfeenahmed",
-          "avatar": "https://avatars.githubusercontent.com/u/9307356?s=40&v=4"
+          "login": "Lum1104",
+          "avatar": "https://avatars.githubusercontent.com/u/87774050?s=40&v=4"
         },
         {
           "login": "claude",
           "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
         },
         {
-          "login": "Tazrif-Raim",
-          "avatar": "https://avatars.githubusercontent.com/u/38918491?s=40&v=4"
+          "login": "thejesh23",
+          "avatar": "https://avatars.githubusercontent.com/u/35212698?s=40&v=4"
         },
         {
-          "login": "nordbyte",
-          "avatar": "https://avatars.githubusercontent.com/u/322585?s=40&v=4"
+          "login": "ZebangCheng",
+          "avatar": "https://avatars.githubusercontent.com/u/166844127?s=40&v=4"
         },
         {
-          "login": "v0rtex1223",
-          "avatar": "https://avatars.githubusercontent.com/u/78557049?s=40&v=4"
+          "login": "berkcangumusisik",
+          "avatar": "https://avatars.githubusercontent.com/u/75336900?s=40&v=4"
         }
       ],
       "inDataset": false
     },
     {
-      "repo": "can1357/oh-my-pi",
-      "description": "⌥ AI Coding agent for the terminal — hash-anchored edits, optimized tool harness, LSP, Python, browser, subagents, and more",
+      "repo": "colbymchenry/codegraph",
+      "description": "Pre-indexed code knowledge graph, auto syncs on code changes, for Claude Code, Codex, Gemini, Cursor, OpenCode, AntiGravity, Kiro, and Hermes Agent — fewer tokens, fewer tool calls, 100% local",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 14487,
-      "forks": 1263,
-      "todayStars": 7797,
+      "totalStars": 54453,
+      "forks": 3341,
+      "todayStars": 33428,
       "builtBy": [
         {
-          "login": "can1357",
-          "avatar": "https://avatars.githubusercontent.com/u/11807264?s=40&v=4"
-        },
-        {
-          "login": "badlogic",
-          "avatar": "https://avatars.githubusercontent.com/u/514052?s=40&v=4"
-        },
-        {
-          "login": "roboomp",
-          "avatar": "https://avatars.githubusercontent.com/u/284758152?s=40&v=4"
-        },
-        {
-          "login": "metaphorics",
-          "avatar": "https://avatars.githubusercontent.com/u/152830360?s=40&v=4"
-        },
-        {
-          "login": "ogrodev",
-          "avatar": "https://avatars.githubusercontent.com/u/5272002?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
-      "repo": "mukul975/Anthropic-Cybersecurity-Skills",
-      "description": "817 structured cybersecurity skills for AI agents · Mapped to 6 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND, NIST AI RMF & MITRE F3 (Fight Fraud) · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 29 security domains · Apache 2.0",
-      "language": "Python",
-      "languageColor": "#3572A5",
-      "totalStars": 20563,
-      "forks": 2388,
-      "todayStars": 12440,
-      "builtBy": [
-        {
-          "login": "mukul975",
-          "avatar": "https://avatars.githubusercontent.com/u/42860185?s=40&v=4"
-        },
-        {
-          "login": "juliosuas",
-          "avatar": "https://avatars.githubusercontent.com/u/5745504?s=40&v=4"
+          "login": "colbymchenry",
+          "avatar": "https://avatars.githubusercontent.com/u/18431132?s=40&v=4"
         },
         {
           "login": "claude",
           "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
         },
         {
-          "login": "andrewibrah",
-          "avatar": "https://avatars.githubusercontent.com/u/157662519?s=40&v=4"
+          "login": "omonien",
+          "avatar": "https://avatars.githubusercontent.com/u/1296517?s=40&v=4"
         },
         {
-          "login": "Bortlesboat",
-          "avatar": "https://avatars.githubusercontent.com/u/169967362?s=40&v=4"
+          "login": "andreinknv",
+          "avatar": "https://avatars.githubusercontent.com/u/261684394?s=40&v=4"
         }
       ],
       "inDataset": false
@@ -1649,9 +1546,9 @@
       "description": "OpenAI Plugins",
       "language": "JavaScript",
       "languageColor": "#f1e05a",
-      "totalStars": 3491,
+      "totalStars": 3524,
       "forks": 412,
-      "todayStars": 2211,
+      "todayStars": 2262,
       "builtBy": [
         {
           "login": "cching-openai",
@@ -1677,13 +1574,157 @@
       "inDataset": false
     },
     {
+      "repo": "tashfeenahmed/freellmapi",
+      "description": "OpenAI-compatible proxy that stacks the free tiers of 16 LLM providers (~1.7B tokens/month) behind one /v1 endpoint — plus any custom OpenAI-compatible endpoint. Smart routing, automatic failover, encrypted keys. Personal experimentation only.",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "totalStars": 12424,
+      "forks": 1896,
+      "todayStars": 7377,
+      "builtBy": [
+        {
+          "login": "tashfeenahmed",
+          "avatar": "https://avatars.githubusercontent.com/u/9307356?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "Tazrif-Raim",
+          "avatar": "https://avatars.githubusercontent.com/u/38918491?s=40&v=4"
+        },
+        {
+          "login": "nordbyte",
+          "avatar": "https://avatars.githubusercontent.com/u/322585?s=40&v=4"
+        },
+        {
+          "login": "v0rtex1223",
+          "avatar": "https://avatars.githubusercontent.com/u/78557049?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "mukul975/Anthropic-Cybersecurity-Skills",
+      "description": "817 structured cybersecurity skills for AI agents · Mapped to 6 frameworks: MITRE ATT&CK, NIST CSF 2.0, MITRE ATLAS, D3FEND, NIST AI RMF & MITRE F3 (Fight Fraud) · agentskills.io standard · Works with Claude Code, GitHub Copilot, Codex CLI, Cursor, Gemini CLI & 20+ platforms · 29 security domains · Apache 2.0",
+      "language": "Python",
+      "languageColor": "#3572A5",
+      "totalStars": 20836,
+      "forks": 2411,
+      "todayStars": 12570,
+      "builtBy": [
+        {
+          "login": "mukul975",
+          "avatar": "https://avatars.githubusercontent.com/u/42860185?s=40&v=4"
+        },
+        {
+          "login": "juliosuas",
+          "avatar": "https://avatars.githubusercontent.com/u/5745504?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "andrewibrah",
+          "avatar": "https://avatars.githubusercontent.com/u/157662519?s=40&v=4"
+        },
+        {
+          "login": "Bortlesboat",
+          "avatar": "https://avatars.githubusercontent.com/u/169967362?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "hardikpandya/stop-slop",
+      "description": "A skill file for removing AI tells from prose",
+      "language": null,
+      "languageColor": null,
+      "totalStars": 12361,
+      "forks": 857,
+      "todayStars": 8335,
+      "builtBy": [
+        {
+          "login": "hardikpandya",
+          "avatar": "https://avatars.githubusercontent.com/u/591262?s=40&v=4"
+        },
+        {
+          "login": "claude",
+          "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
+        },
+        {
+          "login": "dctmfoo",
+          "avatar": "https://avatars.githubusercontent.com/u/128729140?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "can1357/oh-my-pi",
+      "description": "⌥ AI Coding agent for the terminal — hash-anchored edits, optimized tool harness, LSP, Python, browser, subagents, and more",
+      "language": "TypeScript",
+      "languageColor": "#3178c6",
+      "totalStars": 14575,
+      "forks": 1277,
+      "todayStars": 7664,
+      "builtBy": [
+        {
+          "login": "can1357",
+          "avatar": "https://avatars.githubusercontent.com/u/11807264?s=40&v=4"
+        },
+        {
+          "login": "badlogic",
+          "avatar": "https://avatars.githubusercontent.com/u/514052?s=40&v=4"
+        },
+        {
+          "login": "roboomp",
+          "avatar": "https://avatars.githubusercontent.com/u/284758152?s=40&v=4"
+        },
+        {
+          "login": "metaphorics",
+          "avatar": "https://avatars.githubusercontent.com/u/152830360?s=40&v=4"
+        },
+        {
+          "login": "ogrodev",
+          "avatar": "https://avatars.githubusercontent.com/u/5272002?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
+      "repo": "run-llama/liteparse",
+      "description": "A fast, helpful, and open-source document parser",
+      "language": "Rust",
+      "languageColor": "#dea584",
+      "totalStars": 11019,
+      "forks": 723,
+      "todayStars": 5736,
+      "builtBy": [
+        {
+          "login": "logan-markewich",
+          "avatar": "https://avatars.githubusercontent.com/u/22285038?s=40&v=4"
+        },
+        {
+          "login": "AstraBert",
+          "avatar": "https://avatars.githubusercontent.com/u/133636879?s=40&v=4"
+        },
+        {
+          "login": "AdemBoukhris457",
+          "avatar": "https://avatars.githubusercontent.com/u/61518107?s=40&v=4"
+        }
+      ],
+      "inDataset": false
+    },
+    {
       "repo": "ogulcancelik/herdr",
       "description": "agent multiplexer that lives in your terminal.",
       "language": "Rust",
       "languageColor": "#dea584",
-      "totalStars": 7140,
-      "forks": 435,
-      "todayStars": 4755,
+      "totalStars": 7232,
+      "forks": 439,
+      "todayStars": 4800,
       "builtBy": [
         {
           "login": "ogulcancelik",
@@ -1705,37 +1746,13 @@
       "inDataset": false
     },
     {
-      "repo": "run-llama/liteparse",
-      "description": "A fast, helpful, and open-source document parser",
-      "language": "Rust",
-      "languageColor": "#dea584",
-      "totalStars": 10955,
-      "forks": 718,
-      "todayStars": 5616,
-      "builtBy": [
-        {
-          "login": "logan-markewich",
-          "avatar": "https://avatars.githubusercontent.com/u/22285038?s=40&v=4"
-        },
-        {
-          "login": "AstraBert",
-          "avatar": "https://avatars.githubusercontent.com/u/133636879?s=40&v=4"
-        },
-        {
-          "login": "AdemBoukhris457",
-          "avatar": "https://avatars.githubusercontent.com/u/61518107?s=40&v=4"
-        }
-      ],
-      "inDataset": false
-    },
-    {
       "repo": "supermemoryai/supermemory",
       "description": "Memory and context engine + app that is extremely fast, scalable, and can be run fully locally. The Memory API for the AI era.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 27431,
-      "forks": 2380,
-      "todayStars": 4792,
+      "totalStars": 27489,
+      "forks": 2384,
+      "todayStars": 4815,
       "builtBy": [
         {
           "login": "Dhravya",
