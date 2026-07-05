@@ -1,9 +1,9 @@
 {
-  "scoredAt": "2026-07-05T01:25:35.419Z",
+  "scoredAt": "2026-07-05T13:01:06.363Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 31,
-  "cacheSize": 43494,
+  "totalScored": 28,
+  "cacheSize": 38979,
   "scores": {
     "leonxlnx/taste-skill": {
       "repo": "Leonxlnx/taste-skill",
@@ -751,51 +751,6 @@
       "scoredAt": 1782994644562,
       "algoVersion": 11
     },
-    "chromedevtools/chrome-devtools-mcp": {
-      "repo": "ChromeDevTools/chrome-devtools-mcp",
-      "totalStars": 44931,
-      "analyzedStars": 5000,
-      "fakePercent": 6.5,
-      "riskLevel": "low",
-      "suspiciousStars": 325,
-      "realStars": 42010,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.065,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1782994727065,
-      "algoVersion": 11
-    },
-    "agentskills/agentskills": {
-      "repo": "agentskills/agentskills",
-      "totalStars": 21414,
-      "analyzedStars": 4914,
-      "fakePercent": 6.5,
-      "riskLevel": "low",
-      "suspiciousStars": 319,
-      "realStars": 20022,
-      "insufficientData": false,
-      "bursts": 1,
-      "validatedBursts": 1,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.065,
-      "burstVerdicts": [
-        {
-          "startDate": "2026-04-20",
-          "endDate": "2026-05-17",
-          "stars": 2177,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.055
-        }
-      ],
-      "warning": null,
-      "scoredAt": 1782994861022,
-      "algoVersion": 11
-    },
     "openai/codex-plugin-cc": {
       "repo": "openai/codex-plugin-cc",
       "totalStars": 22298,
@@ -912,24 +867,6 @@
       ],
       "warning": null,
       "scoredAt": 1782994997908,
-      "algoVersion": 11
-    },
-    "chthollyphile/folia-major": {
-      "repo": "chthollyphile/folia-major",
-      "totalStars": 926,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 926,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1783169312119,
       "algoVersion": 11
     }
   }
