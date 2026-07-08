@@ -1,9 +1,9 @@
 {
-  "scoredAt": "2026-07-08T01:11:08.285Z",
+  "scoredAt": "2026-07-08T13:21:10.876Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 21,
-  "cacheSize": 17523,
+  "totalScored": 20,
+  "cacheSize": 13122,
   "scores": {
     "mvanhorn/last30days-skill": {
       "repo": "mvanhorn/last30days-skill",
@@ -458,41 +458,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
-      "algoVersion": 11
-    },
-    "robbyant/lingbot-map": {
-      "repo": "Robbyant/lingbot-map",
-      "totalStars": 9408,
-      "analyzedStars": 4908,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 9408,
-      "insufficientData": false,
-      "bursts": 2,
-      "validatedBursts": 2,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.085,
-      "burstVerdicts": [
-        {
-          "startDate": "2026-04-25",
-          "endDate": "2026-05-22",
-          "stars": 2047,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.07
-        },
-        {
-          "startDate": "2026-06-26",
-          "endDate": "2026-07-02",
-          "stars": 2087,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.06
-        }
-      ],
-      "warning": null,
-      "scoredAt": 1783041434481,
       "algoVersion": 11
     },
     "juliusbrussee/caveman": {
