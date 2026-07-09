@@ -1,28 +1,10 @@
 {
-  "scoredAt": "2026-07-09T01:22:13.261Z",
+  "scoredAt": "2026-07-09T14:19:55.586Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 20,
-  "cacheSize": 8771,
+  "totalScored": 17,
+  "cacheSize": 4331,
   "scores": {
-    "mvanhorn/last30days-skill": {
-      "repo": "mvanhorn/last30days-skill",
-      "totalStars": 48237,
-      "analyzedStars": 5000,
-      "fakePercent": 10.5,
-      "riskLevel": "medium",
-      "suspiciousStars": 525,
-      "realStars": 43172,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.105,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1782950593516,
-      "algoVersion": 11
-    },
     "panniantong/agent-reach": {
       "repo": "Panniantong/Agent-Reach",
       "totalStars": 49137,
@@ -406,24 +388,6 @@
       "scoredAt": 1783041127181,
       "algoVersion": 11
     },
-    "msitarzewski/agency-agents": {
-      "repo": "msitarzewski/agency-agents",
-      "totalStars": 125499,
-      "analyzedStars": 5000,
-      "fakePercent": 6,
-      "riskLevel": "low",
-      "suspiciousStars": 300,
-      "realStars": 117969,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.06,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1783041077994,
-      "algoVersion": 11
-    },
     "usestrix/strix": {
       "repo": "usestrix/strix",
       "totalStars": 32234,
@@ -458,24 +422,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
-      "algoVersion": 11
-    },
-    "juliusbrussee/caveman": {
-      "repo": "JuliusBrussee/caveman",
-      "totalStars": 79559,
-      "analyzedStars": 5000,
-      "fakePercent": 7.5,
-      "riskLevel": "low",
-      "suspiciousStars": 375,
-      "realStars": 73592,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.075,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1782994644562,
       "algoVersion": 11
     },
     "openai/codex-plugin-cc": {
