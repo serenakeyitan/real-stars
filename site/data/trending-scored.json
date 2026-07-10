@@ -1,9 +1,9 @@
 {
-  "scoredAt": "2026-07-10T01:22:18.325Z",
+  "scoredAt": "2026-07-10T13:40:43.463Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 17,
-  "cacheSize": 4331,
+  "totalScored": 15,
+  "cacheSize": 0,
   "scores": {
     "panniantong/agent-reach": {
       "repo": "Panniantong/Agent-Reach",
@@ -21,24 +21,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1783041571207,
-      "algoVersion": 11
-    },
-    "phuryn/pm-skills": {
-      "repo": "phuryn/pm-skills",
-      "totalStars": 22047,
-      "analyzedStars": 4947,
-      "fakePercent": 14,
-      "riskLevel": "medium",
-      "suspiciousStars": 693,
-      "realStars": 18960,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.14,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1782950666571,
       "algoVersion": 11
     },
     "apple/container": {
@@ -368,24 +350,6 @@
       ],
       "warning": null,
       "scoredAt": 1782863978269,
-      "algoVersion": 11
-    },
-    "browser-use/video-use": {
-      "repo": "browser-use/video-use",
-      "totalStars": 13794,
-      "analyzedStars": 4994,
-      "fakePercent": 14.5,
-      "riskLevel": "medium",
-      "suspiciousStars": 724,
-      "realStars": 11794,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.145,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1783041127181,
       "algoVersion": 11
     },
     "usestrix/strix": {
