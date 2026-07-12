@@ -1,5 +1,5 @@
 {
-  "scoredAt": "2026-07-12T01:17:56.126Z",
+  "scoredAt": "2026-07-12T12:37:38.347Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
   "totalScored": 14,
@@ -21,24 +21,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1783041571207,
-      "algoVersion": 11
-    },
-    "apple/container": {
-      "repo": "apple/container",
-      "totalStars": 45634,
-      "analyzedStars": 5000,
-      "fakePercent": 8,
-      "riskLevel": "low",
-      "suspiciousStars": 400,
-      "realStars": 41983,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.08,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1782950565911,
       "algoVersion": 11
     },
     "iptv-org/iptv": {
@@ -403,6 +385,24 @@
       ],
       "warning": null,
       "scoredAt": 1782994891678,
+      "algoVersion": 11
+    },
+    "par274/sharpemu": {
+      "repo": "par274/sharpemu",
+      "totalStars": 992,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 992,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1783859486632,
       "algoVersion": 11
     }
   }
