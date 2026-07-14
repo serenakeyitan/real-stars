@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-07-14T01:03:03.039Z",
+  "scoredAt": "2026-07-14T13:00:42.034Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 13,
+  "totalScored": 12,
   "cacheSize": 0,
   "scores": {
     "panniantong/agent-reach": {
@@ -21,65 +21,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1783041571207,
-      "algoVersion": 11
-    },
-    "iptv-org/iptv": {
-      "repo": "iptv-org/iptv",
-      "totalStars": 129827,
-      "analyzedStars": 5000,
-      "fakePercent": 9.5,
-      "riskLevel": "low",
-      "suspiciousStars": 475,
-      "realStars": 117493,
-      "insufficientData": false,
-      "bursts": 5,
-      "validatedBursts": 5,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.095,
-      "burstVerdicts": [
-        {
-          "startDate": "2021-08-13",
-          "endDate": "2021-09-09",
-          "stars": 1017,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.07
-        },
-        {
-          "startDate": "2021-09-13",
-          "endDate": "2021-09-16",
-          "stars": 551,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.045
-        },
-        {
-          "startDate": "2021-10-10",
-          "endDate": "2021-10-12",
-          "stars": 324,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.035
-        },
-        {
-          "startDate": "2021-10-25",
-          "endDate": "2021-10-28",
-          "stars": 358,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.06
-        },
-        {
-          "startDate": "2021-12-06",
-          "endDate": "2021-12-08",
-          "stars": 159,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.06918238993710692
-        }
-      ],
-      "warning": null,
-      "scoredAt": 1782950638925,
       "algoVersion": 11
     },
     "deusdata/codebase-memory-mcp": {
