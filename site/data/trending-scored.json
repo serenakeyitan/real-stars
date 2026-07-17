@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-07-17T01:12:53.259Z",
+  "scoredAt": "2026-07-17T12:56:08.537Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 13,
+  "totalScored": 12,
   "cacheSize": 0,
   "scores": {
     "panniantong/agent-reach": {
@@ -326,24 +326,6 @@
       ],
       "warning": null,
       "scoredAt": 1782994891678,
-      "algoVersion": 11
-    },
-    "apache/ossie": {
-      "repo": "apache/ossie",
-      "totalStars": 750,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 750,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1784206888457,
       "algoVersion": 11
     }
   }
