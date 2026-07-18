@@ -1,5 +1,5 @@
 {
-  "scoredAt": "2026-07-18T01:06:01.961Z",
+  "scoredAt": "2026-07-18T12:38:53.051Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
   "totalScored": 12,
@@ -293,39 +293,22 @@
       "scoredAt": 1782908727551,
       "algoVersion": 11
     },
-    "openai/codex-plugin-cc": {
-      "repo": "openai/codex-plugin-cc",
-      "totalStars": 22298,
-      "analyzedStars": 4998,
+    "knockoutez/wigolo": {
+      "repo": "KnockOutEZ/wigolo",
+      "totalStars": 945,
+      "analyzedStars": 0,
       "fakePercent": 0,
       "riskLevel": "low",
       "suspiciousStars": 0,
-      "realStars": 22298,
-      "insufficientData": false,
-      "bursts": 2,
-      "validatedBursts": 2,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.125,
-      "burstVerdicts": [
-        {
-          "startDate": "2026-05-05",
-          "endDate": "2026-06-01",
-          "stars": 2690,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0.105
-        },
-        {
-          "startDate": "2026-07-02",
-          "endDate": "2026-07-02",
-          "stars": 288,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0.105
-        }
-      ],
-      "warning": null,
-      "scoredAt": 1782994891678,
+      "realStars": 945,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1784377884484,
       "algoVersion": 11
     }
   }
