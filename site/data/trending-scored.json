@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-07-22T01:09:02.432Z",
+  "scoredAt": "2026-07-22T13:16:20.261Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 12,
+  "totalScored": 11,
   "cacheSize": 0,
   "scores": {
     "panniantong/agent-reach": {
@@ -291,24 +291,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
-      "algoVersion": 11
-    },
-    "knockoutez/wigolo": {
-      "repo": "KnockOutEZ/wigolo",
-      "totalStars": 945,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 945,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1784377884484,
       "algoVersion": 11
     }
   }
