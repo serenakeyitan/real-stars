@@ -1,28 +1,10 @@
 {
-  "scoredAt": "2026-07-24T01:08:24.844Z",
+  "scoredAt": "2026-07-24T13:12:48.317Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 11,
+  "totalScored": 9,
   "cacheSize": 0,
   "scores": {
-    "panniantong/agent-reach": {
-      "repo": "Panniantong/Agent-Reach",
-      "totalStars": 49137,
-      "analyzedStars": 5000,
-      "fakePercent": 21,
-      "riskLevel": "high",
-      "suspiciousStars": 1050,
-      "realStars": 38818,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.21,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1783041571207,
-      "algoVersion": 11
-    },
     "deusdata/codebase-memory-mcp": {
       "repo": "DeusData/codebase-memory-mcp",
       "totalStars": 24692,
@@ -111,81 +93,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1783041504166,
-      "algoVersion": 11
-    },
-    "interviewstreet/hiring-agent": {
-      "repo": "interviewstreet/hiring-agent",
-      "totalStars": 4396,
-      "analyzedStars": 4396,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 4396,
-      "insufficientData": false,
-      "bursts": 7,
-      "validatedBursts": 7,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.04,
-      "burstVerdicts": [
-        {
-          "startDate": "2025-10-01",
-          "endDate": "2025-10-04",
-          "stars": 49,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-10-06",
-          "endDate": "2025-10-06",
-          "stars": 8,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2025-10-13",
-          "endDate": "2025-10-13",
-          "stars": 6,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0
-        },
-        {
-          "startDate": "2026-06-01",
-          "endDate": "2026-06-14",
-          "stars": 964,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.015
-        },
-        {
-          "startDate": "2026-06-22",
-          "endDate": "2026-06-27",
-          "stars": 1892,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.055
-        },
-        {
-          "startDate": "2026-06-29",
-          "endDate": "2026-06-30",
-          "stars": 826,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.03
-        },
-        {
-          "startDate": "2026-07-02",
-          "endDate": "2026-07-02",
-          "stars": 237,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.07
-        }
-      ],
-      "warning": null,
-      "scoredAt": 1783041546602,
       "algoVersion": 11
     },
     "simplex-chat/simplex-chat": {
