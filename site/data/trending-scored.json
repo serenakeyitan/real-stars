@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-07-26T01:19:29.360Z",
+  "scoredAt": "2026-07-26T12:48:37.881Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 9,
+  "totalScored": 7,
   "cacheSize": 0,
   "scores": {
     "deusdata/codebase-memory-mcp": {
@@ -21,24 +21,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1783041297403,
-      "algoVersion": 11
-    },
-    "calesthio/openmontage": {
-      "repo": "calesthio/OpenMontage",
-      "totalStars": 31752,
-      "analyzedStars": 4952,
-      "fakePercent": 16,
-      "riskLevel": "medium",
-      "suspiciousStars": 792,
-      "realStars": 26672,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.16,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1783041391699,
       "algoVersion": 11
     },
     "asgeirtj/system_prompts_leaks": {
@@ -93,24 +75,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1783041504166,
-      "algoVersion": 11
-    },
-    "simplex-chat/simplex-chat": {
-      "repo": "simplex-chat/simplex-chat",
-      "totalStars": 17664,
-      "analyzedStars": 4964,
-      "fakePercent": 12.5,
-      "riskLevel": "medium",
-      "suspiciousStars": 621,
-      "realStars": 15456,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.125,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1783041236448,
       "algoVersion": 11
     },
     "alibaba/page-agent": {
