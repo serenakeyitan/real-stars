@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-07-28T01:09:29.389Z",
+  "scoredAt": "2026-07-28T13:27:50.250Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 7,
+  "totalScored": 6,
   "cacheSize": 0,
   "scores": {
     "deusdata/codebase-memory-mcp": {
@@ -75,57 +75,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1783041504166,
-      "algoVersion": 11
-    },
-    "alibaba/page-agent": {
-      "repo": "alibaba/page-agent",
-      "totalStars": 20789,
-      "analyzedStars": 4989,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 20789,
-      "insufficientData": false,
-      "bursts": 4,
-      "validatedBursts": 4,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.095,
-      "burstVerdicts": [
-        {
-          "startDate": "2026-04-07",
-          "endDate": "2026-05-01",
-          "stars": 1585,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.095
-        },
-        {
-          "startDate": "2026-05-03",
-          "endDate": "2026-05-04",
-          "stars": 22,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.045454545454545456
-        },
-        {
-          "startDate": "2026-06-07",
-          "endDate": "2026-06-07",
-          "stars": 65,
-          "verdict": "organic",
-          "confidence": 0.85,
-          "suspiciousRatio": 0.09230769230769231
-        },
-        {
-          "startDate": "2026-06-22",
-          "endDate": "2026-06-30",
-          "stars": 2132,
-          "verdict": "organic",
-          "confidence": 0.7,
-          "suspiciousRatio": 0.115
-        }
-      ],
-      "warning": null,
-      "scoredAt": 1782863978269,
       "algoVersion": 11
     },
     "usestrix/strix": {
