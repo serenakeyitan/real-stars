@@ -1,28 +1,10 @@
 {
-  "scoredAt": "2026-07-29T01:11:34.700Z",
+  "scoredAt": "2026-07-29T13:30:27.131Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
   "totalScored": 6,
   "cacheSize": 0,
   "scores": {
-    "deusdata/codebase-memory-mcp": {
-      "repo": "DeusData/codebase-memory-mcp",
-      "totalStars": 24692,
-      "analyzedStars": 4992,
-      "fakePercent": 7.5,
-      "riskLevel": "low",
-      "suspiciousStars": 374,
-      "realStars": 22840,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.075,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1783041297403,
-      "algoVersion": 11
-    },
     "asgeirtj/system_prompts_leaks": {
       "repo": "asgeirtj/system_prompts_leaks",
       "totalStars": 47657,
@@ -111,6 +93,24 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
+      "algoVersion": 11
+    },
+    "moonshotai/flashkda": {
+      "repo": "MoonshotAI/FlashKDA",
+      "totalStars": 900,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 900,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1785331121507,
       "algoVersion": 11
     }
   }
