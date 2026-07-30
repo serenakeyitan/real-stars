@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-07-30T01:09:10.864Z",
+  "scoredAt": "2026-07-30T13:22:06.016Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 5,
+  "totalScored": 4,
   "cacheSize": 0,
   "scores": {
     "asgeirtj/system_prompts_leaks": {
@@ -75,24 +75,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
-      "algoVersion": 11
-    },
-    "moonshotai/flashkda": {
-      "repo": "MoonshotAI/FlashKDA",
-      "totalStars": 900,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 900,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1785331121507,
       "algoVersion": 11
     }
   }
