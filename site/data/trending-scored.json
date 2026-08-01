@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-08-01T01:15:06.320Z",
+  "scoredAt": "2026-08-01T12:43:58.138Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 4,
+  "totalScored": 5,
   "cacheSize": 0,
   "scores": {
     "asgeirtj/system_prompts_leaks": {
@@ -75,6 +75,24 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
+      "algoVersion": 11
+    },
+    "github/gh-stack": {
+      "repo": "github/gh-stack",
+      "totalStars": 693,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 693,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1785587696259,
       "algoVersion": 11
     }
   }
