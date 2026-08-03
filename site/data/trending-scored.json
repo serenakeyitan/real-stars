@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-08-03T01:18:12.586Z",
+  "scoredAt": "2026-08-03T14:12:19.832Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 5,
+  "totalScored": 4,
   "cacheSize": 0,
   "scores": {
     "asgeirtj/system_prompts_leaks": {
@@ -75,24 +75,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
-      "algoVersion": 11
-    },
-    "harbourmasters/lighthouse": {
-      "repo": "HarbourMasters/Lighthouse",
-      "totalStars": 171,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 171,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1785674340184,
       "algoVersion": 11
     }
   }
