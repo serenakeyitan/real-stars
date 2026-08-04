@@ -1,28 +1,10 @@
 {
-  "scoredAt": "2026-08-04T01:11:21.439Z",
+  "scoredAt": "2026-08-04T13:29:56.431Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
   "totalScored": 4,
   "cacheSize": 0,
   "scores": {
-    "asgeirtj/system_prompts_leaks": {
-      "repo": "asgeirtj/system_prompts_leaks",
-      "totalStars": 47657,
-      "analyzedStars": 5000,
-      "fakePercent": 7,
-      "riskLevel": "low",
-      "suspiciousStars": 350,
-      "realStars": 44321,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.07,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1782950724555,
-      "algoVersion": 11
-    },
     "stablyai/orca": {
       "repo": "stablyai/orca",
       "totalStars": 11048,
@@ -75,6 +57,24 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
+      "algoVersion": 11
+    },
+    "uber/adr": {
+      "repo": "uber/ADR",
+      "totalStars": 543,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 543,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1785849410292,
       "algoVersion": 11
     }
   }
