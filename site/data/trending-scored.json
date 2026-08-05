@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-08-05T01:08:12.015Z",
+  "scoredAt": "2026-08-05T13:24:17.396Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 4,
+  "totalScored": 5,
   "cacheSize": 0,
   "scores": {
     "stablyai/orca": {
@@ -75,6 +75,24 @@
       "burstVerdicts": [],
       "warning": "Below 1000-star verdict threshold",
       "scoredAt": 1785849410292,
+      "algoVersion": 11
+    },
+    "woosal1337/blog": {
+      "repo": "woosal1337/blog",
+      "totalStars": 366,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 366,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1785935845787,
       "algoVersion": 11
     }
   }
