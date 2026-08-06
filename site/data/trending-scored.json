@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-08-06T01:01:31.121Z",
+  "scoredAt": "2026-08-06T13:21:39.965Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 5,
+  "totalScored": 2,
   "cacheSize": 0,
   "scores": {
     "stablyai/orca": {
@@ -23,24 +23,6 @@
       "scoredAt": 1783041504166,
       "algoVersion": 11
     },
-    "usestrix/strix": {
-      "repo": "usestrix/strix",
-      "totalStars": 32234,
-      "analyzedStars": 4934,
-      "fakePercent": 16,
-      "riskLevel": "medium",
-      "suspiciousStars": 789,
-      "realStars": 27077,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.16,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1783041049948,
-      "algoVersion": 11
-    },
     "diegosouzapw/omniroute": {
       "repo": "diegosouzapw/OmniRoute",
       "totalStars": 9104,
@@ -57,42 +39,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
-      "algoVersion": 11
-    },
-    "uber/adr": {
-      "repo": "uber/ADR",
-      "totalStars": 543,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 543,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1785849410292,
-      "algoVersion": 11
-    },
-    "woosal1337/blog": {
-      "repo": "woosal1337/blog",
-      "totalStars": 366,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 366,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1785935845787,
       "algoVersion": 11
     }
   }
