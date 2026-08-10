@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-08-10T00:07:25.914Z",
+  "scoredAt": "2026-08-10T12:21:59.700Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 3,
+  "totalScored": 2,
   "cacheSize": 0,
   "scores": {
     "stablyai/orca": {
@@ -39,24 +39,6 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
-      "algoVersion": 11
-    },
-    "harveyai/harvey-labs": {
-      "repo": "harveyai/harvey-labs",
-      "totalStars": 690,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 690,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1786276674846,
       "algoVersion": 11
     }
   }
