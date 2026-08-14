@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-13T12:10:44.856Z",
+  "fetchedAt": "2026-08-14T00:07:49.622Z",
   "snapshotDate": "2025-01-01",
   "daily": [
     {
@@ -7,13 +7,17 @@
       "description": "29 editorial diagram types for Claude Code. Self-contained HTML + SVG. No shadows, no Mermaid-slop.",
       "language": "HTML",
       "languageColor": "#e34c26",
-      "totalStars": 12720,
-      "forks": 772,
-      "todayStars": 2855,
+      "totalStars": 14410,
+      "forks": 861,
+      "todayStars": 4475,
       "builtBy": [
         {
           "login": "cathrynlavery",
           "avatar": "https://avatars.githubusercontent.com/u/50469282?s=40&v=4"
+        },
+        {
+          "login": "parveen0029",
+          "avatar": "https://avatars.githubusercontent.com/u/174610155?s=40&v=4"
         },
         {
           "login": "mvanhorn",
@@ -24,12 +28,8 @@
           "avatar": "https://avatars.githubusercontent.com/u/19864447?s=40&v=4"
         },
         {
-          "login": "parveen0029",
-          "avatar": "https://avatars.githubusercontent.com/u/174610155?s=40&v=4"
-        },
-        {
-          "login": "daanmlab",
-          "avatar": "https://avatars.githubusercontent.com/u/57676953?s=40&v=4"
+          "login": "Mr-Neutr0n",
+          "avatar": "https://avatars.githubusercontent.com/u/64578610?s=40&v=4"
         }
       ],
       "inDataset": false
@@ -39,9 +39,9 @@
       "description": "Graph-Native Infrastructure for Context and Accountable AI Systems",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 6088,
-      "forks": 655,
-      "todayStars": 845,
+      "totalStars": 6619,
+      "forks": 696,
+      "todayStars": 713,
       "builtBy": [
         {
           "login": "KaifAhmad1",
@@ -67,9 +67,9 @@
       "description": "Public repository for Agent Skills",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 168724,
-      "forks": 20102,
-      "todayStars": 569,
+      "totalStars": 169004,
+      "forks": 20127,
+      "todayStars": 312,
       "builtBy": [
         {
           "login": "rlancemartin",
@@ -99,9 +99,9 @@
       "description": "14MB foundation model for tiny devices; phones, wearables, smart home, and robots.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 4627,
-      "forks": 321,
-      "todayStars": 315,
+      "totalStars": 4939,
+      "forks": 333,
+      "todayStars": 769,
       "builtBy": [
         {
           "login": "HenryNdubuaku",
@@ -131,9 +131,9 @@
       "description": "Fastest and only macOS Dictation app with on-device STT and custom trained AI enhancement model. A local Wispr Flow alternative. ⭐ helps a ton :) Windows & iOS waitlist open. Linux soon.",
       "language": "Swift",
       "languageColor": "#F05138",
-      "totalStars": 9664,
-      "forks": 651,
-      "todayStars": 83,
+      "totalStars": 9841,
+      "forks": 663,
+      "todayStars": 76,
       "builtBy": [
         {
           "login": "altic-dev",
@@ -148,12 +148,12 @@
           "avatar": "https://avatars.githubusercontent.com/u/81847?s=40&v=4"
         },
         {
-          "login": "BarathwajAnandan",
-          "avatar": "https://avatars.githubusercontent.com/u/58961993?s=40&v=4"
+          "login": "postoso",
+          "avatar": "https://avatars.githubusercontent.com/u/5984169?s=40&v=4"
         },
         {
-          "login": "yelloduxx",
-          "avatar": "https://avatars.githubusercontent.com/u/104713086?s=40&v=4"
+          "login": "BarathwajAnandan",
+          "avatar": "https://avatars.githubusercontent.com/u/58961993?s=40&v=4"
         }
       ],
       "inDataset": false
@@ -164,8 +164,8 @@
       "language": "Python",
       "languageColor": "#3572A5",
       "totalStars": 18362,
-      "forks": 6392,
-      "todayStars": 592,
+      "forks": 6405,
+      "todayStars": 328,
       "builtBy": [
         {
           "login": "danielhanchen",
@@ -196,9 +196,9 @@
       "description": "Macro is a unified workspace for teams: email, chat, docs, tasks, agents, calls, and CRM — @-linked together with shared AI memory.",
       "language": "Rust",
       "languageColor": "#dea584",
-      "totalStars": 2393,
-      "forks": 262,
-      "todayStars": 227,
+      "totalStars": 2588,
+      "forks": 276,
+      "todayStars": 1239,
       "builtBy": [
         {
           "login": "whutchinson98",
@@ -229,8 +229,8 @@
       "language": "Python",
       "languageColor": "#3572A5",
       "totalStars": 7824,
-      "forks": 1647,
-      "todayStars": 166,
+      "forks": 1667,
+      "todayStars": 195,
       "builtBy": [
         {
           "login": "megadose",
@@ -266,8 +266,8 @@
       "language": "Python",
       "languageColor": "#3572A5",
       "totalStars": 11413,
-      "forks": 3308,
-      "todayStars": 74,
+      "forks": 3314,
+      "todayStars": 283,
       "builtBy": [
         {
           "login": "smicallef",
@@ -299,12 +299,12 @@
     },
     {
       "repo": "NVIDIA-NeMo/Switchyard",
-      "description": null,
+      "description": "Switchyard lets LLM applications route traffic across models and providers while preserving native OpenAI and Anthropic API compatibility - enabling flexible model selection, benchmarking, and cost/performance optimization.",
       "language": "Rust",
       "languageColor": "#dea584",
-      "totalStars": 1014,
-      "forks": 98,
-      "todayStars": 421,
+      "totalStars": 1203,
+      "forks": 108,
+      "todayStars": 408,
       "builtBy": [
         {
           "login": "nachiketb-nvidia",
@@ -334,9 +334,9 @@
       "description": "Open-source All in One AI agent workspace. Run any agent — Claude Code, Codex — across your tools (100+ integrations + MCP), apps, browser, and files, with shared memory. Built-in models or BYOK.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 6163,
-      "forks": 523,
-      "todayStars": 258,
+      "totalStars": 6575,
+      "forks": 599,
+      "todayStars": 241,
       "builtBy": [
         {
           "login": "jeffreyliimerch",
@@ -362,9 +362,9 @@
       "description": "Agent skills for Obsidian. Teach your agent to use Obsidian CLI and open formats including Markdown, Bases, JSON Canvas.",
       "language": null,
       "languageColor": null,
-      "totalStars": 45310,
-      "forks": 3279,
-      "todayStars": 252,
+      "totalStars": 45717,
+      "forks": 3295,
+      "todayStars": 292,
       "builtBy": [
         {
           "login": "kepano",
@@ -395,8 +395,8 @@
       "language": "Python",
       "languageColor": "#3572A5",
       "totalStars": 65257,
-      "forks": 7517,
-      "todayStars": 506,
+      "forks": 7529,
+      "todayStars": 176,
       "builtBy": [
         {
           "login": "3b1b",
@@ -432,9 +432,9 @@
       "description": "A complete AI agency at your fingertips - From frontend wizards to Reddit community ninjas, from whimsy injectors to reality checkers. Each agent is a specialized expert with personality, processes, and proven deliverables.",
       "language": "Shell",
       "languageColor": "#89e051",
-      "totalStars": 144976,
-      "forks": 23457,
-      "todayStars": 1873,
+      "totalStars": 145178,
+      "forks": 23482,
+      "todayStars": 778,
       "builtBy": [
         {
           "login": "msitarzewski",
@@ -464,9 +464,9 @@
       "description": "Official Python inference and LoRA trainer package for the LTX-2 audio–video generative model.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 8811,
-      "forks": 1400,
-      "todayStars": 65,
+      "totalStars": 8907,
+      "forks": 1406,
+      "todayStars": 205,
       "builtBy": [
         {
           "login": "michaellightricks",
@@ -484,9 +484,9 @@
       "description": "Desktop app to generate 3D models from images using local AI — runs entirely on your GPU",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 5141,
-      "forks": 565,
-      "todayStars": 70,
+      "totalStars": 5396,
+      "forks": 574,
+      "todayStars": 118,
       "builtBy": [
         {
           "login": "lightningpixel",
@@ -517,8 +517,8 @@
       "language": "Go",
       "languageColor": "#00ADD8",
       "totalStars": 25321,
-      "forks": 10341,
-      "todayStars": 139,
+      "forks": 10351,
+      "todayStars": 465,
       "builtBy": [
         {
           "login": "cike8899",
@@ -555,9 +555,9 @@
       "description": "A self-improving RLM agent for coding workflows and long-running autonomous tasks.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 15217,
-      "forks": 1609,
-      "todayStars": 12612,
+      "totalStars": 15447,
+      "forks": 1649,
+      "todayStars": 12476,
       "builtBy": [
         {
           "login": "kevinjosethomas",
@@ -587,9 +587,9 @@
       "description": "Graph-Native Infrastructure for Context and Accountable AI Systems",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 6088,
-      "forks": 655,
-      "todayStars": 3585,
+      "totalStars": 6619,
+      "forks": 696,
+      "todayStars": 4073,
       "builtBy": [
         {
           "login": "KaifAhmad1",
@@ -615,9 +615,9 @@
       "description": "Agent Skills for Google products and technologies",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 17993,
-      "forks": 1428,
-      "todayStars": 2288,
+      "totalStars": 18065,
+      "forks": 1429,
+      "todayStars": 2359,
       "builtBy": [
         {
           "login": "cloud-ix-copybara",
@@ -647,9 +647,9 @@
       "description": "Give your agent a computer 👾",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 7907,
-      "forks": 435,
-      "todayStars": 6020,
+      "totalStars": 7978,
+      "forks": 441,
+      "todayStars": 3599,
       "builtBy": [
         {
           "login": "aron-cf",
@@ -675,9 +675,9 @@
       "description": "TencentDB Agent Memory is a team-level memory hub for AI Agents — turning conversations, docs, and code into four reusable memory assets (Chat Memory, Skill, LLM-Wiki, Code-Graph) that are governed, shared, and equipped across agents and frameworks.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 21011,
-      "forks": 1911,
-      "todayStars": 5720,
+      "totalStars": 21203,
+      "forks": 1930,
+      "todayStars": 5388,
       "builtBy": [
         {
           "login": "Yuntong8888",
@@ -695,9 +695,9 @@
       "description": "The ultimate RAG for your monorepo. Query, understand, and edit multi-language codebases with the power of AI and knowledge graphs",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 4155,
-      "forks": 580,
-      "todayStars": 1511,
+      "totalStars": 4205,
+      "forks": 587,
+      "todayStars": 1628,
       "builtBy": [
         {
           "login": "vitali87",
@@ -719,9 +719,9 @@
       "description": "Lightweight loop engineering state kernel for long-running AI agent teams. Agent-loop agnostic across Codex, Claude Code, and other coding agents, with durable goals, quota-aware auto-wake, executable todos, evidence logs, and verifiable handoffs.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 4538,
-      "forks": 386,
-      "todayStars": 2509,
+      "totalStars": 4605,
+      "forks": 396,
+      "todayStars": 1967,
       "builtBy": [
         {
           "login": "huangruiteng",
@@ -751,9 +751,9 @@
       "description": "Production-grade engineering skills for AI coding agents.",
       "language": "JavaScript",
       "languageColor": "#f1e05a",
-      "totalStars": 86751,
-      "forks": 9319,
-      "todayStars": 4817,
+      "totalStars": 86963,
+      "forks": 9340,
+      "todayStars": 4562,
       "builtBy": [
         {
           "login": "addyosmani",
@@ -784,8 +784,8 @@
       "language": "JavaScript",
       "languageColor": "#f1e05a",
       "totalStars": 22394,
-      "forks": 3178,
-      "todayStars": 665,
+      "forks": 3181,
+      "todayStars": 693,
       "builtBy": [
         {
           "login": "1ilit",
@@ -817,9 +817,9 @@
       "description": "Fast Rust library for PDF inspection, classification, and text extraction. Intelligently detects scanned vs text-based PDFs to enable smart routing decisions.",
       "language": "Rust",
       "languageColor": "#dea584",
-      "totalStars": 15198,
-      "forks": 1047,
-      "todayStars": 4043,
+      "totalStars": 15322,
+      "forks": 1057,
+      "todayStars": 3251,
       "builtBy": [
         {
           "login": "abimaelmartell",
@@ -850,8 +850,8 @@
       "language": "C++",
       "languageColor": "#f34b7d",
       "totalStars": 24326,
-      "forks": 3130,
-      "todayStars": 743,
+      "forks": 3133,
+      "todayStars": 775,
       "builtBy": [
         {
           "login": "awesomekling",
@@ -887,9 +887,9 @@
       "description": "DeepSeek-native AI coding agent for your terminal. Engineered around prefix-cache stability — leave it running.",
       "language": "Go",
       "languageColor": "#00ADD8",
-      "totalStars": 34375,
-      "forks": 2267,
-      "todayStars": 2953,
+      "totalStars": 34470,
+      "forks": 2275,
+      "todayStars": 2419,
       "builtBy": [
         {
           "login": "SivanCola",
@@ -920,8 +920,8 @@
       "language": "Python",
       "languageColor": "#3572A5",
       "totalStars": 65257,
-      "forks": 7517,
-      "todayStars": 1420,
+      "forks": 7529,
+      "todayStars": 1530,
       "builtBy": [
         {
           "login": "3b1b",
@@ -957,9 +957,9 @@
       "description": "Reverse Engineering / Authorized Penetration Testing / Security Research Skill Router Pack AI-powered routing + On-demand toolchain bootstrapping + Self-evolving knowledge base Supports Claude Code, Kiro, Cursor, Cline, and other AI coding clients 逆向/渗透/安全技能路由包 - AI 自动路由 + 按需自举工具链 + 自动进化经验库 | 支持 Claude Code / Kiro / Cursor / Cline 等代码 AI 客户端",
       "language": "PowerShell",
       "languageColor": "#012456",
-      "totalStars": 24719,
-      "forks": 3362,
-      "todayStars": 5573,
+      "totalStars": 24928,
+      "forks": 3386,
+      "todayStars": 5270,
       "builtBy": [
         {
           "login": "zhaoxuya520",
@@ -989,9 +989,9 @@
       "description": "所有小初高、大学PDF教材。",
       "language": "Roff",
       "languageColor": "#ecdebe",
-      "totalStars": 79206,
-      "forks": 17983,
-      "todayStars": 2384,
+      "totalStars": 79273,
+      "forks": 17996,
+      "todayStars": 2369,
       "builtBy": [
         {
           "login": "TapXWorld",
@@ -1009,9 +1009,9 @@
       "description": "Turn any technical book PDF into a Claude Code skill — ready to study, reference, and use while you work.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 21048,
-      "forks": 2222,
-      "todayStars": 3983,
+      "totalStars": 21208,
+      "forks": 2235,
+      "todayStars": 3789,
       "builtBy": [
         {
           "login": "virgiliojr94",
@@ -1037,9 +1037,9 @@
       "description": "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 127234,
-      "forks": 14982,
-      "todayStars": 3321,
+      "totalStars": 127351,
+      "forks": 14990,
+      "todayStars": 3122,
       "builtBy": [
         {
           "login": "comfyanonymous",
@@ -1071,9 +1071,9 @@
       "description": "Never stop coding. Free MIT AI gateway: one endpoint, 330+ providers (90+ free), 1200+ models — Kimi, Claude, GPT, Gemini, GLM, DeepSeek, MiniMax. Works with Claude Code, Codex, Cursor, OpenCode, Cline & Copilot. Quota-aware auto-fallback, RTK+Caveman compression saves 15-95% tokens, MCP/A2A, Desktop/PWA. Built by 320+ contributors",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 46971,
-      "forks": 6337,
-      "todayStars": 30720,
+      "totalStars": 47289,
+      "forks": 6393,
+      "todayStars": 30875,
       "builtBy": [
         {
           "login": "diegosouzapw",
@@ -1099,9 +1099,9 @@
       "description": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 81442,
-      "forks": 12166,
-      "todayStars": 19780,
+      "totalStars": 81586,
+      "forks": 12189,
+      "todayStars": 20096,
       "builtBy": [
         {
           "login": "koala73",
@@ -1131,9 +1131,9 @@
       "description": "The most RAM efficient harness",
       "language": "Rust",
       "languageColor": "#dea584",
-      "totalStars": 17399,
-      "forks": 1954,
-      "todayStars": 9141,
+      "totalStars": 17464,
+      "forks": 1961,
+      "todayStars": 9235,
       "builtBy": [
         {
           "login": "1jehuang",
@@ -1163,9 +1163,9 @@
       "description": "TencentDB Agent Memory is a team-level memory hub for AI Agents — turning conversations, docs, and code into four reusable memory assets (Chat Memory, Skill, LLM-Wiki, Code-Graph) that are governed, shared, and equipped across agents and frameworks.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 21011,
-      "forks": 1911,
-      "todayStars": 11923,
+      "totalStars": 21203,
+      "forks": 1930,
+      "todayStars": 12445,
       "builtBy": [
         {
           "login": "Yuntong8888",
@@ -1183,9 +1183,9 @@
       "description": "Reverse Engineering / Authorized Penetration Testing / Security Research Skill Router Pack AI-powered routing + On-demand toolchain bootstrapping + Self-evolving knowledge base Supports Claude Code, Kiro, Cursor, Cline, and other AI coding clients 逆向/渗透/安全技能路由包 - AI 自动路由 + 按需自举工具链 + 自动进化经验库 | 支持 Claude Code / Kiro / Cursor / Cline 等代码 AI 客户端",
       "language": "PowerShell",
       "languageColor": "#012456",
-      "totalStars": 24719,
-      "forks": 3362,
-      "todayStars": 16418,
+      "totalStars": 24928,
+      "forks": 3386,
+      "todayStars": 16808,
       "builtBy": [
         {
           "login": "zhaoxuya520",
@@ -1215,9 +1215,9 @@
       "description": "Anti-AI-slop design skill for Claude Code, Cursor, and Codex.",
       "language": "CSS",
       "languageColor": "#663399",
-      "totalStars": 24551,
-      "forks": 1234,
-      "todayStars": 20434,
+      "totalStars": 24662,
+      "forks": 1240,
+      "todayStars": 19939,
       "builtBy": [
         {
           "login": "Luffixos",
@@ -1247,9 +1247,9 @@
       "description": null,
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 18522,
-      "forks": 4233,
-      "todayStars": 4863,
+      "totalStars": 18600,
+      "forks": 4282,
+      "todayStars": 4805,
       "builtBy": [
         {
           "login": "juliusmarminge",
@@ -1279,9 +1279,9 @@
       "description": "DeepTutor: Lifelong Personalized Tutoring. <a href=\"https://deeptutor.info/\" class=\"Link--inTextBlock\" rel=\"nofollow\">https://deeptutor.info/</a>.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 35370,
-      "forks": 4482,
-      "todayStars": 9854,
+      "totalStars": 35440,
+      "forks": 4494,
+      "todayStars": 10020,
       "builtBy": [
         {
           "login": "pancacake",
@@ -1307,9 +1307,9 @@
       "description": "Orca is the ADE for working with a fleet of parallel agents. Run any coding agent with your own subscription. Available on desktop, mobile and VPS.",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 44547,
-      "forks": 3106,
-      "todayStars": 27261,
+      "totalStars": 44913,
+      "forks": 3133,
+      "todayStars": 27243,
       "builtBy": [
         {
           "login": "nwparker",
@@ -1339,9 +1339,9 @@
       "description": "Skills for Real Engineers. Straight from my .agents directory.",
       "language": "Shell",
       "languageColor": "#89e051",
-      "totalStars": 215852,
-      "forks": 18611,
-      "todayStars": 49357,
+      "totalStars": 216375,
+      "forks": 18650,
+      "todayStars": 49199,
       "builtBy": [
         {
           "login": "mattpocock",
@@ -1363,9 +1363,9 @@
       "description": "Open source alternative to Semrush and Ahrefs",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 11658,
-      "forks": 1335,
-      "todayStars": 7226,
+      "totalStars": 11765,
+      "forks": 1349,
+      "todayStars": 7456,
       "builtBy": [
         {
           "login": "bensenescu",
@@ -1395,9 +1395,9 @@
       "description": "AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 89210,
-      "forks": 11081,
-      "todayStars": 18875,
+      "totalStars": 89576,
+      "forks": 11116,
+      "todayStars": 19316,
       "builtBy": [
         {
           "login": "badlogic",
@@ -1423,9 +1423,9 @@
       "description": "Turn any technical book PDF into a Claude Code skill — ready to study, reference, and use while you work.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 21048,
-      "forks": 2222,
-      "todayStars": 12345,
+      "totalStars": 21208,
+      "forks": 2235,
+      "todayStars": 12598,
       "builtBy": [
         {
           "login": "virgiliojr94",
@@ -1451,9 +1451,9 @@
       "description": "Local-first code intelligence graph for MCP and CLI. Builds a persistent map of your codebase so AI coding tools read only what matters, with benchmarked context reductions on reviews and large-repo workflows.",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 29981,
-      "forks": 2749,
-      "todayStars": 10586,
+      "totalStars": 30026,
+      "forks": 2758,
+      "todayStars": 10656,
       "builtBy": [
         {
           "login": "tirth8205",
@@ -1483,9 +1483,9 @@
       "description": "Web UI for the pi coding agent",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 4138,
-      "forks": 584,
-      "todayStars": 2977,
+      "totalStars": 4170,
+      "forks": 595,
+      "todayStars": 3016,
       "builtBy": [
         {
           "login": "agegr",
@@ -1515,8 +1515,8 @@
       "description": "把书、长视频、播客等高价值内容蒸馏成可执行的 Agent Skills",
       "language": "Python",
       "languageColor": "#3572A5",
-      "totalStars": 7615,
-      "forks": 935,
+      "totalStars": 7677,
+      "forks": 938,
       "todayStars": 4967,
       "builtBy": [
         {
@@ -1543,9 +1543,9 @@
       "description": "Kimi Code CLI — The Starting Point for Next-Gen Agents",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 6509,
-      "forks": 1032,
-      "todayStars": 3413,
+      "totalStars": 6578,
+      "forks": 1036,
+      "todayStars": 3480,
       "builtBy": [
         {
           "login": "liruifengv",
@@ -1560,12 +1560,12 @@
           "avatar": "https://avatars.githubusercontent.com/u/25661058?s=40&v=4"
         },
         {
-          "login": "kermanx",
-          "avatar": "https://avatars.githubusercontent.com/u/63178754?s=40&v=4"
-        },
-        {
           "login": "7Sageer",
           "avatar": "https://avatars.githubusercontent.com/u/125936732?s=40&v=4"
+        },
+        {
+          "login": "kermanx",
+          "avatar": "https://avatars.githubusercontent.com/u/63178754?s=40&v=4"
         }
       ],
       "inDataset": false
@@ -1575,9 +1575,9 @@
       "description": "The open-source alternative to Claude Cowork (powered by opencode)",
       "language": "TypeScript",
       "languageColor": "#3178c6",
-      "totalStars": 22008,
-      "forks": 2177,
-      "todayStars": 5328,
+      "totalStars": 22068,
+      "forks": 2182,
+      "todayStars": 5413,
       "builtBy": [
         {
           "login": "benjaminshafii",
@@ -1607,9 +1607,9 @@
       "description": "Bonsai Demo",
       "language": "Shell",
       "languageColor": "#89e051",
-      "totalStars": 2198,
+      "totalStars": 2211,
       "forks": 224,
-      "todayStars": 1324,
+      "todayStars": 1323,
       "builtBy": [
         {
           "login": "khosravipasha",
@@ -1631,9 +1631,9 @@
       "description": "Agent skill for beautiful, verifiable architecture, workflow, sequence, data-flow, and lifecycle diagrams—self-contained HTML with motion and crisp export.",
       "language": "HTML",
       "languageColor": "#e34c26",
-      "totalStars": 11954,
-      "forks": 905,
-      "todayStars": 7946,
+      "totalStars": 12060,
+      "forks": 910,
+      "todayStars": 8049,
       "builtBy": [
         {
           "login": "tt-a1i",
