@@ -1,28 +1,10 @@
 {
-  "scoredAt": "2026-08-19T23:58:44.567Z",
+  "scoredAt": "2026-08-20T12:05:22.168Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
   "totalScored": 2,
   "cacheSize": 0,
   "scores": {
-    "stablyai/orca": {
-      "repo": "stablyai/orca",
-      "totalStars": 11048,
-      "analyzedStars": 4949,
-      "fakePercent": 6,
-      "riskLevel": "low",
-      "suspiciousStars": 297,
-      "realStars": 10385,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.06,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1783041504166,
-      "algoVersion": 11
-    },
     "diegosouzapw/omniroute": {
       "repo": "diegosouzapw/OmniRoute",
       "totalStars": 9104,
@@ -39,6 +21,24 @@
       "burstVerdicts": [],
       "warning": null,
       "scoredAt": 1782908727551,
+      "algoVersion": 11
+    },
+    "mahlernim/google-timeline-visualizer": {
+      "repo": "mahlernim/google-timeline-visualizer",
+      "totalStars": 935,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 935,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1787227000712,
       "algoVersion": 11
     }
   }
