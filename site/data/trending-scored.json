@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-08-28T07:14:29.449Z",
+  "scoredAt": "2026-08-28T21:40:49.571Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 2,
+  "totalScored": 3,
   "cacheSize": 0,
   "scores": {
     "diegosouzapw/omniroute": {
@@ -39,6 +39,24 @@
       "burstVerdicts": [],
       "warning": "Below 1000-star verdict threshold",
       "scoredAt": 1787485851582,
+      "algoVersion": 11
+    },
+    "swoole/typephp": {
+      "repo": "swoole/typephp",
+      "totalStars": 796,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 796,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1787952682308,
       "algoVersion": 11
     }
   }
