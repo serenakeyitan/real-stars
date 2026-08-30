@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-08-30T01:40:21.535Z",
+  "scoredAt": "2026-08-30T15:38:45.427Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 2,
+  "totalScored": 3,
   "cacheSize": 0,
   "scores": {
     "diegosouzapw/omniroute": {
@@ -39,6 +39,24 @@
       "burstVerdicts": [],
       "warning": "Below 1000-star verdict threshold",
       "scoredAt": 1787485851582,
+      "algoVersion": 11
+    },
+    "pollen-robotics/microduck_rl": {
+      "repo": "pollen-robotics/microduck_rl",
+      "totalStars": 707,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 707,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1788103763741,
       "algoVersion": 11
     }
   }
