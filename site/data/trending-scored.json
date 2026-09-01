@@ -1,28 +1,10 @@
 {
-  "scoredAt": "2026-09-01T02:09:18.351Z",
+  "scoredAt": "2026-09-01T15:47:47.965Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 3,
+  "totalScored": 1,
   "cacheSize": 0,
   "scores": {
-    "diegosouzapw/omniroute": {
-      "repo": "diegosouzapw/OmniRoute",
-      "totalStars": 9104,
-      "analyzedStars": 4904,
-      "fakePercent": 11,
-      "riskLevel": "medium",
-      "suspiciousStars": 539,
-      "realStars": 8103,
-      "insufficientData": false,
-      "bursts": 0,
-      "validatedBursts": 0,
-      "sampleSize": 200,
-      "suspiciousSampleRatio": 0.11,
-      "burstVerdicts": [],
-      "warning": null,
-      "scoredAt": 1782908727551,
-      "algoVersion": 11
-    },
     "anthropics/claude-plugins-community": {
       "repo": "anthropics/claude-plugins-community",
       "totalStars": 700,
@@ -39,24 +21,6 @@
       "burstVerdicts": [],
       "warning": "Below 1000-star verdict threshold",
       "scoredAt": 1787485851582,
-      "algoVersion": 11
-    },
-    "pollen-robotics/microduck_rl": {
-      "repo": "pollen-robotics/microduck_rl",
-      "totalStars": 707,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 707,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1788103763741,
       "algoVersion": 11
     }
   }
