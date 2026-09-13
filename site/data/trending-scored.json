@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-09-13T01:30:48.522Z",
+  "scoredAt": "2026-09-13T15:11:21.386Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 2,
+  "totalScored": 1,
   "cacheSize": 0,
   "scores": {
     "anthropics/claude-plugins-community": {
@@ -21,24 +21,6 @@
       "burstVerdicts": [],
       "warning": "Below 1000-star verdict threshold",
       "scoredAt": 1787485851582,
-      "algoVersion": 11
-    },
-    "p1neapplexpress/openflux": {
-      "repo": "p1neappleXpress/OpenFlux",
-      "totalStars": 979,
-      "analyzedStars": 0,
-      "fakePercent": 0,
-      "riskLevel": "low",
-      "suspiciousStars": 0,
-      "realStars": 979,
-      "insufficientData": true,
-      "bursts": [],
-      "validatedBursts": [],
-      "sampleSize": 0,
-      "suspiciousSampleRatio": null,
-      "burstVerdicts": [],
-      "warning": "Below 1000-star verdict threshold",
-      "scoredAt": 1789139481536,
       "algoVersion": 11
     }
   }
