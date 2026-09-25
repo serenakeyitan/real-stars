@@ -1,8 +1,45 @@
 {
-  "scoredAt": "2026-09-25T01:52:52.370Z",
+  "scoredAt": "2026-09-25T16:10:15.344Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 0,
+  "totalScored": 2,
   "cacheSize": 908,
-  "scores": {}
+  "scores": {
+    "androoagi/starnet": {
+      "repo": "androoAGI/starnet",
+      "totalStars": 353,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 353,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1790351824466,
+      "algoVersion": 11
+    },
+    "derv82/wifit3": {
+      "repo": "derv82/wifit3",
+      "totalStars": 765,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 765,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1790351824921,
+      "algoVersion": 11
+    }
+  }
 }
