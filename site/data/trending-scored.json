@@ -1,8 +1,45 @@
 {
-  "scoredAt": "2026-09-27T01:48:40.776Z",
+  "scoredAt": "2026-09-27T15:52:32.276Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 0,
+  "totalScored": 2,
   "cacheSize": 908,
-  "scores": {}
+  "scores": {
+    "mvschwarz/openrig": {
+      "repo": "mvschwarz/openrig",
+      "totalStars": 719,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 719,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1790524001449,
+      "algoVersion": 11
+    },
+    "willfaust/madeira": {
+      "repo": "willfaust/Madeira",
+      "totalStars": 730,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 730,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1790524012731,
+      "algoVersion": 11
+    }
+  }
 }
