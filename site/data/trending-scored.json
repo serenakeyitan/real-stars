@@ -1,8 +1,8 @@
 {
-  "scoredAt": "2026-10-01T02:30:31.728Z",
+  "scoredAt": "2026-10-01T17:41:17.311Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 1,
+  "totalScored": 2,
   "cacheSize": 0,
   "scores": {
     "mvschwarz/openrig": {
@@ -21,6 +21,24 @@
       "burstVerdicts": [],
       "warning": "Below 1000-star verdict threshold",
       "scoredAt": 1790524001449,
+      "algoVersion": 11
+    },
+    "androoagi/starnet": {
+      "repo": "androoAGI/starnet",
+      "totalStars": 825,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 825,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1790876188188,
       "algoVersion": 11
     }
   }
