@@ -1,8 +1,45 @@
 {
-  "scoredAt": "2026-11-07T03:14:15.888Z",
+  "scoredAt": "2026-11-07T17:06:32.891Z",
   "ttlHours": 24,
   "currentAlgoVersion": 11,
-  "totalScored": 0,
+  "totalScored": 2,
   "cacheSize": 0,
-  "scores": {}
+  "scores": {
+    "mbillow/localthings": {
+      "repo": "mbillow/localthings",
+      "totalStars": 987,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 987,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1794070859474,
+      "algoVersion": 11
+    },
+    "dsx-ai-factory/nvke": {
+      "repo": "dsx-ai-factory/nvke",
+      "totalStars": 440,
+      "analyzedStars": 0,
+      "fakePercent": 0,
+      "riskLevel": "low",
+      "suspiciousStars": 0,
+      "realStars": 440,
+      "insufficientData": true,
+      "bursts": [],
+      "validatedBursts": [],
+      "sampleSize": 0,
+      "suspiciousSampleRatio": null,
+      "burstVerdicts": [],
+      "warning": "Below 1000-star verdict threshold",
+      "scoredAt": 1794070886110,
+      "algoVersion": 11
+    }
+  }
 }
